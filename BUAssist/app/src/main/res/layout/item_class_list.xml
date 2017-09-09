@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000">
+
+    <LinearLayout
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/selector_bg_news"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_classGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Computer Science"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:gravity="center"
+                android:background="@drawable/bg_class_tag_main"/>
+
+
+
+            <TextView
+                android:id="@+id/tv_classCode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="CS 101 A1"
+                android:textSize="18sp"
+                android:textColor="@color/tv_black"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            
+            <TextView
+                android:id="@+id/tv_professor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wayne Snyder"
+                android:textSize="16sp"
+                android:textColor="@color/tv_black"
+                android:layout_marginBottom="3dp"/>
+
+            <TextView
+                android:id="@+id/tv_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MTF 9:00~10:00"
+                android:textSize="12sp"
+                android:textColor="@color/tv_grey"
+                android:layout_marginBottom="3dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学生人数："
+                    android:textColor="@color/tv_grey"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tv_studentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="36"
+                    android:textSize="12sp"
+                    android:textColor="@color/tv_grey"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="小组人数："
+                    android:textColor="@color/tv_grey"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tv_groupCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="36"
+                    android:textSize="12sp"
+                    android:textColor="@color/tv_grey"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

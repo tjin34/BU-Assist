@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_200">
+
+    <include layout="@layout/header"/>
+
+    <RelativeLayout
+        android:id="@+id/name_inputBox"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+
+        <net.bucssa.buassist.Widget.SuperEditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:text="Sibo"
+            android:textColor="@color/tv_normal"
+            android:textSize="16sp"
+            android:paddingLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_nameCount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="16"
+            android:textColor="@color/tv_grey"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/intro_inputBox"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+
+        <net.bucssa.buassist.Widget.SuperEditText
+            android:id="@+id/et_intro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:text="Sibo"
+            android:gravity="top"
+            android:textColor="@color/tv_normal"
+            android:textSize="16sp"
+            android:padding="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_introCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="70"
+            android:textColor="@color/tv_grey"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"/>
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</LinearLayout>

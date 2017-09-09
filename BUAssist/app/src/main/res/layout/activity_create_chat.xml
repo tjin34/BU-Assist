@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootView"
+    android:background="@color/grey_200">
+
+    <include layout="@layout/header" android:id="@+id/header"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header">
+
+        <LinearLayout
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:fitsSystemWindows="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/mainBgTheme">
+
+
+
+                <ImageView
+                    android:id="@+id/iv_send"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/send"
+                    android:layout_marginRight="10dp"
+                    android:padding="6dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+
+
+                <EditText
+                    android:id="@+id/et_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borderless_wrap_layout_white"
+                    android:hint="输入想发送的消息"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:padding="9dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/iv_send"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <com.cjj.MaterialRefreshLayout
+            android:id="@+id/mRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_bar">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_friend"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#00000000"
+                android:background="#00000000"/>
+
+
+        </com.cjj.MaterialRefreshLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

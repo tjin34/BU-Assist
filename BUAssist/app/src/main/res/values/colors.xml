@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--app主题色-->
+    <color name="themeColor">#FA7199</color>
+
+    <!--TextView 专用色-->
+    <color name="tv_black">#282828</color>
+    <color name="tv_normal">#424242</color>
+    <color name="tv_grey">#989898</color>
+    <color name="tv_blue">#1d82fe</color>
+
+    <!--GREY灰度列表-->
+    <color name="grey_devider">#cacaca</color>
+    <color name="grey_50">#fafafa</color>
+    <color name="grey_100">#f2f2f2</color>
+    <color name="grey_200">#eeeeee</color>
+    <color name="grey_300">#e0e0e0</color>
+    <color name="grey_400">#bdbdbd</color>
+    <color name="grey_500">#9e9e9e</color>
+    <color name="grey_600">#757575</color>
+    <color name="grey_700">#616161</color>
+    <color name="grey_800">#424242</color>
+    <color name="grey_850">#282828</color>
+    <color name="grey_900">#212121</color>
+    <color name="grey_1000">#000000</color>
+
+    <!--常用色-->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="border">#bdbdbd</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparent_white">#60FFFFFF</color>
+
+    <!--Material色值-->
+    <color name="material_blue">#ff03A9F4</color>
+    <color name="material_green">#ff4CAF50</color>
+    <color name="material_red">#ffF44336</color>
+    <color name="material_yellow">#ffFFEB3B</color>
+
+    <!--Shadow Layer色值-->
+    <color name="cardBodyColor">#FFFFFF</color>
+    <color name="cardShadowColor_1">#0a8c8c8c</color>
+    <color name="cardShadowColor_2">#0f898989</color>
+    <color name="cardShadowColor_3">#14898989</color>
+    <color name="cardShadowColor_4">#19898989</color>
+    <color name="cardShadowColor_5">#1e898989</color>
+    <color name="cardShadowColor_6">#23898989</color>
+    <color name="cardShadowColor_7">#28898989</color>
+    <color name="cardShadowColor_8">#2d898989</color>
+
+    <!--不常用色-->
+    <color name="semidark_red">#D00000</color>
+    <color name="dark_red">#A00000</color>
+    <color name="chocolate">#D2691E</color>
+    <color name="transparent_black">#60000000</color>
+
+    <color name="canlendar_text_color">#323232</color>
+    
+    
+    
+    
+    <!--测试新版本-->
+    <color name="mainBgTheme">#f16860</color>
+    <color name="mainTabTheme">#f8b4b0</color>
+    <color name="test">#f9d1cf</color>
+</resources>

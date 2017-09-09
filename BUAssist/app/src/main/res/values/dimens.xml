@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Shadow Layer尺寸值-->
+    <dimen name="cardPadding">2px</dimen>
+    <dimen name="cardRadius">5dp</dimen>
+
+    <!--登录按钮Radius-->
+    <dimen name="loginBtnRadius">3dp</dimen>
+
+    <!--NormalRadius-->
+    <dimen name="normalRadius">5dp</dimen>
+
+    <!--LoginDialog相关参数-->
+    <dimen name="loginingdlg_height">150dp</dimen>
+    <dimen name="loginingdlg_lr_margin">30dp</dimen>
+    <dimen name="loginingdlg_top_margin">20dp</dimen>
+
+</resources>

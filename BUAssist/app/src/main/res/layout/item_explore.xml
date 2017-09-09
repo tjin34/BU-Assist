@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_rect_shadow_normal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp">
+
+        <net.bucssa.buassist.Widget.RoundImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/profile_photo"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/iv_profile"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tony"
+                android:textColor="@color/tv_black"
+                android:textStyle="bold"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Class of 2018"
+                android:textSize="12sp"
+                android:textColor="@color/tv_grey"/>
+
+        </LinearLayout>
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_follow"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/selector_explore_follow"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="10dp">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_status"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="关注此人"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"/>-->
+
+        <!--</LinearLayout>-->
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2017 8-10 12:34"
+            android:textColor="@color/tv_grey"
+            android:textSize="12sp"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <ImageView
+            android:id="@+id/iv_picture"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/mine_background"
+            android:scaleType="centerCrop"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/bg_timestamp_shadow"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/dingwei"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@drawable/dingwei"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Allston"
+                android:textSize="12dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/dingwei"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="朋友圈主题文字内容，今天天气啊不错啊哈哈哈啦啦啦啦"
+            android:textColor="@color/tv_normal"
+            android:textSize="12sp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6"
+                android:textColor="@color/tv_grey"
+                android:textSize="12sp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/like"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/like"
+                android:layout_toLeftOf="@id/tv_likeCount"
+                android:layout_marginRight="3dp"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/tv_commentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6"
+                android:textColor="@color/tv_grey"
+                android:textSize="12sp"
+                android:layout_toLeftOf="@id/like"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/comment"
+                android:layout_toLeftOf="@id/tv_commentCount"
+                android:layout_marginRight="3dp"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

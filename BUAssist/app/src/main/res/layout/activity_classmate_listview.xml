@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <include layout="@layout/header" android:id="@+id/header"/>
+
+    <include layout="@layout/view_search_box_text"
+        android:id="@+id/search_textView"
+        android:visibility="visible"/>
+
+    <include layout="@layout/view_search_box"
+        android:id="@+id/search_editText"
+        android:visibility="gone"/>
+    
+    <net.bucssa.buassist.Widget.LuluRefreshListView
+        android:id="@+id/luluRefreshListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#00000000"
+        android:dividerHeight="0dp"/>
+</LinearLayout>

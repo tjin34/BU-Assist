@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000">
+
+    <LinearLayout
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:background="@drawable/selector_bg_news"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <net.bucssa.buassist.Widget.RoundImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/bucssa"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_message_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="toUsername"
+                    android:textColor="@color/tv_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_last_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="from: 党党"
+                    android:textColor="@color/tv_grey"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/ic_arrow_right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="5dp"/>
+
+
+            <ImageView
+                android:id="@+id/iv_hasNew"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/new_tag"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"/>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_bg_textview_borderless">
+
+        <ImageView
+            android:id="@+id/iv_like"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/selector_like_button"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:padding="5dp"/>
+
+        <View
+            android:id="@+id/grey_bar"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="#7f7f7f"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toLeftOf="@id/iv_like"
+            android:layout_toRightOf="@id/grey_bar"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true">
+
+
+            <TextView
+                android:id="@+id/tv_news_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_news_title"
+                android:textSize="12sp"
+                android:textColor="@color/tv_black"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="by BUCSSA, "
+                    android:textColor="@color/tv_grey"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_news_time"
+                    android:textSize="12sp"
+                    android:textColor="@color/tv_grey"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+</LinearLayout>

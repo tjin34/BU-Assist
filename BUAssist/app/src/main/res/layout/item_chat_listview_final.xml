@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/selector_bg_transparent_textview"
+        android:id="@+id/rootView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+
+
+        <FrameLayout
+            android:id="@+id/profile"
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp">
+
+            <net.bucssa.buassist.Widget.RoundImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/profile_photo"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_newMsg"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/bg_tip_dot"
+                android:text="99"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:layout_gravity="top|right"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/profile"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:id="@+id/tv_message_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="党党"
+                android:textColor="@color/tv_black"
+                android:textStyle="bold"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tv_last_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_intro"
+                android:textSize="12sp"
+                android:textColor="@color/tv_grey"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/mainBgTheme"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,72 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="net.bucssa.buassist">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/bucssa"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/bucssa"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar">
+
+
+        <!--剪切图片的Activity-->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <!--欢迎页-->
+        <activity android:name=".Ui.Welcome.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--首页-->
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".NewMainActivity"/>
+        <!--登录页-->
+        <activity android:name=".Ui.Login.LoginActivity"/>
+        <!--个人资料页-->
+        <activity android:name=".Ui.Fragments.Mine.ProfileActivity"/>
+        <!--我的收藏-->
+        <activity android:name=".Ui.Fragments.Mine.MyCollectionActivity"/>
+        <!--我的好友-->
+        <activity android:name=".Ui.Fragments.Mine.MyFriendActivity"/>
+        <!--聊天室页-->
+        <activity android:name=".Ui.Fragments.Message.ChatRoomActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+        </activity>
+
+        <!--设置相关-->
+        <activity android:name=".Ui.Fragments.Mine.InputActivity"/>
+        <activity android:name=".Ui.Settings.SettingActivity"/>
+        <activity android:name=".Ui.Settings.AccSettingActivity"/>
+
+        <!--大腿课友页面-->
+        <activity android:name=".Ui.Classmates.ClassmateActivity"/>
+        <activity android:name=".Ui.Classmates.FindClassActivity"/>
+        <activity android:name=".Ui.Classmates.ClassDetailActivity"/>
+        <activity android:name=".Ui.Classmates.GroupDetailActivity"/>
+        <activity android:name=".Ui.Classmates.MyGroupActivity"/>
+        <activity android:name=".Ui.Classmates.MyCollectionActivity"/>
+        <activity android:name=".Ui.Classmates.MyTopicActivity"/>
+
+
+        <!--网页WebView-->
+        <activity android:name=".Ui.News.WebPageActivity"/>
+
+    </application>
+
+</manifest>

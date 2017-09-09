@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <ImageView
+        android:id="@+id/iv_back1"
+        android:src="@drawable/backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="-20dp"/>
+    <ImageView
+        android:id="@+id/iv_back2"
+        android:src="@drawable/backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="-20dp"/>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="25dp"
+            android:id="@+id/iv_rider"
+            android:background="@drawable/lulu_driving"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ivsun"
+        android:layout_marginTop="1dp"
+        android:layout_toRightOf="@+id/main"
+        android:src="@drawable/pull_sun"
+        android:layout_width="35dp"
+        android:layout_height="35dp" />
+
+    <ImageView
+        android:id="@+id/iv_cloud"
+        android:src="@drawable/back_cloud"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="-15dp"/>
+
+</RelativeLayout>

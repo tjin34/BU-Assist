@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_200">
+
+    <include layout="@layout/header"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_rect"
+                android:layout_marginTop="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="头像"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter0"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <net.bucssa.buassist.Widget.RoundImageView
+                        android:id="@+id/iv_avatar"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/profile_photo"
+                        android:layout_toLeftOf="@id/enter0"
+                        android:layout_centerVertical="true"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTabTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_username"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_borderless">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="用户名"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Sibo"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/enter1"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTabTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_realname"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_borderless">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="用户名"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter9"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_realname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Sibo"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/enter9"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTabTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sex"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_borderless">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="性别"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="男性"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/enter2"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTabTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_birth"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_borderless">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="生日"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_birth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="20 June 2017"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/enter3"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTabTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_classYear"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_borderless">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="学年"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter7"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_classYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="2018"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/enter7"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTabTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/ll_college"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_borderless">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="学院"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter6"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_college"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="CAS"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/enter6"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTabTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_relationship"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_borderless">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="感情状况"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter4"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_relationship"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="未知"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/enter4"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTabTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:id="@+id/ll_self_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/selector_bg_textview_borderless">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp">
+
+                        <TextView
+                            android:id="@+id/selfIntro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="自我介绍"
+                            android:textColor="@color/tv_black"
+                            android:textSize="14sp"
+                            android:gravity="center"/>
+
+                        <ImageView
+                            android:id="@+id/enter5"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/ic_arrow_right"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"/>
+
+
+
+                        <TextView
+                            android:id="@+id/tv_self_intro"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="我的名字叫用户名"
+                            android:textColor="@color/tv_grey"
+                            android:textSize="13sp"
+                            android:layout_toLeftOf="@id/enter5"
+                            android:layout_toRightOf="@id/selfIntro"
+                            android:layout_centerVertical="true"
+                            android:textAlignment="textEnd"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:layout_marginLeft="10dp"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="设置个人资料的公开与否，请前往 设置 - 账号设置~"
+                android:textColor="@color/tv_grey"
+                android:textSize="13sp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"/>
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_100">
+
+        <net.bucssa.buassist.Widget.LuluRefreshListView
+            android:id="@+id/lv_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="@null"
+            android:divider="#00000000"/>
+
+        <LinearLayout
+            android:id="@+id/initView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/iv_light"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/light"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/iv_lulu"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/lulu_reading"/>
+
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在帮你整理资料..."
+                android:textColor="@color/tv_black"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"/>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/header" android:id="@+id/header"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/grey_100">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/login_background2"
+                    android:scaleType="centerCrop"/>
+
+
+                <net.bucssa.buassist.Widget.RoundImageView
+                    android:id="@+id/iv_groupCover"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/profile_photo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_groupName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="小组名字"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:layout_below="@id/iv_groupCover"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:id="@+id/tv_groupId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="lala2017"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:layout_below="@id/tv_groupName"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/material_blue"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="小组资料"
+                        android:textColor="@color/tv_black"
+                        android:textSize="16sp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_200"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="涉及科目："
+                            android:textColor="@color/tv_black"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="OW 102, DotA 350, HS 210"
+                            android:layout_marginLeft="10dp"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="小组简介："
+                            android:textColor="@color/tv_black"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="啥也不说了，快上车，大神带你刷题刷作业了！"
+                            android:layout_marginLeft="10dp"/>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/material_blue"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="小组成员"
+                        android:textColor="@color/tv_black"
+                        android:textSize="16sp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_200"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <net.bucssa.buassist.Widget.RoundImageView
+                        android:id="@+id/iv_avatar1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/profile_photo"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"/>
+
+                    <net.bucssa.buassist.Widget.RoundImageView
+                        android:id="@+id/iv_avatar2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/profile_photo"
+                        android:layout_toRightOf="@id/iv_avatar1"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"/>
+
+                    <net.bucssa.buassist.Widget.RoundImageView
+                        android:id="@+id/iv_avatar3"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/profile_photo"
+                        android:layout_toRightOf="@id/iv_avatar2"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"/>
+
+                    <net.bucssa.buassist.Widget.RoundImageView
+                        android:id="@+id/iv_avatar4"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/profile_photo"
+                        android:layout_toRightOf="@id/iv_avatar3"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"/>
+
+                    <net.bucssa.buassist.Widget.RoundImageView
+                        android:id="@+id/iv_avatar5"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/profile_photo"
+                        android:layout_toRightOf="@id/iv_avatar4"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="查看全部 >"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="14sp"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"/>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/material_blue"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="小组活动"
+                        android:textColor="@color/tv_black"
+                        android:textSize="16sp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_200"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/btnDoit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="申请加入"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:background="@drawable/selector_textview_pinbottom"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,132 @@
+<resources>
+    <string name="app_name">BUAssist</string>
+
+    <string name="BUCSSA">BUCSSA</string>
+
+    <string name="welcome">欢迎使用BUCSSA官方APP</string>
+
+
+    <!--常用-->
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="submit">提交</string>
+    <string name="sample_title">标题 Title</string>
+
+
+
+    <!--权限相关-->
+    <string name="permission_get_accounts_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_GET_ACCOUNTS</string>
+    <string name="permission_read_phone_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_READ_PHONE_STATE</string>
+    <string name="permission_call_phone_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_CALL_PHONE</string>
+    <string name="permission_camera_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_CAMERA</string>
+    <string name="permission_access_fine_location_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_ACCESS_FINE_LOCATION</string>
+    <string name="permission_access_coarse_location_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_ACCESS_COARSE_LOCATION</string>
+    <string name="permission_read_external_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_READ_EXTERNAL_STORAGE</string>
+    <string name="permission_white_external_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_WRITE_EXTERNAL_STORAGE</string>
+    <string name="permission_recode_audio_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_RECORD_AUDIO</string>
+
+    <string-array name="permissions">
+        <item>@string/permission_recode_audio_hint</item>
+        <item>@string/permission_get_accounts_hint</item>
+        <item>@string/permission_read_phone_hint</item>
+        <item>@string/permission_call_phone_hint</item>
+        <item>@string/permission_camera_hint</item>
+        <item>@string/permission_access_fine_location_hint</item>
+        <item>@string/permission_access_coarse_location_hint</item>
+        <item>@string/permission_read_external_hint</item>
+        <item>@string/permission_white_external_hint</item>
+    </string-array>
+    <!--权限相关-->
+
+    <!--报错相关-->
+    <string name="snack_message_main_gather">start to gather</string>
+    <string name="snack_message_not_notify">not new data</string>
+    <string name="snack_message_login_success">登陆成功</string>
+    <string name="snack_message_net_error">网络错误，请检查网络设置</string>
+    <string name="snack_message_timeout_error">网络连接超时</string>
+    <string name="snack_message_password_error">This password is incorrect</string>
+    <string name="snack_message_unknown_error">未知错误</string>
+    <string name="snack_message_data_error">data error</string>
+    <string name="snack_action_to_setting">Setting</string>
+
+
+    <!--lulu相关语句-->
+        <!--Loading-->
+    <string name="lulu_loading">炉炉正在帮你整理资料！</string>
+    <string name="lulu_finishLoading">资料整理完毕，汪！</string>
+    <string name="auto_login">炉炉正在尝试帮你登录！</string>
+
+
+    <!--推送相关-->
+    <string name="officialNews">官方推送</string>
+    <string name="commnet">评论</string>
+    <string name="like">赞</string>
+        <!--SampleValues-->
+    <string name="sample_news_title">NBA季后赛次场:火箭107-110马刺火箭107-110马刺</string>
+    <string name="sample_news_time">2017 7-21 13:43</string>
+    <string name="sample_value">6</string>
+
+
+
+    <!--Socket.IO相关-->
+    <string name="connect">已连接到聊天室</string>
+    <string name="disconnect">连接断开，请检查你的网络连接</string>
+    <string name="error_connect">错误连接</string>
+
+    <!--登录与Authentication相关-->
+    <string name="enter_username">请输入用户名</string>
+    <string name="enter_password">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="forgot_pwd">忘记密码？</string>
+    <string name="attempt_login">正在登录</string>
+    <string name="third_party_login">使用第三方账号登录</string>
+    <string name="guest_login">游客登录</string>
+
+    <!--个人资料页相关-->
+    <string name="no_self_intro_self">你还没给自己添加介绍呢~</string>
+    <string name="no_self_intro_others">这个新来的宝宝什么也没留下</string>
+    <string name="please_enter_username">请输入新的用户名</string>
+    <string name="please_enter_intro">请输入你的个人介绍</string>
+
+        <!--SampleValue-->
+    <string name="sample_intro">我是一个开朗的孩子</string>
+
+
+    <!--大腿课友相关-->
+    <string name="my_class">我的课程</string>
+    <string name="find_class">寻找课程</string>
+    <string name="my_group">我的小组</string>
+    <string name="my_topic">我的话题</string>
+    <string name="my_collection">我的关注</string>
+    <string name="noclass_text">当前还没有加入任何课程哦\n快去找找课友吧！</string>
+
+    <string name="search_class">请输入课程或教授名字搜索</string>
+    <string name="search_group">请输入课程或创建人名字搜索</string>
+    <string name="search_topic">请输入标题关键词进行搜索</string>
+
+
+    <!--uCrop相关-->
+    <string name="label_select_picture">Select Picture</string>
+    <string name="permission_title_rationale">Permission needed</string>
+    <string name="permission_read_storage_rationale">Storage read permission is needed to pick files.</string>
+    <string name="permission_write_storage_rationale">Storage write permission is needed to save the image.</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_ok">OK</string>
+
+
+    <!--日期相关-->
+
+
+
+    <string name="sunday">日</string>
+    <string name="monday">一</string>
+    <string name="thesday">二</string>
+    <string name="wednesday">三</string>
+    <string name="thursday">四</string>
+    <string name="friday">五</string>
+    <string name="saturday">六</string>
+
+
+
+</resources>

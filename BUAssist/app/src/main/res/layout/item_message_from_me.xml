@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    android:id="@+id/rootView">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <net.bucssa.buassist.Widget.RoundImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/profile_photo"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"/>
+
+        <net.bucssa.buassist.Widget.BubbleLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@id/iv_profile"
+            android:orientation="vertical"
+            app:arrowWidth="8dp"
+            app:angle="8dp"
+            app:arrowHeight="10dp"
+            app:arrowPosition="14dp"
+            app:arrowLocation="right"
+            app:bubbleColor="@color/test">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingRight="20dp">
+
+
+                <TextView
+                    android:id="@+id/tv_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消息来自我"
+                    android:textSize="14sp"
+                    android:textColor="@color/tv_black"
+                    android:layout_gravity="right"/>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_news_time"
+                    android:textColor="@color/tv_grey"
+                    android:textSize="10sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="right"/>
+            </LinearLayout>
+
+        </net.bucssa.buassist.Widget.BubbleLinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
