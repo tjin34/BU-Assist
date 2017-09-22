@@ -7,12 +7,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
 
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_class_list_left3"/>
+
+        <ImageView
+            android:id="@+id/leftBar"
             android:layout_width="90dp"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_class_list"/>
+            android:background="@drawable/bg_class_list_left2"/>
 
         <TextView
             android:layout_width="80dp"
@@ -22,6 +31,29 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_classSection"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/leftBar"
+            android:gravity="center"
+            android:text="A1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/tv_black"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_className"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/tv_classSection"
+            android:gravity="center"
+            android:text="Design New Media"
+            android:textSize="14sp"
+            android:textColor="@color/tv_normal"
+            android:layout_marginLeft="10dp"/>
 
     </RelativeLayout>
 

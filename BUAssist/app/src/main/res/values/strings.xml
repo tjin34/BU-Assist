@@ -105,6 +105,8 @@
     <string name="search_group">请输入课程或创建人名字搜索</string>
     <string name="search_topic">请输入标题关键词进行搜索</string>
 
+    <string name="all_data">以上就是全部内容了哦！</string>
+
 
     <!--uCrop相关-->
     <string name="label_select_picture">Select Picture</string>
