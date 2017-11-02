@@ -3,7 +3,7 @@
     <item android:state_pressed="false">
         <shape>
             <corners android:radius="@dimen/normalRadius"/>
-            <solid android:color="@color/mainTabTheme"/>
+            <solid android:color="@color/secondary_pink"/>
         </shape>
     </item>
     <item android:state_pressed="true">

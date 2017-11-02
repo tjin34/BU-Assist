@@ -67,4 +67,12 @@
     <color name="mainBgTheme">#f16860</color>
     <color name="mainTabTheme">#f8b4b0</color>
     <color name="test">#f9d1cf</color>
+
+
+    <!--最终版定色-->
+    <color name="red">#C12525</color>
+    <color name="pink">#DC8585</color>
+    <color name="secondary_pink">#F9E9E9</color>
+    <color name="third_pink">#E09292</color>
+
 </resources>
