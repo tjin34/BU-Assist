@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,48 +27,64 @@ import com.yalantis.ucrop.UCrop;
 import net.bucssa.buassist.Base.BaseFragment;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Login.LoginActivity;
+import net.bucssa.buassist.Ui.Settings.SettingActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.ImageUtils;
-import net.bucssa.buassist.Util.StatusBarUtil;
 import net.bucssa.buassist.Util.ToastUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.util.Date;
 
 import butterknife.BindView;
 
 /**
- * Created by Shin on 2017-6-22
+ * Created by KimuraShin on 17/8/20.
  */
-
 
 public class MineFragment extends BaseFragment {
 
-    @BindView(R.id.ll_profile)
-    LinearLayout ll_profile;
 
-    @BindView(R.id.ll_logout)
-    LinearLayout ll_logout;
+    @BindView(R.id.ll_editProfile)
+    LinearLayout ll_editProfile;
 
-    @BindView(R.id.ll_friend)
-    LinearLayout ll_friend;
+    @BindView(R.id.rl_logout)
+    RelativeLayout rl_logout;
 
-    @BindView(R.id.ll_collection)
-    LinearLayout ll_collection;
+    @BindView(R.id.rl_myFriend)
+    RelativeLayout rl_myFriend;
 
-    @BindView(R.id.ll_notification)
-    LinearLayout ll_notification;
+    @BindView(R.id.rl_myCollection)
+    RelativeLayout rl_myCollection;
 
-    @BindView(R.id.ll_manual)
-    LinearLayout ll_manual;
-
-    @BindView(R.id.ll_setting)
-    LinearLayout ll_setting;
+    @BindView(R.id.rl_setting)
+    RelativeLayout rl_setting;
 
     @BindView(R.id.iv_profile)
     ImageView iv_profile;
 
+    @BindView(R.id.profileBar)
+    LinearLayout profileBar;
+
+    @BindView(R.id.tv_username)
+    TextView tv_username;
+
+    @BindView(R.id.tv_college)
+    TextView tv_college;
+
+    @BindView(R.id.iv_sexDisplay)
+    ImageView iv_sexDisplay;
+
+    @BindView(R.id.tv_dateOfBirth)
+    TextView tv_dateOfBirth;
+
+    @BindView(R.id.tv_self_intro)
+    TextView tv_selfIntro;
+
+    @BindView(R.id.tv_loveStatus)
+    TextView tv_loveStatus;
+
+    @BindView(R.id.tv_email)
+    TextView tv_email;
 
     private final int LOGIN = 111;
 
@@ -84,7 +101,6 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
@@ -96,17 +112,13 @@ public class MineFragment extends BaseFragment {
                     Intent intent = new Intent(context, LoginActivity.class);
                     intent.putExtra("preActivity", 1);
                     startActivityForResult(intent, LOGIN);
-                } else {
-                    pickFromGallery();
                 }
             }
         });
 
-        ll_logout.setVisibility(View.GONE);
-        if (UserSingleton.getInstance().isLogin(context)) {
-            ll_logout.setVisibility(View.VISIBLE);
-        }
-        ll_logout.setOnClickListener(new View.OnClickListener() {
+        rl_logout.setVisibility(View.GONE);
+        profileBar.setVisibility(View.GONE);
+        rl_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoginActivity.logout(context);
@@ -116,7 +128,7 @@ public class MineFragment extends BaseFragment {
             }
         });
 
-        ll_profile.setOnClickListener(new View.OnClickListener() {
+        ll_editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (UserSingleton.getInstance().isLogin(context)) {
@@ -129,11 +141,51 @@ public class MineFragment extends BaseFragment {
         });
 
         if (UserSingleton.getInstance().isLogin(context)) {
-            ll_logout.setVisibility(View.VISIBLE);
-            Picasso.with(context).load(UserSingleton.bigAvatar).error(R.drawable.profile_photo).into(iv_profile);
+            rl_logout.setVisibility(View.VISIBLE);
+            setProfileValues();
         }
+
+        rl_myFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyFriendActivity.launch((Activity) context);
+            }
+        });
+
+        rl_myCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyCollectionActivity.launch((Activity) context);
+            }
+        });
+
+        rl_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingActivity.launch((Activity) context);
+            }
+        });
+
     }
 
+    private void setProfileValues() {
+        Picasso.with(context).load(UserSingleton.bigAvatar).error(R.drawable.profile_photo).into(iv_profile);
+        tv_username.setText(UserSingleton.USERINFO.getUsername());
+        tv_college.setText(UserSingleton.USERINFO.getCollege());
+        tv_dateOfBirth.setText(UserSingleton.USERINFO.getDateOfBirth());
+        tv_loveStatus.setText(UserSingleton.USERINFO.getAffectivestatus());
+        tv_selfIntro.setText(UserSingleton.USERINFO.getBio());
+        switch (UserSingleton.USERINFO.getGender()) {
+            case 0:
+                iv_sexDisplay.setVisibility(View.GONE);
+            case 1:
+                iv_sexDisplay.setSelected(true);
+                break;
+            case 2:
+                iv_sexDisplay.setSelected(false);
+                break;
+        }
+    }
 
     private static final int REQUEST_SELECT_PICTURE = 0x01;
     private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage.png";
@@ -161,7 +213,7 @@ public class MineFragment extends BaseFragment {
         if (resultCode == -1) {
             switch (requestCode) {
                 case LOGIN:
-                    ll_logout.setVisibility(View.VISIBLE);
+                    rl_logout.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(UserSingleton.bigAvatar).error(R.drawable.profile_photo).into(iv_profile);
                     break;
                 case REQUEST_SELECT_PICTURE:
@@ -232,7 +284,7 @@ public class MineFragment extends BaseFragment {
                 .withMaxResultSize(800, 800);
 
         uCrop.withOptions(options);
-        uCrop.start((Activity) context, MineFragment.this, UCrop.REQUEST_CROP);
+        uCrop.start((Activity) context, this, UCrop.REQUEST_CROP);
     }
 
 
@@ -287,10 +339,5 @@ public class MineFragment extends BaseFragment {
         builder.setNegativeButton(negativeText, onNegativeButtonClickListener);
         mAlertDialog = builder.show();
     }
-
-
-
-
-
 
 }

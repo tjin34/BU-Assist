@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import net.bucssa.buassist.Bean.Message.Chat;
+import net.bucssa.buassist.Bean.Message.SystemNotification;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Fragments.Message.ChatRoomActivity;
 
@@ -21,19 +23,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by KimuraShin on 17/6/22.
+ * Created by KimuraShin on 17/8/19.
  */
 
-public class ChatAdapter extends BaseAdapter{
+public class SystemAdapter extends BaseAdapter{
 
-            private Context mContext;
-            private List<Chat> mData = new ArrayList<>();
-            private LayoutInflater mInflater;
+    private Context mContext;
+    private List<SystemNotification> mData = new ArrayList<>();
+    private LayoutInflater mInflater;
 
-    public ChatAdapter(Context context, List<Chat> data) {
-                this.mContext = context;
-                this.mData = data;
-                this.mInflater = LayoutInflater.from(context);
+    public SystemAdapter(Context context, List<SystemNotification> data) {
+        this.mContext = context;
+        this.mData = data;
+        this.mInflater = LayoutInflater.from(context);
     }
 
     public void clearData() {
@@ -41,7 +43,7 @@ public class ChatAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
-    public void addData(int position, List<Chat> data) {
+    public void addData(int position, List<SystemNotification> data) {
         if (data != null && data.size() > 0) {
             mData.addAll(data);
             notifyDataSetChanged();
@@ -69,16 +71,16 @@ public class ChatAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Chat chat = mData.get(position);
+        final SystemNotification chat = mData.get(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.item_chat_listview, null);
+            convertView = mInflater.inflate(R.layout.item_chat_listview_final, null);
             viewHolder.title = (TextView) convertView.findViewById(R.id.tv_message_title);
             viewHolder.lastMsg = (TextView) convertView.findViewById(R.id.tv_last_message);
-            viewHolder.avatar = (ImageView) convertView.findViewById(R.id.iv_profile);
-            viewHolder.hasNew = (ImageView) convertView.findViewById(R.id.iv_hasNew);
-            viewHolder.rootView = (LinearLayout) convertView.findViewById(R.id.rootView);
+            viewHolder.avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
+            viewHolder.hasNew = (TextView) convertView.findViewById(R.id.tv_newMsg);
+            viewHolder.rootView = (RelativeLayout) convertView.findViewById(R.id.rootView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -91,27 +93,29 @@ public class ChatAdapter extends BaseAdapter{
                 ((Activity) mContext).startActivityForResult(intent, 101);
             }
         });
-        if (chat.getMembers() > 2)
+        if (chat.getPmtype() == 2)
             viewHolder.title.setText(chat.getSubject());
         else
             viewHolder.title.setText(chat.getTousername());
+
         viewHolder.lastMsg.setText(chat.getSummary());
         Picasso.with(mContext).load(chat.getAvatar()).error(R.drawable.profile_photo).into(viewHolder.avatar);
 
-        if (chat.getHasnew()==1) {
-            viewHolder.hasNew.setVisibility(View.VISIBLE);
-        } else if (chat.getHasnew() == 0){
-            viewHolder.hasNew.setVisibility(View.GONE);
-        }
+        viewHolder.hasNew.setText(String.valueOf(position));
+//        if (chat.getHasnew()==1) {
+//            viewHolder.hasNew.setVisibility(View.VISIBLE);
+//        } else if (chat.getHasnew() == 0){
+//            viewHolder.hasNew.setVisibility(View.GONE);
+//        }
 
         return convertView;
     }
 
     private class ViewHolder{
-        LinearLayout rootView;
+        RelativeLayout rootView;
         TextView lastMsg;
         TextView title;
         ImageView avatar;
-        ImageView hasNew;
+        TextView hasNew;
     }
 }

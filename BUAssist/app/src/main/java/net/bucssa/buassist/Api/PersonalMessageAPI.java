@@ -63,7 +63,7 @@ public interface PersonalMessageAPI {
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("pm/chat/create.php")
+    @POST("personalMessage/chat/create.php")
     Observable<BaseEntity> createChat(@Body RequestBody json);
 
 
@@ -74,7 +74,7 @@ public interface PersonalMessageAPI {
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("pm/chat/delete.php")
+    @POST("personalMessage/chat/delete.php")
     Observable<BaseEntity> deleteChat(@Body RequestBody json);
 
 
@@ -87,7 +87,7 @@ public interface PersonalMessageAPI {
      * @param pageSize
      * @return
      */
-    @GET("pm/chat/get.php")
+    @GET("personalMessage/chat/get.php")
     Observable<BaseEntity<List<Chat>>> getChats(@Query("uid") int uid,
                                                 @Query("token") String token,
                                                 @Query("pageIndex") int pageIndex,
@@ -101,7 +101,7 @@ public interface PersonalMessageAPI {
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("pm/chat/setRead.php")
+    @POST("personalMessage/chat/setRead.php")
     Observable<BaseEntity> setRead(@Body RequestBody json);
 
 
@@ -114,7 +114,7 @@ public interface PersonalMessageAPI {
      * @param token
      * @return
      */
-    @GET("pm/check/newByPlid.php")
+    @GET("personalMessage/check/newByPlid.php")
     Observable<BaseEntity> checkNewMsgBypid(@Query("uid") int uid,
                                             @Query("plid") int plid,
                                             @Query("lastpmid") int lastpmid,
@@ -127,7 +127,7 @@ public interface PersonalMessageAPI {
      * @param uid
      * @return
      */
-    @GET("pm/check/newByUid.php")
+    @GET("personalMessage/check/newByUid.php")
     Observable<BaseEntity<NewMsg>> checkNewMsgByUid(@Query("uid") int uid);
 
 
@@ -138,7 +138,7 @@ public interface PersonalMessageAPI {
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("pm/message/reply.php")
+    @POST("personalMessage/message/reply.php")
     Observable<BaseEntity> replyMessage(@Body RequestBody json);
 
 
@@ -151,7 +151,7 @@ public interface PersonalMessageAPI {
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("pm/message/delete.php")
+    @POST("personalMessage/message/delete.php")
     Observable<BaseEntity> deleteMessage(@Body RequestBody json);
 
 
@@ -166,7 +166,7 @@ public interface PersonalMessageAPI {
      * @param token
      * @return
      */
-    @GET("pm/message/getByOffset.php")
+    @GET("personalMessage/message/getByOffset.php")
     Observable<BaseEntity<List<Message>>> getMsgByOffset(@Query("uid") int uid,
                                                          @Query("plid") int plid,
                                                          @Query("type") int type,
@@ -187,7 +187,7 @@ public interface PersonalMessageAPI {
      * @param token
      * @return
      */
-    @GET("pm/message/getByPlid.php")
+    @GET("personalMessage/message/getByPlid.php")
     Observable<BaseEntity<List<Message>>> getMsgByPlid(@Query("uid") int uid,
                                                          @Query("plid") int plid,
                                                          @Query("type") int type,

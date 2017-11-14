@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/mainBgTheme">
+                android:background="@color/grey_300">
 
 
 
@@ -31,9 +31,9 @@
                     android:id="@+id/iv_send"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/send"
+                    android:src="@drawable/selector_send_message"
                     android:layout_marginRight="10dp"
-                    android:padding="6dp"
+                    android:padding="3dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"/>
 

@@ -56,6 +56,11 @@
     <string name="lulu_finishLoading">资料整理完毕，汪！</string>
     <string name="auto_login">炉炉正在尝试帮你登录！</string>
 
+    <!--主页-->
+    <string name="manual">新生手册</string>
+    <string name="classmate">找课友</string>
+    <string name="roommate">找室友</string>
+
 
     <!--推送相关-->
     <string name="officialNews">官方推送</string>

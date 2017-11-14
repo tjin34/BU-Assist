@@ -34,7 +34,6 @@
         </activity>
         <!--首页-->
         <activity android:name=".MainActivity"/>
-        <activity android:name=".NewMainActivity"/>
         <!--登录页-->
         <activity android:name=".Ui.Login.LoginActivity"/>
         <!--个人资料页-->

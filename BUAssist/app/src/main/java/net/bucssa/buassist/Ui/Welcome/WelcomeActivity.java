@@ -13,7 +13,7 @@ import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Login.UserInfo;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
-import net.bucssa.buassist.NewMainActivity;
+import net.bucssa.buassist.MainActivity;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Login.LoginActivity;
 import net.bucssa.buassist.UserSingleton;
@@ -133,7 +133,7 @@ public class WelcomeActivity extends BaseActivity{
                             UserSingleton.getHttpAvatar();
                             UserSingleton.getInstance().setLogin(true);
 
-                            Intent intent = new Intent(mContext, NewMainActivity.class);
+                            Intent intent = new Intent(mContext, MainActivity.class);
                             startActivity(intent);
 
                         } else {

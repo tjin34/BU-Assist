@@ -1,24 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootView"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey_100">
+    android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/transparent"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivManual"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/selector_manual"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/manual"
+                    android:textSize="12sp"
+                    android:textColor="@color/mainTheme"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivRoommate"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/selector_roommate"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/roommate"
+                    android:textSize="12sp"
+                    android:textColor="@color/mainTheme"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_manual"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivClassmate"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/selector_classmate"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/classmate"
+                    android:textSize="12sp"
+                    android:textColor="@color/mainTheme"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+    </RelativeLayout>
 
     <com.cjj.MaterialRefreshLayout
-        android:id="@+id/refreshLayout"
+        android:id="@+id/mRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:wave_color="@color/themeColor"
-        app:wave_show="true">
+        android:layout_above="@id/bottomBar"
+        app:wave_color="@color/mainBgTheme"
+        android:layout_below="@id/header">
 
         <android.support.v4.widget.NestedScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,10 +129,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="160dp"
                     android:orientation="vertical"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true">
+                    android:layout_margin="20dp">
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/viewPager"
@@ -42,189 +142,19 @@
 
                 </RelativeLayout>
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp">
-                    
-                    <LinearLayout
-                        android:id="@+id/ll_classmate"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/classmate"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="大腿课友"
-                            android:textSize="10dp"
-                            android:textColor="@color/tv_black"
-                            android:layout_marginTop="3dp"/>
-                        
-                        
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_housing"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/housing"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="住房相关"
-                            android:textSize="10dp"
-                            android:textColor="@color/tv_black"
-                            android:layout_marginTop="3dp"/>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_calender"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:src="@drawable/calender"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="日历记事"
-                            android:textSize="10dp"
-                            android:textColor="@color/tv_black"
-                            android:layout_marginTop="3dp"/>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_checklist"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:src="@drawable/checklist"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="新生手册"
-                            android:textSize="10dp"
-                            android:textColor="@color/tv_black"
-                            android:layout_marginTop="3dp"/>
-
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey_300"/>
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="5dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/news"
-                        android:layout_marginLeft="20dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="官方推送"
-                        android:textColor="@color/tv_black"
-                        android:textSize="12sp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="20dp"/>
-
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey_300"/>
-
-
-
+                    android:background="#00000000"
+                    android:divider="#00000000"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
 
             </LinearLayout>
-
         </android.support.v4.widget.NestedScrollView>
-
     </com.cjj.MaterialRefreshLayout>
 
-    <LinearLayout
-        android:id="@+id/initView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
 
-
-        <ImageView
-            android:id="@+id/iv_light"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/light"
-            android:visibility="invisible"/>
-
-        <ImageView
-            android:id="@+id/iv_lulu"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/lulu_reading"/>
-
-
-        <TextView
-            android:id="@+id/tv_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="正在帮你整理资料..."
-            android:textColor="@color/tv_black"
-            android:textSize="15sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"/>
-
-
-
-
-    </LinearLayout>
 
 </RelativeLayout>

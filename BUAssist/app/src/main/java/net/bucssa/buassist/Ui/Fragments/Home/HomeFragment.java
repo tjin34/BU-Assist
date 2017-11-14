@@ -1,5 +1,6 @@
 package net.bucssa.buassist.Ui.Fragments.Home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,21 +21,27 @@ import android.widget.TextView;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import net.bucssa.buassist.Api.TuiSongAPI;
 import net.bucssa.buassist.Base.BaseFragment;
 import net.bucssa.buassist.Bean.BaseEntity;
+import net.bucssa.buassist.Bean.Request.AddCollectionReq;
+import net.bucssa.buassist.Bean.Request.DelCollectionReq;
 import net.bucssa.buassist.Bean.Thread.TuiSong;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.ClassmateActivity;
+import net.bucssa.buassist.Ui.Fragments.Home.Adapter.NewNewsRecyclerAdapter;
 import net.bucssa.buassist.Ui.Fragments.Home.Adapter.NewsRecyclerAdapter;
+import net.bucssa.buassist.Ui.Fragments.Home.Adapter.SimpleNewsRecyclerAdapter;
 import net.bucssa.buassist.Ui.Fragments.Home.Adapter.ViewPagerAdapter;
 import net.bucssa.buassist.Ui.News.WebPageActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
+import net.bucssa.buassist.Util.StatusBarUtil;
 import net.bucssa.buassist.Util.ToastUtils;
 
 import java.util.ArrayList;
@@ -43,28 +51,23 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by KimuraShin on 17/7/19.
+ * Created by KimuraShin on 17/8/2.
  */
 
 public class HomeFragment extends BaseFragment {
 
-    @BindView(R.id.ll_housing)
-    LinearLayout ll_housing;
-
-    @BindView(R.id.ll_classmate)
-    LinearLayout ll_class;
-
-    @BindView(R.id.refreshLayout)
+    @BindView(R.id.mRefreshLayout)
     MaterialRefreshLayout mRefreshLayout;
 
     @BindView(R.id.rv_news)
-    RecyclerView rv_news;
+    RecyclerView recyclerView;
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -72,24 +75,9 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.RadioGroup)
     RadioGroup radioGroup;
 
-    @BindView(R.id.scrollView)
-    NestedScrollView scrollView;
-
-    @BindView(R.id.initView)
-    LinearLayout initView;
-
-    @BindView(R.id.iv_light)
-    ImageView iv_light;
-
-    @BindView(R.id.iv_lulu)
-    ImageView iv_lulu;
-
-    @BindView(R.id.tv_status)
-    TextView tv_status;
-
 
     private List<TuiSong> tuiSongList = new ArrayList<>();
-    private NewsRecyclerAdapter myAdapter;
+    private SimpleNewsRecyclerAdapter myAdapter;
     private int state = Enum.STATE_NORMAL;
 
     int pageIndex = 1;//当前页
@@ -118,6 +106,8 @@ public class HomeFragment extends BaseFragment {
             "http://imgsrc.baidu.com/forum/w%3D580/sign=b64b0730bd389b5038ffe05ab534e5f1/04475334970a304ea585bdd4d5c8a786c8175cd5.jpg",
             "http://imgsrc.baidu.com/forum/w%3D580/sign=bad2ae38cbfc1e17fdbf8c397a91f67c/f1a2433d269759eec41679e5b6fb43166d22df37.jpg"};
 
+
+
     @Override
     protected String getTAG() {
         return this.toString();
@@ -130,97 +120,8 @@ public class HomeFragment extends BaseFragment {
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
-
-    @Override
-    protected void initResAndListener() {
-
-        radioGroup.setOnCheckedChangeListener(listener);
-        views = new ArrayList<View>();
-
-        LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        for (int i = 0; i < picPath.length; i++) {
-            ImageView iv = new ImageView(context);
-            iv.setLayoutParams(mParams);
-            Picasso.with(context).load(picPath[i]).error(pics[i]).into(iv);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            views.add(iv);
-        }
-
-        viewPagerAdapter = new ViewPagerAdapter(views);
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                radioButton = (RadioButton) radioGroup.getChildAt(position);
-                radioButton.setChecked(true);
-                currentItem = position;
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-
-            }
-        });
-
-
-        mRefreshLayout.setLoadMore(true);
-        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
-            @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                refreshData();
-            }
-
-            @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                if ((pageIndex * pageSize) <= totalCount) {
-                    loadMore();
-                } else {
-                    ToastUtils.showToast(context, "没有更多了...");
-                    mRefreshLayout.finishRefreshLoadMore();
-                }
-            }
-        });
-
-
-        ll_housing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), HousingActivity.class);
-//                startActivity(intent);
-            }
-        });
-
-        ll_class.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ClassmateActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        initLuluAnim();
-
-        initData();
-
-    }
-
-    @Override
-    protected void initAllMembersView(Bundle savedInstanceState) {
-
-
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -276,37 +177,74 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    private void initLuluAnim(){
-        iv_light.setVisibility(View.INVISIBLE);
-        initView.setVisibility(View.VISIBLE);
-        Animation luluShake = AnimationUtils.loadAnimation(context, R.anim.lulu_anim_shake);
-        iv_lulu.startAnimation(luluShake);
-        tv_status.setText(R.string.lulu_loading);
-    }
+    @Override
+    protected void initResAndListener() {
 
-    private void stopLuluAnim() {
-        iv_lulu.clearAnimation();
-        iv_light.setVisibility(View.VISIBLE);
-        tv_status.setText(R.string.lulu_finishLoading);
-        Animation initViewOut = AnimationUtils.loadAnimation(context, R.anim.lulu_anim_out);
-        initViewOut.setAnimationListener(new Animation.AnimationListener() {
+        radioGroup.setOnCheckedChangeListener(listener);
+        views = new ArrayList<View>();
+
+        LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        for (int i = 0; i < picPath.length; i++) {
+            ImageView iv = new ImageView(context);
+            iv.setLayoutParams(mParams);
+            Picasso.with(context).load(picPath[i]).error(pics[i]).into(iv);
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            views.add(iv);
+        }
+
+        viewPagerAdapter = new ViewPagerAdapter(views);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
-            public void onAnimationStart(Animation animation) {
+            public void onPageSelected(int position) {
+                radioButton = (RadioButton) radioGroup.getChildAt(position);
+                radioButton.setChecked(true);
+                currentItem = position;
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
 
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
-                initView.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+            public void onPageScrollStateChanged(int arg0) {
 
             }
         });
-        initView.startAnimation(initViewOut);
+
+        mRefreshLayout.setLoadMore(true);
+        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                refreshData();
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                if ((pageIndex * pageSize) <= totalCount) {
+                    loadMore();
+                } else {
+                    ToastUtils.showToast(context, "没有更多了...");
+                    mRefreshLayout.finishRefreshLoadMore();
+                }
+            }
+        });
+
+
+        initData();
+
     }
+
+    @Override
+    protected void initAllMembersView(Bundle savedInstanceState) {
+
+
+    }
+
 
     /**
      * 下拉刷新
@@ -333,12 +271,10 @@ public class HomeFragment extends BaseFragment {
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                rv_news.setLayoutManager(new GridLayoutManager(context, 2));
-//                rv_news.setLayoutManager(new LinearLayoutManager(context));
-                myAdapter = new NewsRecyclerAdapter(context, tuiSongList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                myAdapter = new SimpleNewsRecyclerAdapter(context, tuiSongList);
                 setListener();
-                rv_news.setAdapter(myAdapter);
-                stopLuluAnim();
+                recyclerView.setAdapter(myAdapter);
                 break;
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
@@ -353,22 +289,29 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void setListener() {
-        myAdapter.setOnRecyclerItemClickListener(new NewsRecyclerAdapter.OnRecyclerItemClickListener() {
+        myAdapter.setOnRecyclerItemClickListener(new SimpleNewsRecyclerAdapter.OnRecyclerItemClickListener() {
             @Override
-            public void onTopbarClick(int tid) {
-                Intent intent = new Intent(context, WebPageActivity.class);
-                intent.putExtra("tid", tid);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onCommentClick(int tid) {
+            public void onClick(String url) {
 
             }
 
             @Override
-            public void onLikeClick(int tid) {
+            public void onAddCollection(TuiSong tuiSong) {
+                AddCollectionReq req=new AddCollectionReq(UserSingleton.USERINFO.getUid(),
+                        tuiSong.getTid(), tuiSong.getSubject(),
+                        tuiSong.getAuthor(), tuiSong.getDateline() ,UserSingleton.USERINFO.getToken());
+                Gson gson=new Gson();
+                String json = gson.toJson(req);
+                addCollection(json);
+            }
 
+            @Override
+            public void onDelCollection(TuiSong tuiSong) {
+                DelCollectionReq req=new DelCollectionReq(UserSingleton.USERINFO.getUid(),
+                        tuiSong.getTid(),UserSingleton.USERINFO.getToken());
+                Gson gson=new Gson();
+                String json = gson.toJson(req);
+                delCollection(json);
             }
         });
 
@@ -413,8 +356,79 @@ public class HomeFragment extends BaseFragment {
                 });
     }
 
-    public void scrollToTopAndrefreshNews(){
-        scrollView.smoothScrollTo(0,0);
-        mRefreshLayout.autoRefresh();
+    private void addCollection(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(TuiSongAPI.class)
+                .addCollection(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(context, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(context, "收藏成功！");
+                        } else {
+                            ToastUtils.showToast(context, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
     }
+
+    private void delCollection(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(TuiSongAPI.class)
+                .delCollection(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(context, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(context, "删除收藏成功！");
+                        } else {
+                            ToastUtils.showToast(context, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+
 }
