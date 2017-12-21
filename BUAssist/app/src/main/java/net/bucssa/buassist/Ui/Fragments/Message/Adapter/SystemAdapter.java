@@ -49,7 +49,7 @@ public class SystemAdapter extends BaseAdapter{
             notifyDataSetChanged();
         }
     }
-    public void addData(List<Chat> data) {
+    public void addData(List<SystemNotification> data) {
         addData(0, data);
         notifyDataSetChanged();
     }
@@ -76,32 +76,32 @@ public class SystemAdapter extends BaseAdapter{
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_chat_listview_final, null);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.tv_message_title);
-            viewHolder.lastMsg = (TextView) convertView.findViewById(R.id.tv_last_message);
-            viewHolder.avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
-            viewHolder.hasNew = (TextView) convertView.findViewById(R.id.tv_newMsg);
-            viewHolder.rootView = (RelativeLayout) convertView.findViewById(R.id.rootView);
+//            viewHolder.title = (TextView) convertView.findViewById(R.id.tv_message_title);
+//            viewHolder.lastMsg = (TextView) convertView.findViewById(R.id.tv_last_message);
+//            viewHolder.avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
+//            viewHolder.hasNew = (TextView) convertView.findViewById(R.id.tv_newMsg);
+//            viewHolder.rootView = (RelativeLayout) convertView.findViewById(R.id.rootView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ChatRoomActivity.class);
-                intent.putExtra("Chat", chat);
-                ((Activity) mContext).startActivityForResult(intent, 101);
-            }
-        });
-        if (chat.getPmtype() == 2)
-            viewHolder.title.setText(chat.getSubject());
-        else
-            viewHolder.title.setText(chat.getTousername());
-
-        viewHolder.lastMsg.setText(chat.getSummary());
-        Picasso.with(mContext).load(chat.getAvatar()).error(R.drawable.profile_photo).into(viewHolder.avatar);
-
-        viewHolder.hasNew.setText(String.valueOf(position));
+//        viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(mContext, ChatRoomActivity.class);
+//                intent.putExtra("Chat", chat);
+//                ((Activity) mContext).startActivityForResult(intent, 101);
+//            }
+//        });
+//        if (chat.getPmtype() == 2)
+//            viewHolder.title.setText(chat.getSubject());
+//        else
+//            viewHolder.title.setText(chat.getTousername());
+//
+//        viewHolder.lastMsg.setText(chat.getSummary());
+//        Picasso.with(mContext).load(chat.getAvatar()).error(R.drawable.profile_photo).into(viewHolder.avatar);
+//
+//        viewHolder.hasNew.setText(String.valueOf(position));
 //        if (chat.getHasnew()==1) {
 //            viewHolder.hasNew.setVisibility(View.VISIBLE);
 //        } else if (chat.getHasnew() == 0){

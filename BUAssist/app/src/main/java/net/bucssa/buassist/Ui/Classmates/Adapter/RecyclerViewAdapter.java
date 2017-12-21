@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import net.bucssa.buassist.Bean.Temp.Post;
+import net.bucssa.buassist.Bean.Classmate.Post;
 import net.bucssa.buassist.R;
 
 import java.util.List;
@@ -48,16 +48,16 @@ public  class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapt
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Post data = datas.get(position);
 
-        viewHolder.author.setText(data.getAuthor());
-        viewHolder.title.setText(data.getTitle());
-        viewHolder.classCode.setText(data.getPostClass());
+        viewHolder.author.setText(data.getAuthorName());
+        viewHolder.title.setText(data.getSubject());
+        viewHolder.classCode.setText(data.getClassId());
         viewHolder.content.setText(data.getContent());
 
         viewHolder.isHot.setVisibility(View.GONE);
-        if (data.getIsHot() == 1)
+        if (data.getComment() > 0)
             viewHolder.isHot.setVisibility(View.VISIBLE);
 
-        viewHolder.time.setText(data.getTime());
+        viewHolder.time.setText(String.valueOf(data.getDateline()));
     }
 
     class ViewHolder extends RecyclerView.ViewHolder

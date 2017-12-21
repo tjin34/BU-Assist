@@ -22,40 +22,6 @@ import rx.Observable;
 
 public interface PersonalMessageAPI {
 
-//    @GET("pm/checkNewMessage.php")
-//    Observable<BaseEntity<NewMsg>> checkNewMsg(@Query("uid") int uid);
-//
-//    @GET("pm/checkNewMessageByplid.php")
-//    Observable<BaseEntity> checkNewMsgBypid(@Query("uid") int uid,
-//                                            @Query("plid") int plid,
-//                                            @Query("lastpmid") int lastpmid,
-//                                            @Query("token") String token);
-//
-//    @GET("pm/getChats.php")
-//    Observable<BaseEntity<List<Chat>>> getChats(@Query("uid") int uid,
-//                                                   @Query("token") String token,
-//                                                   @Query("pageIndex") int pageIndex,
-//                                                   @Query("pageSize") int pageSize);
-//
-//    @GET("pm/getMsgByOffset.php")
-//    Observable<BaseEntity<List<Message>>> getMsgByOffset(@Query("uid") int uid,
-//                                                         @Query("plid") int plid,
-//                                                         @Query("type") int type,
-//                                                         @Query("pmid") int pmid,
-//                                                         @Query("offset") int offset,
-//                                                         @Query("token") String token);
-//
-//
-//    @Headers({"Content-Type: application/json","Accept: application/json"})
-//    @POST("pm/replyMessage.php")
-//    Observable<BaseEntity> replyMessage(@Body RequestBody json);
-//
-//
-//    @Headers({"Content-Type: application/json","Accept: application/json"})
-//    @POST("pm/sendMessage.php")
-//    Observable<BaseEntity> sendMessage(@Body RequestBody json);
-
-
     /**
      * 创建新的对话
      *

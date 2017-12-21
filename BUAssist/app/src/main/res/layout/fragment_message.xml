@@ -21,8 +21,6 @@
             android:dividerHeight="@null"
             android:divider="#00000000"/>
 
-
-
         <FrameLayout
             android:id="@+id/fl_bucssa"
             android:layout_width="wrap_content"

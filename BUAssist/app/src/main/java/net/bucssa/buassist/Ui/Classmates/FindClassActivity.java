@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.bucssa.buassist.Base.BaseActivity;
-import net.bucssa.buassist.Bean.Temp.Class;
+import net.bucssa.buassist.Bean.Classmate.Class;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.Adapter.ClassListAdapter;
 import net.bucssa.buassist.Widget.LuluRefreshListView;

@@ -1,4 +1,4 @@
-package net.bucssa.buassist.Bean.Temp;
+package net.bucssa.buassist.Bean.Classmate;
 
 import java.io.Serializable;
 

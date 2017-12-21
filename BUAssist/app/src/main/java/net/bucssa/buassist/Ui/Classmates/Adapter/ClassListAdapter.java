@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import net.bucssa.buassist.Bean.Temp.Class;
+import net.bucssa.buassist.Bean.Classmate.Class;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.ClassDetailActivity;
 

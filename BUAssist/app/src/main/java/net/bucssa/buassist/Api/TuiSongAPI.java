@@ -21,15 +21,39 @@ import rx.Observable;
 
 public interface TuiSongAPI {
 
+    /* --------------- */
+    /* Thread 相关接口 */
+    /* --------------- */
 
 
-//    @GET("thread/getOfficialThreads.php")
-//    Observable<BaseEntity<List<TuiSong>>> getOfficialThreads(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
-//
-//
-//    @GET("thread/getThreadContent.php")
-//    Observable<BaseEntity<NewsContent>> getThreadContent(@Query("tid") int tid);
+    /**
+     * 获取官方推送列表
+     *
+     * @param uid
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GET("thread/getOfficialThreads.php")
+    Observable<BaseEntity<List<TuiSong>>> getOfficialThreads(@Query("uid") int uid,
+                                                             @Query("pageIndex") int pageIndex,
+                                                             @Query("pageSize") int pageSize);
 
+
+    /**
+     * 获取推送详情页
+     *
+     * @param tid
+     * @return
+     */
+    @GET("thread/getThreadContent.php")
+    Observable<BaseEntity<NewsContent>> getThreadContent(@Query("tid") int tid);
+
+
+
+    /* ------------------- */
+    /* Collection 相关接口 */
+    /* ------------------- */
 
     /**
      * 添加入收藏夹
@@ -67,29 +91,6 @@ public interface TuiSongAPI {
                                                            @Query("pageIndex") int pageIndex,
                                                            @Query("pageSize") int pageSize,
                                                            @Query("token") String token);
-
-    /**
-     * 获取官方推送列表
-     *
-     * @param uid
-     * @param pageIndex
-     * @param pageSize
-     * @return
-     */
-    @GET("thread/getOfficialThreads.php")
-    Observable<BaseEntity<List<TuiSong>>> getOfficialThreads(@Query("uid") int uid,
-                                                             @Query("pageIndex") int pageIndex,
-                                                             @Query("pageSize") int pageSize);
-
-
-    /**
-     * 获取推送详情页
-     *
-     * @param tid
-     * @return
-     */
-    @GET("thread/getThreadContent.php")
-    Observable<BaseEntity<NewsContent>> getThreadContent(@Query("tid") int tid);
 
 
 

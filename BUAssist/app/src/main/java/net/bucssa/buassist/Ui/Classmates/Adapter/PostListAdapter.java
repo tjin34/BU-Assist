@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import net.bucssa.buassist.Bean.Temp.Post;
+import net.bucssa.buassist.Bean.Classmate.Post;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,16 +63,16 @@ public class PostListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.author.setText(data.getAuthor());
-        viewHolder.title.setText(data.getTitle());
-        viewHolder.classCode.setText(data.getPostClass());
+        viewHolder.author.setText(data.getAuthorName());
+        viewHolder.title.setText(data.getSubject());
+        viewHolder.classCode.setText(data.getClassId());
         viewHolder.content.setText(data.getContent());
 
         viewHolder.isHot.setVisibility(View.GONE);
-        if (data.getIsHot() == 1)
+        if (data.getComment() > 0)
             viewHolder.isHot.setVisibility(View.VISIBLE);
 
-        viewHolder.time.setText(data.getTime());
+        viewHolder.time.setText(String.valueOf(data.getDateline()));
 
         return convertView;
     }

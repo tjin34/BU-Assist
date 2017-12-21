@@ -15,8 +15,9 @@ import rx.Observable;
  */
 
 public interface SystemMessageAPI {
+
     /**
-     * 获取对话列表
+     * 获取系统消息列表
      *
      * @param uid
      * @param token

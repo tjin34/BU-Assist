@@ -8,12 +8,17 @@ public class UserInfoReq {
 
 
     /**
-     * uid : 26
-     * realname : 金正源
-     * gender : 1
-     * birthyear : 1996
+     * uid : 0
+     * realname : 啦啦啦
+     * gender : 0
+     * birthyear : 1900
      * birthmonth : 1
      * birthday : 1
+     * field1 :
+     * field2 :
+     * interest :
+     * bio :
+     * token :
      */
 
     private int uid;
@@ -22,15 +27,11 @@ public class UserInfoReq {
     private int birthyear;
     private int birthmonth;
     private int birthday;
-
-    public UserInfoReq(int uid, String name, int sex, int year, int month, int day) {
-        this.uid = uid;
-        this.realname = name;
-        this.gender = sex;
-        this.birthyear = year;
-        this.birthmonth = month;
-        this.birthday = day;
-    }
+    private String field1;
+    private String field2;
+    private String interest;
+    private String bio;
+    private String token;
 
     public int getUid() {
         return uid;
@@ -78,5 +79,45 @@ public class UserInfoReq {
 
     public void setBirthday(int birthday) {
         this.birthday = birthday;
+    }
+
+    public String getField1() {
+        return field1;
+    }
+
+    public void setField1(String field1) {
+        this.field1 = field1;
+    }
+
+    public String getField2() {
+        return field2;
+    }
+
+    public void setField2(String field2) {
+        this.field2 = field2;
+    }
+
+    public String getInterest() {
+        return interest;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
