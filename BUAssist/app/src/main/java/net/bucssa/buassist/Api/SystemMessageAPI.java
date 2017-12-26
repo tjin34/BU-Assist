@@ -26,8 +26,8 @@ public interface SystemMessageAPI {
      * @return
      */
     @GET("systemMessage/message/getByUid.php")
-    Observable<BaseEntity<List<SystemNotification>>> getChats(@Query("uid") int uid,
-                                                              @Query("token") String token,
-                                                              @Query("pageIndex") int pageIndex,
-                                                              @Query("pageSize") int pageSize);
+    Observable<BaseEntity<List<SystemNotification>>> getSystemMessage(@Query("uid") int uid,
+                                                                      @Query("token") String token,
+                                                                      @Query("pageIndex") int pageIndex,
+                                                                      @Query("pageSize") int pageSize);
 }

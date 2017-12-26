@@ -4,54 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/grey_100">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <net.bucssa.buassist.Widget.LuluRefreshListView
-            android:id="@+id/lv_message"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="@null"
-            android:divider="#00000000"/>
-
-        <FrameLayout
-            android:id="@+id/fl_bucssa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.4"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="-40dp"
-            android:layout_marginLeft="-40dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/bg_bucssa_logo_shadow_2"
-                android:layout_gravity="center"/>
-
-            <ImageView
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:src="@drawable/bg_bucssa_logo_shadow_1"
-                android:layout_gravity="center"/>
-
-            <ImageView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:src="@drawable/bucssa"
-                android:layout_gravity="center"/>
-
-
-        </FrameLayout>
-
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

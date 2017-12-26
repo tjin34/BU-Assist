@@ -14,7 +14,7 @@
     <color name="tv_blue">#1d82fe</color>
 
     <!--GREY灰度列表-->
-    <color name="grey_devider">#cacaca</color>
+    <color name="grey_divider">#cacaca</color>
     <color name="grey_50">#fafafa</color>
     <color name="grey_100">#f2f2f2</color>
     <color name="grey_200">#eeeeee</color>

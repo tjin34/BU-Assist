@@ -5,15 +5,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import net.bucssa.buassist.Api.SystemMessageAPI;
 import net.bucssa.buassist.Base.BaseFragment;
 import net.bucssa.buassist.Bean.BaseEntity;
+import net.bucssa.buassist.Bean.Message.Chat;
 import net.bucssa.buassist.Bean.Message.SystemNotification;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
-import net.bucssa.buassist.Ui.Fragments.Message.Adapter.SystemAdapter;
+import net.bucssa.buassist.Ui.Fragments.Message.Adapter.NewChatAdapter;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
@@ -29,16 +35,28 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by tjin3 on 2017/11/12.
+ * Created by Shinji on 2017/12/21.
  */
 
-public class NotificationFragment extends BaseFragment{
+public class SystemMsgFragment extends BaseFragment {
 
     @BindView(R.id.lv_message)
     LuluRefreshListView lv_message;
 
+    @BindView(R.id.initView)
+    LinearLayout initView;
+
+    @BindView(R.id.iv_light)
+    ImageView iv_light;
+
+    @BindView(R.id.iv_lulu)
+    ImageView iv_lulu;
+
+    @BindView(R.id.tv_status)
+    TextView tv_status;
+
     private List<SystemNotification> chatList = new ArrayList<>();
-    private SystemAdapter myAdapter;
+    private NewChatAdapter myAdapter;
     private int state = Enum.STATE_NORMAL;
 
     int pageIndex = 1;//当前页
@@ -103,6 +121,38 @@ public class NotificationFragment extends BaseFragment{
             }
         });
 
+        initLuluAnim();
+    }
+
+    private void initLuluAnim(){
+        initView.setVisibility(View.VISIBLE);
+        Animation luluShake = AnimationUtils.loadAnimation(context, R.anim.lulu_anim_shake);
+        iv_lulu.startAnimation(luluShake);
+        tv_status.setText(R.string.lulu_loading);
+    }
+
+    private void stopLuluAnim() {
+        iv_lulu.clearAnimation();
+        iv_light.setVisibility(View.VISIBLE);
+        tv_status.setText(R.string.lulu_finishLoading);
+        Animation initViewOut = AnimationUtils.loadAnimation(context, R.anim.lulu_anim_out);
+        initViewOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                initView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        initView.startAnimation(initViewOut);
     }
 
     /**
@@ -124,14 +174,15 @@ public class NotificationFragment extends BaseFragment{
     }
 
     private void initData() {
-        getSystemMessages();
+        getMessages();
     }
 
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                myAdapter = new SystemAdapter(context, chatList);
+                myAdapter = new NewChatAdapter(context, chatList);
                 lv_message.setAdapter(myAdapter);
+                stopLuluAnim();
                 break;
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
@@ -154,7 +205,7 @@ public class NotificationFragment extends BaseFragment{
         }
     }
 
-    private void getSystemMessages() {
+    private void getMessages() {
         Observable<BaseEntity<List<SystemNotification>>> observable = RetrofitClient.createService(SystemMessageAPI.class)
                 .getSystemMessage(UserSingleton.USERINFO.getUid(), UserSingleton.USERINFO.getToken(),
                         pageIndex, pageSize);
@@ -189,7 +240,6 @@ public class NotificationFragment extends BaseFragment{
                             ToastUtils.showToast(context, baseEntity.getError());
                         }
                         Logger.d();
-                    }
-                });
+                    }                });
     }
 }
