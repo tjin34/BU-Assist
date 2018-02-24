@@ -71,6 +71,9 @@ public class ClassmateActivity extends BaseActivity {
             }
         });
 
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ll_findClass.getLayoutParams();
+        params.weight = 1;
+        ll_findClass.setLayoutParams(params);
         ll_myGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

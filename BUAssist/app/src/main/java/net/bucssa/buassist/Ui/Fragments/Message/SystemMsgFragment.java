@@ -20,6 +20,7 @@ import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Fragments.Message.Adapter.NewChatAdapter;
+import net.bucssa.buassist.Ui.Fragments.Message.Adapter.SystemMsgAdapter;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
@@ -56,7 +57,7 @@ public class SystemMsgFragment extends BaseFragment {
     TextView tv_status;
 
     private List<SystemNotification> chatList = new ArrayList<>();
-    private NewChatAdapter myAdapter;
+    private SystemMsgAdapter myAdapter;
     private int state = Enum.STATE_NORMAL;
 
     int pageIndex = 1;//当前页
@@ -180,13 +181,13 @@ public class SystemMsgFragment extends BaseFragment {
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                myAdapter = new NewChatAdapter(context, chatList);
+                myAdapter = new SystemMsgAdapter(context, chatList);
                 lv_message.setAdapter(myAdapter);
                 stopLuluAnim();
                 break;
             case Enum.STATE_REFRESH:
-                myAdapter.clearData();
-                myAdapter.addData(0, chatList);
+//                myAdapter.clearData();
+//                myAdapter.addData(0, chatList);
                 break;
 //            case Enum.STATE_MORE:
 //                myAdapter.clearData();
