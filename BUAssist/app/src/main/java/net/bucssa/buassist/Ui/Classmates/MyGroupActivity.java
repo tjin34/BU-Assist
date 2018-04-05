@@ -30,6 +30,9 @@ public class MyGroupActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    
+    @BindView(R.id.iv_add)
+    ImageView iv_add;
 
     @BindView(R.id.tv_title)
     TextView tv_title;
@@ -98,6 +101,13 @@ public class MyGroupActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        iv_add.setVisibility(View.VISIBLE);
+        iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: 2018/4/3  
             }
         });
 

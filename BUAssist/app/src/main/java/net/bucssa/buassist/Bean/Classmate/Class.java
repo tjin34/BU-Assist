@@ -8,39 +8,26 @@ import java.io.Serializable;
 
 public class Class implements Serializable{
 
+
     /**
-     * classId : 19
-     * classCode : CS 101
-     * className : Intro to Computer Science
-     * classGroupId : 10
-     * classGroup : Computer Science
-     * professorId : 25
-     * professorName : Wayne Snyder
-     * ScheduleString : MTF 9:00~10:00
-     * studentCount : 36
-     * groupCount : 20
+     * classId : 5
+     * classCode : CS 666
+     * classSection : A1
+     * className : Computer Art
+     * classSchedule : Tue, Thu 1:15-5:00 pm
+     * classLocation : CAS 100
+     * professorId : 6
+     * professorName : Li Liu
      */
 
     private int classId;
     private String classCode;
+    private String classSection;
     private String className;
-    private int classGroupId;
-    private String classGroup;
+    private String classSchedule;
+    private String classLocation;
     private int professorId;
     private String professorName;
-    private String ScheduleString;
-    private int studentCount;
-    private int groupCount;
-
-    public Class(String classCode, String className, String classGroup,
-                 String professorName, int studentCount, int groupCount) {
-        this.classCode = classCode;
-        this.className = className;
-        this.classGroup = classGroup;
-        this.professorName = professorName;
-        this.studentCount = studentCount;
-        this.groupCount = groupCount;
-    }
 
     public int getClassId() {
         return classId;
@@ -58,6 +45,14 @@ public class Class implements Serializable{
         this.classCode = classCode;
     }
 
+    public String getClassSection() {
+        return classSection;
+    }
+
+    public void setClassSection(String classSection) {
+        this.classSection = classSection;
+    }
+
     public String getClassName() {
         return className;
     }
@@ -66,20 +61,20 @@ public class Class implements Serializable{
         this.className = className;
     }
 
-    public int getClassGroupId() {
-        return classGroupId;
+    public String getClassSchedule() {
+        return classSchedule;
     }
 
-    public void setClassGroupId(int classGroupId) {
-        this.classGroupId = classGroupId;
+    public void setClassSchedule(String classSchedule) {
+        this.classSchedule = classSchedule;
     }
 
-    public String getClassGroup() {
-        return classGroup;
+    public String getClassLocation() {
+        return classLocation;
     }
 
-    public void setClassGroup(String classGroup) {
-        this.classGroup = classGroup;
+    public void setClassLocation(String classLocation) {
+        this.classLocation = classLocation;
     }
 
     public int getProfessorId() {
@@ -96,29 +91,5 @@ public class Class implements Serializable{
 
     public void setProfessorName(String professorName) {
         this.professorName = professorName;
-    }
-
-    public String getScheduleString() {
-        return ScheduleString;
-    }
-
-    public void setScheduleString(String ScheduleString) {
-        this.ScheduleString = ScheduleString;
-    }
-
-    public int getStudentCount() {
-        return studentCount;
-    }
-
-    public void setStudentCount(int studentCount) {
-        this.studentCount = studentCount;
-    }
-
-    public int getGroupCount() {
-        return groupCount;
-    }
-
-    public void setGroupCount(int groupCount) {
-        this.groupCount = groupCount;
     }
 }

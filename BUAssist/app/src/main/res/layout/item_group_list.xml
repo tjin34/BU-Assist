@@ -6,32 +6,32 @@
     <LinearLayout
         android:id="@+id/rootView"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/selector_bg_news"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_height="60dp"
+        android:background="@drawable/selector_bg_news_shadow"
+        android:layout_marginTop="3dp"
+        android:gravity="center_vertical">
 
 
 
         <ImageView
             android:id="@+id/iv_groupCover"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/bucssa"
-            android:layout_margin="10dp"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/bucssa"/>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp">
 
 
                 <TextView
@@ -46,13 +46,7 @@
             </RelativeLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CS 101 A1"
-                android:textSize="12sp"
-                android:textColor="@color/tv_grey"/>
-
-            <TextView
+                android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="这是一个厉害的地方"

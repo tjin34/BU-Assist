@@ -69,23 +69,17 @@ public class ClassListAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.item_class_list, null);
+            convertView = mInflater.inflate(R.layout.item_class_list_final, null);
             viewHolder.rootView = (LinearLayout) convertView.findViewById(R.id.rootView);
-            viewHolder.classGroup = (TextView) convertView.findViewById(R.id.tv_classGroup);
+            viewHolder.className = (TextView) convertView.findViewById(R.id.tv_className);
             viewHolder.classCode = (TextView) convertView.findViewById(R.id.tv_classCode);
-            viewHolder.professor = (TextView) convertView.findViewById(R.id.tv_professor);
-            viewHolder.studentCount = (TextView) convertView.findViewById(R.id.tv_studentCount);
-            viewHolder.groupCount = (TextView) convertView.findViewById(R.id.tv_groupCount);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.classGroup.setText(classItem.getClassGroup());
         viewHolder.classCode.setText(classItem.getClassCode());
-        viewHolder.professor.setText(classItem.getProfessorName());
-        viewHolder.studentCount.setText(String.valueOf(classItem.getStudentCount()));
-        viewHolder.groupCount.setText(String.valueOf(classItem.getGroupCount()));
+        viewHolder.className.setText(String.valueOf(classItem.getClassName()));
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,11 +94,8 @@ public class ClassListAdapter extends BaseAdapter {
 
     private class ViewHolder{
         LinearLayout rootView;
-        TextView classGroup;
+        TextView className;
         TextView classCode;
-        TextView professor;
-        TextView studentCount;
-        TextView groupCount;
     }
 }
 

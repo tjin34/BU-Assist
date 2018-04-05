@@ -21,7 +21,7 @@ import rx.Observable;
  * Created by Shinji on 2017/12/21.
  */
 
-public interface Classmate {
+public interface ClassmateAPI {
 
     /**
      * 获取课程列表，实时筛选
@@ -176,7 +176,7 @@ public interface Classmate {
      */
     @GET("classmate/group/get.php")
     Observable<BaseEntity<List<Group>>> getGroup(@Query("uid") int uid,
-                                                 @Query("classCode") int classCode,
+                                                 @Query("classCode") String classCode,
                                                  @Query("pageIndex") int pageIndex,
                                                  @Query("pageSize") int pageSize,
                                                  @Query("token") String token);

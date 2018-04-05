@@ -5,17 +5,13 @@
     android:background="@color/transparent">
 
     <RelativeLayout
+        android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_class_list_left3"/>
+        android:layout_marginRight="20dp"
+        android:background="@drawable/selector_class_list">
 
         <ImageView
             android:id="@+id/leftBar"
@@ -42,7 +38,8 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/tv_black"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/tv_className"

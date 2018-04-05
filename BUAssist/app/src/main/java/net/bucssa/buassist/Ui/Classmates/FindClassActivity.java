@@ -2,22 +2,36 @@ package net.bucssa.buassist.Ui.Classmates;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
+import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Classmate.Class;
+import net.bucssa.buassist.Enum.Enum;
+import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.Adapter.ClassListAdapter;
+import net.bucssa.buassist.UserSingleton;
+import net.bucssa.buassist.Util.Logger;
+import net.bucssa.buassist.Util.ToastUtils;
 import net.bucssa.buassist.Widget.LuluRefreshListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by KimuraShin on 17/7/29.
@@ -40,16 +54,26 @@ public class FindClassActivity extends BaseActivity {
     @BindView(R.id.search_editText)
     LinearLayout realSearchBox;
 
+    @BindView(R.id.iv_search_clear)
+    ImageView iv_search_clear;
+
+    @BindView(R.id.et_search)
+    EditText et_search;
+
     @BindView(R.id.tv_cancel)
     TextView tv_cancel;
 
     @BindView(R.id.luluRefreshListView)
     LuluRefreshListView listView;
 
+    private String searchKey = "";
+
     private List<Class> classList = new ArrayList<>();
     private ClassListAdapter myAdapter;
+    private int totalCount = 0;
 
     private final static int REFRESH_COMPLETE = 0;
+    private int state = Enum.STATE_NORMAL;
 
     private Handler mHandler = new Handler(){
         public void handleMessage(android.os.Message msg) {
@@ -114,6 +138,24 @@ public class FindClassActivity extends BaseActivity {
             }
         });
 
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchKey = charSequence.toString();
+                getClassCollection(1, 10);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         listView.setOnBaiduRefreshListener(new LuluRefreshListView.OnBaiduRefreshListener() {
             @Override
             public void onRefresh() {
@@ -138,25 +180,53 @@ public class FindClassActivity extends BaseActivity {
     private void initData() {
         classList = new ArrayList<>();
 
-        Class classItem = new Class("OW 210","Theory of TeamFights","OverWatch","Blizzard", 25, 4);
-        classList.add(classItem);
+    }
 
-        classItem = new Class("HS 103","Deck Formation","HearthStone","Kolento", 233, 23);
-        classList.add(classItem);
+    private void changeByState() {
+        switch (state) {
+            case Enum.STATE_NORMAL:
+                myAdapter = new ClassListAdapter(mContext, classList);
+                listView.setAdapter(myAdapter);
+                break;
+        }
+    }
 
-        classItem = new Class("DotA 350","Professional DotA","Defense of the Ancient","LGD.BurNIng", 25, 4);
-        classList.add(classItem);
 
-        classItem = new Class("CS 101","Intro to Computer Science","Computer Science","Wayne Snyder", 25, 4);
-        classList.add(classItem);
+    private void getClassCollection(int pageIndex, int pageSize){
+        Observable<BaseEntity<List<Class>>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getClassList(pageIndex, pageSize, searchKey);
 
-        classItem = new Class("MA 105","Intro to Mathematics","Applied Math","Tony Stark", 102, 23);
-        classList.add(classItem);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity<List<Class>>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
 
-        classItem = new Class("ES 105","Intro to Earth Science","Environmental Science","SpiderMan", 49, 8);
-        classList.add(classItem);
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
 
-        myAdapter = new ClassListAdapter(mContext, classList);
-        listView.setAdapter(myAdapter);
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<List<Class>> baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            classList = baseEntity.getDatas();
+                            totalCount = baseEntity.getTotal();
+                            changeByState();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
     }
 }

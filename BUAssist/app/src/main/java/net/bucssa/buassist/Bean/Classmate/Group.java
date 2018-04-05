@@ -1,37 +1,41 @@
 package net.bucssa.buassist.Bean.Classmate;
 
+import java.io.Serializable;
+
 /**
  * Created by KimuraShin on 17/7/24.
  */
 
-public class Group {
+public class Group implements Serializable{
 
 
     /**
-     * groupId : 10011
-     * groupName : 2333
-     * groupIntro : 2333333
-     * groupTag : OW 101, CS 666
-     * creatorId : 25
-     * creatorName : leeli123
-     * members : 1
+     * groupId : 10012
+     * groupName : 私の世界
+     * groupIntro : 一緒に限界を超えて！
+     * groupTag : CS 101
+     * creatorId : 26
+     * creatorName : Sh1nJi
+     * members : 2
+     * credit : 0
      * plid : 0
      */
 
-    private String groupId;
+    private int groupId;
     private String groupName;
     private String groupIntro;
     private String groupTag;
-    private String creatorId;
+    private int creatorId;
     private String creatorName;
-    private String members;
-    private String plid;
+    private int members;
+    private int credit;
+    private int plid;
 
-    public String getGroupId() {
+    public int getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public void setGroupId(int groupId) {
         this.groupId = groupId;
     }
 
@@ -59,11 +63,11 @@ public class Group {
         this.groupTag = groupTag;
     }
 
-    public String getCreatorId() {
+    public int getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(String creatorId) {
+    public void setCreatorId(int creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -75,19 +79,27 @@ public class Group {
         this.creatorName = creatorName;
     }
 
-    public String getMembers() {
+    public int getMembers() {
         return members;
     }
 
-    public void setMembers(String members) {
+    public void setMembers(int members) {
         this.members = members;
     }
 
-    public String getPlid() {
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
+
+    public int getPlid() {
         return plid;
     }
 
-    public void setPlid(String plid) {
+    public void setPlid(int plid) {
         this.plid = plid;
     }
 }

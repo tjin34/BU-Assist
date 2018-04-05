@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.bucssa.buassist.Base.BaseActivity;
@@ -32,12 +33,6 @@ public class ClassDetailActivity extends BaseActivity {
     @BindView(R.id.iv_back)
     ImageView iv_back;
 
-    @BindView(R.id.app_bar)
-    AppBarLayout appBarLayout;
-
-    @BindView(R.id.tablayout)
-    TabLayout tabLayout;
-
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
@@ -47,8 +42,24 @@ public class ClassDetailActivity extends BaseActivity {
     @BindView(R.id.tv_className)
     TextView tv_className;
 
+    @BindView(R.id.tv_classSection)
+    TextView tv_classSection;
+
+
+    @BindView(R.id.tv_add_collection)
+    TextView tv_add_collection;
+
     @BindView(R.id.tv_professor)
     TextView tv_professor;
+
+    @BindView(R.id.tv_schedule)
+    TextView tv_schedule;
+
+    @BindView(R.id.rl_group)
+    RelativeLayout rl_group;
+
+    @BindView(R.id.rl_topic)
+    RelativeLayout rl_topic;
 
     private GroupsFragment GroupsFragment;
     private PostsFragment PostsFragment;
@@ -66,7 +77,7 @@ public class ClassDetailActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_class_detail;
+        return R.layout.activity_class_detail_final;
     }
 
     @Override
@@ -77,7 +88,6 @@ public class ClassDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         StatusBarUtil.transparencyBar((Activity) mContext);
-
 
         initFragment();
     }
@@ -90,36 +100,52 @@ public class ClassDetailActivity extends BaseActivity {
                 finish();
             }
         });
+
         tv_classCode.setText(classItem.getClassCode());
         tv_className.setText(classItem.getClassName());
         tv_professor.setText(classItem.getProfessorName());
 
-
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if (verticalOffset == 0) {
-//                    // TODO: 17/7/28
-//                    tv_title.setVisibility(View.GONE);
-//                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()*2/3){
-//                    tv_title.setVisibility(View.VISIBLE);
-////                    tv_title.setAlpha((appBarLayout.getTotalScrollRange()*2/3)/(Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange()/3));
-//                    tv_title.setAlpha((float) (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange()*2/3)/
-//                            (appBarLayout.getTotalScrollRange()/3));
-//                }
-            }
-        });
     }
 
     private void initFragment() {
+
         fragments = new ArrayList<>();
+
         PostsFragment = new PostsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("classId", classItem.getClassId());
+        PostsFragment.setArguments(bundle);
+
         GroupsFragment = new GroupsFragment();
+        GroupsFragment.setArguments(bundle);
+        bundle = new Bundle();
+        bundle.putString("classCode", classItem.getClassCode());
+        PostsFragment.setArguments(bundle);
+
         fragments.add(PostsFragment);
         fragments.add(GroupsFragment);
 
         myAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(myAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+
+        rl_topic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rl_topic.setSelected(true);
+                rl_group.setSelected(false);
+                viewPager.setCurrentItem(0);
+            }
+        });
+
+        rl_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rl_topic.setSelected(false);
+                rl_group.setSelected(true);
+                viewPager.setCurrentItem(1);
+            }
+        });
+
+
     }
 }

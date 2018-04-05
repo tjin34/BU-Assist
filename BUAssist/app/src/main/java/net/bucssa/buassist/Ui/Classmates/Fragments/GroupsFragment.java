@@ -7,14 +7,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
+
+import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseFragment;
+import net.bucssa.buassist.Bean.BaseEntity;
+import net.bucssa.buassist.Bean.Classmate.Group;
+import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.Adapter.RecyclerGroupAdapter;
+import net.bucssa.buassist.Util.Logger;
+import net.bucssa.buassist.Util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by KimuraShin on 17/7/24.
@@ -22,14 +35,17 @@ import butterknife.BindView;
 
 public class GroupsFragment extends BaseFragment{
 
+    @BindView(R.id.mRefreshLayout)
+    MaterialRefreshLayout mRefreshLayout;
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    @BindView(R.id.btnBottom)
-    TextView btnBottom;
+    private String classCode = "";
+    private int totalCount = 0;
 
 
-    private List<String> stringList = new ArrayList<>();
+    private List<Group> groupList = new ArrayList<>();
     private RecyclerGroupAdapter adapter;
 
     @Override
@@ -45,26 +61,82 @@ public class GroupsFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            classCode = bundle.getString("classCode");
+        }
         initData();
     }
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-        btnBottom.setText("创建新小组");
+        mRefreshLayout.setLoadMore(true);
+        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                initData();
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                super.onRefreshLoadMore(materialRefreshLayout);
+                // TODO: 2018/4/3
+            }
+        });
     }
 
     private void initData() {
-        stringList = new ArrayList<>();
+        groupList = new ArrayList<>();
+        getGroup(1, 10);
+    }
 
-        stringList.add("没有拿不到的A，没有追不到的人");
-        stringList.add("天霸动霸tua");
-        stringList.add("普通的学习小组");
-        stringList.add("霹雳无敌学习编队");
-        stringList.add("欢天喜地小仙女们");
-        stringList.add("啥也不说就是学");
-
+    private void changeByState() {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new RecyclerGroupAdapter(context, stringList);
+        adapter = new RecyclerGroupAdapter(context, groupList);
         recyclerView.setAdapter(adapter);
     }
+
+    private void getGroup(int pageIndex, int pageSize){
+        Observable<BaseEntity<List<Group>>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getGroup(0,classCode, pageIndex, pageSize,"");
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity<List<Group>>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(context, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<List<Group>> baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            groupList = baseEntity.getDatas();
+                            totalCount = baseEntity.getTotal();
+                            changeByState();
+                        } else {
+                            ToastUtils.showToast(context, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+
+
+
+
+
 }

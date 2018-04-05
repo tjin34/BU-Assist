@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.bucssa.buassist.Bean.Classmate.Group;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.GroupDetailActivity;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public  class RecyclerGroupAdapter extends RecyclerView.Adapter<RecyclerGroupAdapter.ViewHolder>{
 
     private Context mContext;
-    private List<String> datas;
+    private List<Group> datas;
 
     public static interface OnRecyclerViewItemClickListener {
         void onItemClick(View view);
@@ -31,7 +32,7 @@ public  class RecyclerGroupAdapter extends RecyclerView.Adapter<RecyclerGroupAda
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         mOnItemClickListener = listener;
     }
-    public RecyclerGroupAdapter(Context context, List<String> datas) {
+    public RecyclerGroupAdapter(Context context, List<Group> datas) {
         this.mContext = context;
         this.datas=datas;
     }
@@ -40,25 +41,20 @@ public  class RecyclerGroupAdapter extends RecyclerView.Adapter<RecyclerGroupAda
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_group_list,parent,false);
-//        v.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                mOnItemClickListener.onItemClick(v);
-//            }
-//        });
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holderView, int position) {
-        final String data = datas.get(position);
-        holderView.name.setText(data);
+        final Group data = datas.get(position);
+        holderView.name.setText(data.getGroupName());
+        holderView.description.setText(data.getGroupIntro());
         holderView.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, GroupDetailActivity.class);
-                intent.putExtra("groupName", data);
+                intent.putExtra("group", data);
                 ((Activity) mContext).startActivity(intent);
             }
         });
@@ -68,10 +64,12 @@ public  class RecyclerGroupAdapter extends RecyclerView.Adapter<RecyclerGroupAda
     {
         private LinearLayout rootView;
         private TextView name;
+        private TextView description;
         public ViewHolder(View view){
             super(view);
             rootView = (LinearLayout) view.findViewById(R.id.rootView);
             name = (TextView) view.findViewById(R.id.tv_groupName);
+            description = (TextView) view.findViewById(R.id.tv_description);
         }
     }
     @Override

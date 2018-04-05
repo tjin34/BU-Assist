@@ -75,6 +75,12 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.RadioGroup)
     RadioGroup radioGroup;
 
+    @BindView(R.id.ll_manual)
+    LinearLayout ll_manual;
+
+    @BindView(R.id.ll_findClass)
+    LinearLayout ll_findClass;
+
 
     private List<TuiSong> tuiSongList = new ArrayList<>();
     private SimpleNewsRecyclerAdapter myAdapter;
@@ -100,15 +106,15 @@ public class HomeFragment extends BaseFragment {
     private static final int[] pics = { R.drawable.bulogo, R.drawable.bulogo,
             R.drawable.bulogo, R.drawable.bulogo, R.drawable.bulogo };
 
-    private static final String[] picPath = { "http://imgsrc.baidu.com/forum/w%3D580/sign=71713a8b0e7b02080cc93fe952d8f25f/dc75c62a2834349b1c4c7cabcdea15ce36d3be2a.jpg",
-            "http://imgsrc.baidu.com/forum/w%3D580/sign=6d5e7578d4160924dc25a213e406359b/cf22c8b44aed2e73507794028301a18b86d6fadf.jpg",
-            "http://imgsrc.baidu.com/forum/w%3D580/sign=a50d5a1008f3d7ca0cf63f7ec21fbe3c/29fa1ef431adcbef4b266328a8af2edda3cc9f62.jpg",
-            "http://imgsrc.baidu.com/forum/w%3D580/sign=b64b0730bd389b5038ffe05ab534e5f1/04475334970a304ea585bdd4d5c8a786c8175cd5.jpg",
-            "http://imgsrc.baidu.com/forum/w%3D580/sign=bad2ae38cbfc1e17fdbf8c397a91f67c/f1a2433d269759eec41679e5b6fb43166d22df37.jpg"};
+    private static final String[] picPath = { "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2295574849,2578711430&fm=27&gp=0.jpg",
+            "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3294968488,2101976562&fm=27&gp=0.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523297409&di=cf016aeb727a58838f431b56e0441171&imgtype=jpg&er=1&src=http%3A%2F%2Fs15.sinaimg.cn%2Fmw690%2F006xUpFJzy77vHVwe8mae%26amp%3B690",
+            "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=858706739,1622508857&fm=27&gp=0.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523297551&di=f9bde8aa6311dd014ee4d685b224423d&imgtype=jpg&er=1&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fe1fe9925bc315c60ebc2eb768ab1cb13485477d0.jpg"};
 
 
 
-    @Override
+@Override
     protected String getTAG() {
         return this.toString();
     }
@@ -231,6 +237,13 @@ public class HomeFragment extends BaseFragment {
                     ToastUtils.showToast(context, "没有更多了...");
                     mRefreshLayout.finishRefreshLoadMore();
                 }
+            }
+        });
+
+        ll_findClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context, ClassmateActivity.class));
             }
         });
 

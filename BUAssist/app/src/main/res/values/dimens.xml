@@ -2,7 +2,7 @@
 <resources>
 
     <!--Shadow Layer尺寸值-->
-    <dimen name="cardPadding">2px</dimen>
+    <dimen name="cardPadding">1px</dimen>
     <dimen name="cardRadius">5dp</dimen>
 
     <!--登录按钮Radius-->
@@ -15,5 +15,8 @@
     <dimen name="loginingdlg_height">150dp</dimen>
     <dimen name="loginingdlg_lr_margin">30dp</dimen>
     <dimen name="loginingdlg_top_margin">20dp</dimen>
+
+    <!--ProgressBar-->
+    <dimen name="progress_radius">10dp</dimen>
 
 </resources>
