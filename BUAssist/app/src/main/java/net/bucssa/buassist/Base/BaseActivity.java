@@ -81,13 +81,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-////            StatusBarUtil.transparencyBar((Activity) mContext);
-//            StatusBarUtil.setStatusBarColor((Activity) mContext, R.color.white);
-//            StatusBarUtil.StatusBarLightMode((Activity) mContext);
-//        } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            StatusBarUtil.transparencyBar((Activity) mContext);
+            StatusBarUtil.setStatusBarColor((Activity) mContext, R.color.white);
+            StatusBarUtil.StatusBarLightMode((Activity) mContext);
+        } else {
             StatusBarUtil.transparencyBar((Activity) mContext);
-//        }
+        }
 
         Window window = getWindow();
         //调整软键盘

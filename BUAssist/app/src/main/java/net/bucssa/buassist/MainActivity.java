@@ -12,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.moduth.blockcanary.BlockCanary;
+
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Ui.Fragments.Home.HomeFragment;
 import net.bucssa.buassist.Ui.Fragments.Message.MessageFragment;
 import net.bucssa.buassist.Ui.Fragments.Mine.MineFragment;
+import net.bucssa.buassist.Util.AppBlockCanaryContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +118,7 @@ public class MainActivity  extends BaseActivity {
 
 //        status_bar.getLayoutParams().height = getStatusBarHeight();
 
+        BlockCanary.install(this, new AppBlockCanaryContext()).start();
 
         initFragment();
         initBottomBar();

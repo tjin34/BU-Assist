@@ -51,22 +51,15 @@ public class ClassmateActivity extends BaseActivity {
     @BindView(R.id.tv_myTopic)
     TextView tv_myTopic;
 
-    @BindView(R.id.ll_findClass)
-    LinearLayout ll_findClass;
-
-    @BindView(R.id.ll_myGroup)
-    LinearLayout ll_myGroup;
-
-    @BindView(R.id.ll_myCollection)
-    LinearLayout ll_myCollection;
-
-    @BindView(R.id.ll_myTopic)
-    LinearLayout ll_myTopic;
+    @BindView(R.id.iv_addClass)
+    ImageView iv_addClass;
 
     private List<Class> classList;
     private int totalCount = 0;
 
     private ClassListAdapter myAdapter;
+
+    private static final int ADD_CLASS = 101;
 
     @Override
     protected String getTAG() {
@@ -95,6 +88,13 @@ public class ClassmateActivity extends BaseActivity {
             }
         });
 
+        iv_addClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(mContext, FindClassActivity.class), ADD_CLASS);
+            }
+        });
+
         tv_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +111,7 @@ public class ClassmateActivity extends BaseActivity {
             }
         });
 
-        ll_myTopic.setOnClickListener(new View.OnClickListener() {
+        tv_myTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MyTopicActivity.class);
@@ -120,11 +120,21 @@ public class ClassmateActivity extends BaseActivity {
         });
 
 
-        getClassCollection(1, 10);
+        getClassCollection(0, 0);
 
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ADD_CLASS:
+                getClassCollection(0,0);
+                break;
+        }
+    }
 
     private void getClassCollection(int pageIndex, int pageSize){
         Observable<BaseEntity<List<Class>>> observable = RetrofitClient.createService(ClassmateAPI.class)

@@ -26,9 +26,6 @@ import butterknife.BindView;
 
 public class MyTopicActivity extends BaseActivity {
 
-    @BindView(R.id.header)
-    RelativeLayout header;
-
     @BindView(R.id.iv_back)
     ImageView iv_back;
 
@@ -107,7 +104,6 @@ public class MyTopicActivity extends BaseActivity {
         fakeSearchBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                header.setVisibility(View.GONE);
                 fakeSearchBox.setVisibility(View.GONE);
                 realSearchBox.setVisibility(View.VISIBLE);
             }
@@ -116,13 +112,12 @@ public class MyTopicActivity extends BaseActivity {
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                header.setVisibility(View.VISIBLE);
                 fakeSearchBox.setVisibility(View.VISIBLE);
                 realSearchBox.setVisibility(View.GONE);
             }
         });
 
-        listView.setOnBaiduRefreshListener(new LuluRefreshListView.OnBaiduRefreshListener() {
+        listView.setOnLuluRefreshListener(new LuluRefreshListView.OnLuluRefreshListener() {
             @Override
             public void onRefresh() {
                 new Thread(new Runnable() {

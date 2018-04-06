@@ -30,6 +30,9 @@ import butterknife.BindView;
 
 public class ClassDetailActivity extends BaseActivity {
 
+    @BindView(R.id.status_bar)
+    View status_bar;
+
     @BindView(R.id.iv_back)
     ImageView iv_back;
 
@@ -94,6 +97,9 @@ public class ClassDetailActivity extends BaseActivity {
 
     @Override
     protected void initResAndListener() {
+
+        status_bar.getLayoutParams().height = getStatusBarHeight();
+
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,29 +111,46 @@ public class ClassDetailActivity extends BaseActivity {
         tv_className.setText(classItem.getClassName());
         tv_professor.setText(classItem.getProfessorName());
 
+        /* 确认当前用户是否收藏了这课程 */
+        if (classItem.isCollected()) {
+            tv_add_collection.setText(getResources().getString(R.string.isCollected));
+            // TODO: 2018/4/5  
+        } else {
+            tv_add_collection.setText(getResources().getString(R.string.notCollected));
+            // TODO: 2018/4/5  
+        }
+
     }
 
+    /**
+     * 初始化Fragments及相关部件
+     */
     private void initFragment() {
 
         fragments = new ArrayList<>();
 
+        /* 初始PostFragment并传入classId */
         PostsFragment = new PostsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("classId", classItem.getClassId());
         PostsFragment.setArguments(bundle);
 
+        /* 初始GroupsFragment并传入classCode */
         GroupsFragment = new GroupsFragment();
-        GroupsFragment.setArguments(bundle);
         bundle = new Bundle();
         bundle.putString("classCode", classItem.getClassCode());
-        PostsFragment.setArguments(bundle);
+        GroupsFragment.setArguments(bundle);
 
+        /* 将Fragments传入adapter并跟Viewpager绑定 */
         fragments.add(PostsFragment);
         fragments.add(GroupsFragment);
-
         myAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(myAdapter);
 
+        /* 初始选择Post分区 */
+        rl_topic.setSelected(true);
+
+        /* Post分区点击事件 */
         rl_topic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +160,7 @@ public class ClassDetailActivity extends BaseActivity {
             }
         });
 
+        /* Group分区点击事件 */
         rl_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

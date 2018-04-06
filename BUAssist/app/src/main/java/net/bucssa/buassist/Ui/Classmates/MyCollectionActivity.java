@@ -122,7 +122,7 @@ public class MyCollectionActivity extends BaseActivity {
             }
         });
 
-        listView.setOnBaiduRefreshListener(new LuluRefreshListView.OnBaiduRefreshListener() {
+        listView.setOnLuluRefreshListener(new LuluRefreshListView.OnLuluRefreshListener() {
             @Override
             public void onRefresh() {
                 new Thread(new Runnable() {

@@ -20,6 +20,7 @@
             android:background="@drawable/bg_class_list_left2"/>
 
         <TextView
+            android:id="@+id/tv_classCode"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:text="CS 101"

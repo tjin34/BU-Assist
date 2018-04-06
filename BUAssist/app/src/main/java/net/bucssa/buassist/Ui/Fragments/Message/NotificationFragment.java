@@ -82,7 +82,7 @@ public class NotificationFragment extends BaseFragment{
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
 
-        lv_message.setOnBaiduRefreshListener(new LuluRefreshListView.OnBaiduRefreshListener() {
+        lv_message.setOnLuluRefreshListener(new LuluRefreshListView.OnLuluRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();

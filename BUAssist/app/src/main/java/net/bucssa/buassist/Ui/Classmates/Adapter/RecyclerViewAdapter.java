@@ -50,7 +50,7 @@ public  class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapt
 
         viewHolder.author.setText(data.getAuthorName());
         viewHolder.title.setText(data.getSubject());
-        viewHolder.classCode.setText(data.getClassId());
+        viewHolder.classCode.setText(String.valueOf(data.getClassId()));
         viewHolder.content.setText(data.getContent());
 
         viewHolder.isHot.setVisibility(View.GONE);

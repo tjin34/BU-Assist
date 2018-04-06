@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import net.bucssa.buassist.Bean.Message.Chat;
@@ -98,7 +99,10 @@ public class NewChatAdapter extends BaseAdapter{
             viewHolder.title.setText(chat.getTousername());
 
         viewHolder.lastMsg.setText(chat.getSummary());
-        Picasso.with(mContext).load(chat.getAvatar()).error(R.drawable.profile_photo).into(viewHolder.avatar);
+        Glide.with(mContext)
+                .asBitmap()
+                .load(chat.getAvatar())
+                .into(viewHolder.avatar);
 
         viewHolder.hasNew.setText(String.valueOf(position));
 //        if (chat.getHasnew()==1) {

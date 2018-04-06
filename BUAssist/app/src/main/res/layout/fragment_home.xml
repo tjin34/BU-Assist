@@ -70,7 +70,7 @@
 
 
             <LinearLayout
-                android:id="@+id/ll_manual"
+                android:id="@+id/ll_classmate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -109,17 +109,17 @@
 
     </RelativeLayout>
 
-    <com.cjj.MaterialRefreshLayout
-        android:id="@+id/mRefreshLayout"
+    <net.bucssa.buassist.Widget.RefreshView
+        android:id="@+id/rv_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomBar"
-        app:wave_color="@color/mainBgTheme"
         android:layout_below="@id/header">
 
-        <android.support.v4.widget.NestedScrollView
+        <net.bucssa.buassist.Widget.NestScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -152,8 +152,27 @@
                     android:layout_marginRight="20dp"/>
 
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </com.cjj.MaterialRefreshLayout>
+
+
+        </net.bucssa.buassist.Widget.NestScrollView>
+
+    </net.bucssa.buassist.Widget.RefreshView>
+
+    <!--<com.cjj.MaterialRefreshLayout-->
+        <!--android:id="@+id/mRefreshLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_above="@id/bottomBar"-->
+        <!--app:wave_color="@color/mainBgTheme"-->
+        <!--android:layout_below="@id/header">-->
+
+        <!--<android.support.v4.widget.NestedScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!---->
+        <!--</android.support.v4.widget.NestedScrollView>-->
+    <!--</com.cjj.MaterialRefreshLayout>-->
 
 
 

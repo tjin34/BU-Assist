@@ -18,6 +18,7 @@ public class Class implements Serializable{
      * classLocation : CAS 100
      * professorId : 6
      * professorName : Li Liu
+     * isCollected:false
      */
 
     private int classId;
@@ -28,6 +29,7 @@ public class Class implements Serializable{
     private String classLocation;
     private int professorId;
     private String professorName;
+    private boolean isCollected;
 
     public int getClassId() {
         return classId;
@@ -91,5 +93,13 @@ public class Class implements Serializable{
 
     public void setProfessorName(String professorName) {
         this.professorName = professorName;
+    }
+
+    public void setCollected(boolean collection) {
+        isCollected = collection;
+    }
+
+    public boolean isCollected() {
+        return isCollected;
     }
 }

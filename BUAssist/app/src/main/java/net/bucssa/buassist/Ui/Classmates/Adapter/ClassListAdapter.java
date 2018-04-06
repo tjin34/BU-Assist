@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.bucssa.buassist.Bean.Classmate.Class;
@@ -70,7 +71,7 @@ public class ClassListAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_class_list_final, null);
-            viewHolder.rootView = (LinearLayout) convertView.findViewById(R.id.rootView);
+            viewHolder.rootView = (RelativeLayout) convertView.findViewById(R.id.rootView);
             viewHolder.className = (TextView) convertView.findViewById(R.id.tv_className);
             viewHolder.classCode = (TextView) convertView.findViewById(R.id.tv_classCode);
             convertView.setTag(viewHolder);
@@ -79,7 +80,7 @@ public class ClassListAdapter extends BaseAdapter {
         }
 
         viewHolder.classCode.setText(classItem.getClassCode());
-        viewHolder.className.setText(String.valueOf(classItem.getClassName()));
+        viewHolder.className.setText(classItem.getClassName());
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +94,7 @@ public class ClassListAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        LinearLayout rootView;
+        RelativeLayout rootView;
         TextView className;
         TextView classCode;
     }

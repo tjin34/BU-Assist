@@ -39,9 +39,6 @@ import rx.schedulers.Schedulers;
 
 public class FindClassActivity extends BaseActivity {
 
-    @BindView(R.id.header)
-    RelativeLayout header;
-
     @BindView(R.id.iv_back)
     ImageView iv_back;
 
@@ -123,7 +120,6 @@ public class FindClassActivity extends BaseActivity {
         fakeSearchBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                header.setVisibility(View.GONE);
                 fakeSearchBox.setVisibility(View.GONE);
                 realSearchBox.setVisibility(View.VISIBLE);
             }
@@ -132,7 +128,6 @@ public class FindClassActivity extends BaseActivity {
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                header.setVisibility(View.VISIBLE);
                 fakeSearchBox.setVisibility(View.VISIBLE);
                 realSearchBox.setVisibility(View.GONE);
             }
@@ -156,7 +151,7 @@ public class FindClassActivity extends BaseActivity {
             }
         });
 
-        listView.setOnBaiduRefreshListener(new LuluRefreshListView.OnBaiduRefreshListener() {
+        listView.setOnLuluRefreshListener(new LuluRefreshListView.OnLuluRefreshListener() {
             @Override
             public void onRefresh() {
 
@@ -179,7 +174,7 @@ public class FindClassActivity extends BaseActivity {
 
     private void initData() {
         classList = new ArrayList<>();
-
+        getClassCollection(1,20);
     }
 
     private void changeByState() {
@@ -219,7 +214,13 @@ public class FindClassActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseEntity<List<Class>> baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            classList = baseEntity.getDatas();
+                            /* 每次获取都将列表清楚 */
+                            classList = new ArrayList<>();
+                            /* 如果列表不为空，更新列表 */
+                            if (baseEntity.getDatas() !=  null) {
+                                classList = baseEntity.getDatas();
+                            }
+                            /* 更新总数并更新adapter和listView */
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {

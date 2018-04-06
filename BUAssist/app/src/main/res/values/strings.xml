@@ -112,6 +112,10 @@
 
     <string name="all_data">以上就是全部内容了哦！</string>
 
+    <!--课程相关-->
+    <string name="notCollected">关注</string>
+    <string name="isCollected">已关注</string>
+
 
     <!--uCrop相关-->
     <string name="label_select_picture">Select Picture</string>
