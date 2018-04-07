@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_bg_news_shadow">
+
+    <net.bucssa.buassist.Widget.RoundImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/profile_photo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        
+        <LinearLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="bottom">
+            
+            <TextView
+                android:id="@+id/tvCreator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alexa"
+                android:textSize="14sp"
+                android:textColor="@color/grey_800"/>
+            
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 分钟前"
+                android:textSize="10sp"
+                android:textColor="@color/grey_400"
+                android:layout_marginLeft="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:layout_marginRight="20dp">
+                <ImageView
+                    android:id="@+id/ivComment"
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/selector_post_comment"/>
+
+                <TextView
+                    android:id="@+id/tvComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="45"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="2dp"/>
+
+            </LinearLayout>
+            
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="【求助】课本P83页第2题！！"
+            android:textSize="14sp"
+            android:textColor="@color/grey_800"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:textStyle="bold"
+            android:layout_below="@id/topBar"/>
+
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="求好兄弟给我解解惑啦，我觉得应该答案是C的"
+            android:textSize="12sp"
+            android:textColor="@color/grey_800"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@id/tvTitle"/>
+
+        <LinearLayout
+            android:id="@+id/llTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvContent">
+
+
+
+
+        </LinearLayout>
+        
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -8,7 +8,8 @@
         android:id="@+id/iv_welcome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/welcome"/>
+        android:src="@drawable/welcome"
+        android:padding="100dp"/>
 
     <LinearLayout
         android:id="@+id/auto_login"
@@ -16,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:gravity="center_vertical"
-        android:layout_marginBottom="50dp">
+        android:layout_marginBottom="120dp">
 
         <ProgressBar
             android:id="@+id/progressBar"

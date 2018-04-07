@@ -92,7 +92,7 @@ public class PostsFragment extends BaseFragment{
 
     private void changeByState() {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new RecyclerViewAdapter(posts);
+        adapter = new RecyclerViewAdapter(context, posts);
         recyclerView.setAdapter(adapter);
     }
 

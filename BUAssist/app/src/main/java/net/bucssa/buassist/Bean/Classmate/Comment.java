@@ -8,38 +8,38 @@ public class Comment {
 
 
     /**
-     * postId : 1
-     * commentId : 1
-     * content : 兄弟牛皮啊，这都让你加进来了
-     * fromUid : 26
+     * postId : 3
+     * commentId : 11
+     * content : 23333
+     * fromUid : 25
      * toUid : 0
-     * dateline : 1504875708
-     * fromUsername : Sh1nJi
-     * avatar : http://bucssa.net/uc_server/avatar.php?uid=26&size=middle
+     * dateline : 1511738849
+     * fromUsername : leeli123
+     * avatar : http://bucssa.net/uc_server/avatar.php?uid=25&size=middle
      */
 
-    private String postId;
-    private String commentId;
+    private int postId;
+    private int commentId;
     private String content;
-    private String fromUid;
-    private String toUid;
-    private String dateline;
+    private int fromUid;
+    private int toUid;
+    private int dateline;
     private String fromUsername;
     private String avatar;
 
-    public String getPostId() {
+    public int getPostId() {
         return postId;
     }
 
-    public void setPostId(String postId) {
+    public void setPostId(int postId) {
         this.postId = postId;
     }
 
-    public String getCommentId() {
+    public int getCommentId() {
         return commentId;
     }
 
-    public void setCommentId(String commentId) {
+    public void setCommentId(int commentId) {
         this.commentId = commentId;
     }
 
@@ -51,27 +51,27 @@ public class Comment {
         this.content = content;
     }
 
-    public String getFromUid() {
+    public int getFromUid() {
         return fromUid;
     }
 
-    public void setFromUid(String fromUid) {
+    public void setFromUid(int fromUid) {
         this.fromUid = fromUid;
     }
 
-    public String getToUid() {
+    public int getToUid() {
         return toUid;
     }
 
-    public void setToUid(String toUid) {
+    public void setToUid(int toUid) {
         this.toUid = toUid;
     }
 
-    public String getDateline() {
+    public int getDateline() {
         return dateline;
     }
 
-    public void setDateline(String dateline) {
+    public void setDateline(int dateline) {
         this.dateline = dateline;
     }
 

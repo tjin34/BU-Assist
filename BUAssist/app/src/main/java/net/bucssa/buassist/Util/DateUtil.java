@@ -832,4 +832,43 @@ public class DateUtil {
         res = simpleDateFormat.format(date);
         return res;
     }
+
+
+    public static String dateToOutput(int timeStamp) {
+        String result = "";
+        Date currentTime = new Date();
+        int minute = 1000 * 60;
+        int hour = minute * 60;
+        int day = hour * 24;
+        int halfamonth = day * 15;
+        int month = day * 30;
+        long diffValue = currentTime.getTime() - timeStamp;
+        if(diffValue < 0){
+            return "Wrong Input";
+        }
+        long monthDiff = diffValue / month;
+        long weekDiff = diffValue / (7*day);
+        long dayDiff = diffValue / day;
+        long hourDiff = diffValue / hour;
+        long minDiff = diffValue / minute;
+
+        if (monthDiff >= 1) {
+            result = String.valueOf((int)monthDiff) + "个月前";
+        }
+        else if(weekDiff >= 1) {
+            result = String.valueOf((int)weekDiff) + "周前";
+        }
+        else if(dayDiff >= 1){
+            result= String.valueOf((int)dayDiff) + "天前";
+        }
+        else if(hourDiff >= 1){
+            result= String.valueOf((int)hourDiff) + "小时前";
+        }
+        else if(minDiff >= 1){
+            result=String.valueOf((int)minDiff) +"分钟前";
+        }else
+            result="刚刚";
+        return result;
+    }
+
 }

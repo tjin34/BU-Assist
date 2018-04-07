@@ -1,10 +1,12 @@
 package net.bucssa.buassist.Bean.Classmate;
 
+import java.io.Serializable;
+
 /**
  * Created by KimuraShin on 17/7/24.
  */
 
-public class Post {
+public class Post implements Serializable{
 
 
     /**

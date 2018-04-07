@@ -116,6 +116,9 @@
     <string name="notCollected">关注</string>
     <string name="isCollected">已关注</string>
 
+    <!--POST相关-->
+    <string name="sample_comment">&#160;&#064;Sh1nJi 求好兄弟给我解解惑啦，我觉得应该答案是C的</string>
+
 
     <!--uCrop相关-->
     <string name="label_select_picture">Select Picture</string>
