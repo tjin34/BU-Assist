@@ -19,7 +19,9 @@ public class SystemNotification {
      * from_id : 64
      * from_type : 好友请求
      * delstatus : 0
+     * avatar : http://bucssa.net/uc_server/avatar.php?uid=&size=middle
      */
+
 
     private int id;
     private int uid;
@@ -33,6 +35,7 @@ public class SystemNotification {
     private int from_id;
     private String from_type;
     private int delstatus;
+    private String avatar;
 
     public int getId() {
         return id;
@@ -128,5 +131,13 @@ public class SystemNotification {
 
     public void setDelstatus(int delstatus) {
         this.delstatus = delstatus;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

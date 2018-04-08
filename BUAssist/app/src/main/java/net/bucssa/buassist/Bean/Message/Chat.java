@@ -37,8 +37,8 @@ public class Chat implements Serializable{
     private String tousername;
     private String avatar;
     private int daterange;
-    private String createdateline;
-    private String lastdateline;
+    private int createdateline;
+    private int lastdateline;
     private int hasnew;
 
     public int getUid() {
@@ -129,19 +129,19 @@ public class Chat implements Serializable{
         this.daterange = daterange;
     }
 
-    public String getCreatedateline() {
+    public int getCreatedateline() {
         return createdateline;
     }
 
-    public void setCreatedateline(String createdateline) {
+    public void setCreatedateline(int createdateline) {
         this.createdateline = createdateline;
     }
 
-    public String getLastdateline() {
+    public int getLastdateline() {
         return lastdateline;
     }
 
-    public void setLastdateline(String lastdateline) {
+    public void setLastdateline(int lastdateline) {
         this.lastdateline = lastdateline;
     }
 

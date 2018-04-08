@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -63,7 +64,6 @@ public class ClassDetailActivity extends BaseActivity {
     @BindView(R.id.tv_classSection)
     TextView tv_classSection;
 
-
     @BindView(R.id.tv_add_collection)
     TextView tv_add_collection;
 
@@ -76,8 +76,26 @@ public class ClassDetailActivity extends BaseActivity {
     @BindView(R.id.rl_group)
     RelativeLayout rl_group;
 
+    @BindView(R.id.llGroupLeft)
+    LinearLayout llGroupLeft;
+
+    @BindView(R.id.llGroupRight)
+    LinearLayout llGroupRight;
+
+    @BindView(R.id.ivGroupAdd)
+    ImageView ivGroupAdd;
+
     @BindView(R.id.rl_topic)
     RelativeLayout rl_topic;
+
+    @BindView(R.id.llTopicLeft)
+    LinearLayout llTopicLeft;
+
+    @BindView(R.id.llTopicRight)
+    LinearLayout llTopicRight;
+
+    @BindView(R.id.ivTopicAdd)
+    ImageView ivTopicAdd;
 
     private GroupsFragment GroupsFragment;
     private PostsFragment PostsFragment;
@@ -191,26 +209,59 @@ public class ClassDetailActivity extends BaseActivity {
         /* 初始选择Post分区 */
         rl_topic.setSelected(true);
 
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        rl_topic.setSelected(true);
+                        rl_group.setSelected(false);
+                        llTopicRight.setSelected(true);
+                        ivTopicAdd.setSelected(true);
+                        break;
+                    case 1:
+                        rl_topic.setSelected(false);
+                        rl_group.setSelected(true);
+                        llGroupRight.setSelected(true);
+                        ivGroupAdd.setSelected(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         /* Post分区点击事件 */
-        rl_topic.setOnClickListener(new View.OnClickListener() {
+        llTopicLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rl_topic.setSelected(true);
                 rl_group.setSelected(false);
+                llTopicRight.setSelected(true);
+                ivTopicAdd.setSelected(true);
                 viewPager.setCurrentItem(0);
             }
         });
 
         /* Group分区点击事件 */
-        rl_group.setOnClickListener(new View.OnClickListener() {
+        llGroupLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rl_topic.setSelected(false);
                 rl_group.setSelected(true);
+                llGroupRight.setSelected(true);
+                ivGroupAdd.setSelected(true);
                 viewPager.setCurrentItem(1);
             }
         });
-
     }
 
     private void addCollection(String json){
@@ -289,5 +340,79 @@ public class ClassDetailActivity extends BaseActivity {
                 });
     }
 
+
+    private void createGroup(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .createGroup(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "创建成功！");
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+    private void createPost(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .createPost(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "创建成功！");
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
 
 }

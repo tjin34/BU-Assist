@@ -223,9 +223,9 @@ public class ChatRoomActivity extends BaseActivity{
                 rootView.getWindowVisibleDisplayFrame(r);
                 int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
 
-                if (heightDiff > 100) {
-                    rv_message.scrollToPosition(myAdapter.getItemCount()-1);
-                }
+//                if (heightDiff > 100) {
+//                    rv_message.scrollToPosition(myAdapter.getItemCount()-1);
+//                }
             }
         });
 
@@ -327,7 +327,7 @@ public class ChatRoomActivity extends BaseActivity{
 
 
     private void initData() {
-        getMessagesByplid(type, 0, 10);
+        getMessagesByplid(0, 10);
     }
 
     private void initSocket() {
@@ -362,7 +362,7 @@ public class ChatRoomActivity extends BaseActivity{
     private void loadMore() {
         state = Enum.STATE_MORE;
         int lastpmid = myAdapter.getmDatas().get(0).getPmid();
-        getMessagesByplid(type, lastpmid, 10);
+        getMessagesByplid(lastpmid, 10);
     }
 
     private void changeByState() {
@@ -405,9 +405,9 @@ public class ChatRoomActivity extends BaseActivity{
         });
     }
 
-    private void getMessagesByplid(int type, int pmid, int offset) {
+    private void getMessagesByplid( int pmid, int offset) {
         Observable<BaseEntity<List<Message>>> observable = RetrofitClient.createService(PersonalMessageAPI.class)
-                .getMsgByOffset(UserSingleton.USERINFO.getUid(), chat.getPlid(), type, pmid, offset, UserSingleton.USERINFO.getToken());
+                .getMsgByOffset(UserSingleton.USERINFO.getUid(), chat.getPlid(),chat.getPmtype(), pmid, offset, UserSingleton.USERINFO.getToken());
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -432,7 +432,9 @@ public class ChatRoomActivity extends BaseActivity{
                     @Override
                     public void onNext(BaseEntity<List<Message>> baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            messages = baseEntity.getDatas();
+                            messages = new ArrayList<>();
+                            if (baseEntity.getDatas() != null)
+                                messages = baseEntity.getDatas();
                             changeByState();
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
@@ -471,7 +473,7 @@ public class ChatRoomActivity extends BaseActivity{
                         if (baseEntity.isSuccess()) {
                             int offset = baseEntity.getNewNum();
                             state = Enum.STATE_RECEIVE;
-                            getMessagesByplid(type, 0, offset);
+                            getMessagesByplid(0, offset);
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }
@@ -522,7 +524,7 @@ public class ChatRoomActivity extends BaseActivity{
 
                             state = Enum.STATE_SEND;
 
-                            getMessagesByplid(type, 0, 1);
+                            getMessagesByplid(0, 1);
 
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());

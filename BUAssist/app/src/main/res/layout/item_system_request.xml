@@ -5,16 +5,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:background="@drawable/selector_system_message"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <net.bucssa.buassist.Widget.RoundImageView
             android:id="@+id/iv_avatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/profile_photo"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
@@ -26,25 +26,44 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_msg_type"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="好友请求"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginBottom="6dp"/>
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/tv_msg_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="好友请求"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
+
+                <TextView
+                    android:id="@+id/tv_dateline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20周前"
+                    android:textSize="12sp"
+                    android:textColor="@color/tv_grey"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"/>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="好友请求"
-                android:textColor="@color/grey_divider"
+                android:textColor="@color/tv_grey"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textSize="14sp"/>
+                android:textSize="12sp"/>
 
 
         </LinearLayout>

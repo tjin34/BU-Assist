@@ -5,21 +5,40 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:background="@drawable/selector_system_message"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tv_message"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/sample_title"
-            android:textColor="@color/grey_600"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="好友请求"
+                android:textColor="@color/grey_600"
+                android:textSize="12sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_dateline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20周前"
+                android:textSize="12sp"
+                android:textColor="@color/tv_grey"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"/>
+
+        </RelativeLayout>
 
 
     </LinearLayout>

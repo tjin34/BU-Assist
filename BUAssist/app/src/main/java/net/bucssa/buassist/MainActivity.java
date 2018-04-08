@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.moduth.blockcanary.BlockCanary;
@@ -36,6 +37,15 @@ public class MainActivity  extends BaseActivity {
 
     @BindView(R.id.iv_add)
     ImageView iv_add;
+
+    @BindView(R.id.rlSwitchBar)
+    RelativeLayout rlSwitchBar;
+
+    @BindView(R.id.tvPrivate)
+    TextView tvPrivate;
+
+    @BindView(R.id.tvSystem)
+    TextView tvSystem;
 
     /**
      * 底部导航栏的按键
@@ -116,12 +126,9 @@ public class MainActivity  extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        status_bar.getLayoutParams().height = getStatusBarHeight();
-
-        BlockCanary.install(this, new AppBlockCanaryContext()).start();
-
         initFragment();
         initBottomBar();
+        initView();
     }
 
     @Override
@@ -147,6 +154,27 @@ public class MainActivity  extends BaseActivity {
     private void initFragment() {
         mFragment_home = new HomeFragment();
         mFragment_message = new MessageFragment();
+        mFragment_message.setOnSwitchBarListener(new MessageFragment.OnSwitchBarListener() {
+            @Override
+            public void switchContent(int index) {
+                switch (index) {
+                    case 0:
+                        tvPrivate.setSelected(true);
+                        tvPrivate.setTextColor(getResources().getColor(R.color.mainTheme));
+                        tvSystem.setSelected(false);
+                        tvSystem.setTextColor(getResources().getColor(R.color.tv_grey));
+                        iv_add.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        tvPrivate.setSelected(false);
+                        tvPrivate.setTextColor(getResources().getColor(R.color.tv_grey));
+                        tvSystem.setSelected(true);
+                        tvSystem.setTextColor(getResources().getColor(R.color.mainTheme));
+                        iv_add.setVisibility(View.GONE);
+                        break;
+                }
+            }
+        });
         mFragment_profile = new MineFragment();
         list_fragment.add(mFragment_home);
         list_fragment.add(mFragment_message);
@@ -207,6 +235,26 @@ public class MainActivity  extends BaseActivity {
         arrTextView[0].setTextColor(mContext.getResources().getColor(R.color.tapbarPressed));
     }
 
+    private void initView() {
+        tvPrivate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFragment_message.switchPage(0);
+                tvPrivate.setSelected(true);
+                tvSystem.setSelected(false);
+            }
+        });
+
+        tvSystem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFragment_message.switchPage(1);
+                tvPrivate.setSelected(false);
+                tvSystem.setSelected(true);
+            }
+        });
+    }
+
     /**
      * 切换Fragment
      *
@@ -230,21 +278,27 @@ public class MainActivity  extends BaseActivity {
         switch (index) {
             case 0:
                 tv_title.setText("BUCSSA");
+                tv_title.setVisibility(View.VISIBLE);
                 iv_add.setVisibility(View.GONE);
                 iv_lulu.setVisibility(View.VISIBLE);
                 fl_bucssa.setVisibility(View.VISIBLE);
+                rlSwitchBar.setVisibility(View.GONE);
                 break;
             case 1:
                 tv_title.setText("消息");
+                tv_title.setVisibility(View.GONE);
                 iv_add.setVisibility(View.VISIBLE);
                 iv_lulu.setVisibility(View.GONE);
                 fl_bucssa.setVisibility(View.GONE);
+                rlSwitchBar.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 tv_title.setText("我的");
+                tv_title.setVisibility(View.VISIBLE);
                 iv_add.setVisibility(View.GONE);
                 iv_lulu.setVisibility(View.GONE);
                 fl_bucssa.setVisibility(View.GONE);
+                rlSwitchBar.setVisibility(View.GONE);
                 break;
         }
     }

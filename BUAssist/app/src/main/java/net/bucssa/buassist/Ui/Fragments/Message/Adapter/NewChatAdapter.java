@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import net.bucssa.buassist.Bean.Message.Chat;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Fragments.Message.ChatRoomActivity;
+import net.bucssa.buassist.Util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,8 @@ public class NewChatAdapter extends BaseAdapter{
             viewHolder.title = (TextView) convertView.findViewById(R.id.tv_message_title);
             viewHolder.lastMsg = (TextView) convertView.findViewById(R.id.tv_last_message);
             viewHolder.avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
-            viewHolder.hasNew = (TextView) convertView.findViewById(R.id.tv_newMsg);
+            viewHolder.hasNew = (ImageView) convertView.findViewById(R.id.iv_newMsg);
+            viewHolder.dateline = (TextView) convertView.findViewById(R.id.tv_dateline);
             viewHolder.rootView = (RelativeLayout) convertView.findViewById(R.id.rootView);
             convertView.setTag(viewHolder);
         } else {
@@ -99,18 +101,14 @@ public class NewChatAdapter extends BaseAdapter{
             viewHolder.title.setText(chat.getTousername());
 
         viewHolder.lastMsg.setText(chat.getSummary());
+        viewHolder.dateline.setText(DateUtil.dateToOutput(chat.getLastdateline()));
         Glide.with(mContext)
                 .asBitmap()
                 .load(chat.getAvatar())
                 .into(viewHolder.avatar);
 
-        viewHolder.hasNew.setText(String.valueOf(position));
-//        if (chat.getHasnew()==1) {
-//            viewHolder.hasNew.setVisibility(View.VISIBLE);
-//        } else if (chat.getHasnew() == 0){
-//            viewHolder.hasNew.setVisibility(View.GONE);
-//        }
-
+        viewHolder.hasNew.setVisibility(chat.getHasnew() == 1 ? View.VISIBLE : View.INVISIBLE);
+        viewHolder.rootView.setSelected(chat.getHasnew() == 1);
         return convertView;
     }
 
@@ -119,6 +117,7 @@ public class NewChatAdapter extends BaseAdapter{
         TextView lastMsg;
         TextView title;
         ImageView avatar;
-        TextView hasNew;
+        ImageView hasNew;
+        TextView dateline;
     }
 }

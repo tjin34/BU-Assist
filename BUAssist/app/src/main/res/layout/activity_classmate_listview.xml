@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_below="@id/header">
+        android:layout_below="@id/header"
+        android:layout_marginTop="5dp">
 
         <include layout="@layout/view_search_box_text"
             android:id="@+id/search_textView"

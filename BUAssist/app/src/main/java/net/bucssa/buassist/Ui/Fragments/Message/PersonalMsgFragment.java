@@ -1,15 +1,18 @@
 package net.bucssa.buassist.Ui.Fragments.Message;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import net.bucssa.buassist.Api.PersonalMessageAPI;
 import net.bucssa.buassist.Base.BaseFragment;
@@ -22,7 +25,9 @@ import net.bucssa.buassist.Ui.Fragments.Message.Adapter.NewChatAdapter;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
-import net.bucssa.buassist.Widget.LuluRefreshListView;
+import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
+import net.bucssa.buassist.Widget.RefreshHelper;
+import net.bucssa.buassist.Widget.RefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +39,16 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by tjin3 on 2017/11/12.
+ * Created by KimuraShin on 17/7/27.
  */
 
 public class PersonalMsgFragment extends BaseFragment {
+
+    @BindView(R.id.rvRefresh)
+    RefreshView rvRefresh;
+
     @BindView(R.id.lv_message)
-    LuluRefreshListView lv_message;
+    CustomListViewForRefreshView lv_message;
 
     @BindView(R.id.initView)
     LinearLayout initView;
@@ -61,23 +70,6 @@ public class PersonalMsgFragment extends BaseFragment {
     int pageSize = 10;//每一页数量
     int totalCount = 0;//总数
 
-    private final static int REFRESH_COMPLETE = 0;
-
-    private Handler mHandler = new Handler(){
-        public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case REFRESH_COMPLETE:
-                    lv_message.setOnRefreshComplete();
-                    myAdapter.notifyDataSetChanged();
-                    lv_message.setSelection(0);
-                    break;
-
-                default:
-                    break;
-            }
-        };
-    };
-
     @Override
     protected String getTAG() {
         return this.toString();
@@ -97,25 +89,85 @@ public class PersonalMsgFragment extends BaseFragment {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-
-        lv_message.setOnLuluRefreshListener(new LuluRefreshListView.OnLuluRefreshListener() {
+        rvRefresh.setRefreshHelper(new RefreshHelper() {
+            //初始化刷新view
             @Override
-            public void onRefresh() {
-                refreshData();
+            public View onInitRefreshHeaderView() {
+                return LayoutInflater.from(context).inflate(R.layout.widget_lulu_headview, null);
+            }
 
-                new Thread(new Runnable() {
+            //初始化尺寸高度
+            @Override
+            public boolean onInitRefreshHeight(int originRefreshHeight) {
+                rvRefresh.setRefreshNormalHeight(0);
+                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
+                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
+                return false;
+            }
 
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(3000);
-                            mHandler.sendEmptyMessage(REFRESH_COMPLETE);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+            //刷新状态的改变
+            @Override
+            public void onRefreshStateChanged(View refreshView, int refreshState) {
+                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
+                switch (refreshState) {
+                    case RefreshView.STATE_REFRESH_NORMAL:
+                        Glide.with(context)
+                                .asGif()
+                                .load(R.raw.pull)
+                                .into(ivLulu);
+                        break;
+                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
+                        break;
+                    case RefreshView.STATE_REFRESH_ARRIVED:
+                        break;
+                    case RefreshView.STATE_REFRESHING:
+                        Glide.with(context)
+                                .asGif()
+                                .load(R.raw.refreshing)
+                                .into(ivLulu);
+                        new Thread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Thread.sleep(2000);
+                                            ((Activity)context).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    refreshData();
+                                                    rvRefresh.onCompleteRefresh();
+                                                }
+                                            });
+                                        } catch (InterruptedException e) {
+                                        }
+                                    }
+                                }
+                        ).start();
+                        break;
+                }
+            }
+        });
+
+        lv_message.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                new Thread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    ((Activity)context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMore();
+                                        }
+                                    });
+                                } catch (InterruptedException e) {
+                                }
+                            }
                         }
-                    }
-                }).start();
+                ).start();
             }
         });
 
@@ -185,12 +237,16 @@ public class PersonalMsgFragment extends BaseFragment {
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
                 myAdapter.addData(0, chatList);
+                lv_message.LoadingComplete();
                 break;
-//            case Enum.STATE_MORE:
-//                myAdapter.clearData();
-//                myAdapter.addItems(chatList, myAdapter.getItemCount());
-//                mRefreshLayout.finishRefreshLoadMore();
-//                break;
+            case Enum.STATE_MORE:
+                if (chatList.size() == 0) {
+                    lv_message.NoMoreData();
+                    break;
+                }
+                myAdapter.addData(myAdapter.getCount(),chatList);
+                lv_message.LoadingComplete();
+                break;
         }
     }
 

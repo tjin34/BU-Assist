@@ -157,6 +157,54 @@
             android:layout_marginLeft="20dp"
             android:visibility="gone"/>
 
+        <RelativeLayout
+            android:id="@+id/rlSwitchBar"
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:id="@+id/tvPrivate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="私信"
+                    android:textSize="14sp"
+                    android:textColor="@color/tv_grey"
+                    android:gravity="center"
+                    android:background="@drawable/selector_bg_msg_tab_left"
+                    android:layout_marginRight="-1dp"/>
+
+                <TextView
+                    android:id="@+id/tvSystem"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="系统消息"
+                    android:textSize="14sp"
+                    android:textColor="@color/tv_grey"
+                    android:gravity="center"
+                    android:background="@drawable/selector_bg_msg_tab_right"
+                    android:layout_marginLeft="-1dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="30dp"
+                android:background="@color/mainTheme"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

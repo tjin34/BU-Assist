@@ -53,7 +53,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:background="@color/white"/>
+                android:background="@drawable/borderless_wrap_layout_white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,7 +116,7 @@
             <View
                 android:layout_width="5dp"
                 android:layout_height="match_parent"
-                android:background="@color/tv_grey"/>
+                android:background="@drawable/bg_news_bar"/>
             
             <LinearLayout
                 android:layout_width="match_parent"
@@ -239,7 +239,7 @@
         <View
             android:layout_width="5dp"
             android:layout_height="match_parent"
-            android:background="@color/secondary_pink"/>
+            android:background="@drawable/bg_secondary_pink"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -259,19 +259,37 @@
                     android:layout_weight="1"
                     android:background="@drawable/selector_bg_class_tab">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="话题"
-                        android:textColor="@color/third_pink"
-                        android:layout_centerInParent="true"/>
-
-                    <ImageView
+                    <LinearLayout
+                        android:id="@+id/llTopicRight"
                         android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/addition"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:layout_alignParentRight="true"
-                        android:padding="3dp"/>
+                        android:background="@drawable/selector_bg_class_add">
+
+                        <ImageView
+                            android:id="@+id/ivTopicAdd"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/selector_add_tab"
+                            android:padding="5dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llTopicLeft"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@id/llTopicRight"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="话题"
+                            android:textColor="@color/third_pink"/>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -279,7 +297,7 @@
                 <View
                     android:layout_width="2dp"
                     android:layout_height="match_parent"
-                    android:background="@color/dark_red"
+                    android:background="@drawable/bg_secondary_pink"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"/>
 
@@ -290,19 +308,37 @@
                     android:layout_weight="1"
                     android:background="@drawable/selector_bg_class_tab">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="小组"
-                        android:textColor="@color/third_pink"
-                        android:layout_centerInParent="true"/>
-
-                    <ImageView
+                    <LinearLayout
+                        android:id="@+id/llGroupRight"
                         android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/addition"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:layout_alignParentRight="true"
-                        android:padding="3dp"/>
+                        android:background="@drawable/selector_bg_class_add">
+
+                        <ImageView
+                            android:id="@+id/ivGroupAdd"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/selector_add_tab"
+                            android:padding="5dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llGroupLeft"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@id/llGroupRight"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="小组"
+                            android:textColor="@color/third_pink"/>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
