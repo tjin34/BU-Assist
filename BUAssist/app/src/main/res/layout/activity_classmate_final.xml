@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/header"/>
+    <include layout="@layout/header" android:id="@+id/header"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/header"
+        android:layout_marginTop="-50dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,27 +31,27 @@
                     <View
                         android:layout_width="5dp"
                         android:layout_height="match_parent"
-                        android:background="@color/grey_400"/>
+                        android:background="@drawable/bg_news_bar"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/my_class"
                         android:textColor="@color/tv_black"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"/>
 
                     <View
                         android:layout_width="5dp"
                         android:layout_height="match_parent"
-                        android:background="@color/grey_400"/>
+                        android:background="@drawable/bg_news_bar"/>
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/iv_addClass"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/selector_add_class"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/title"
@@ -75,7 +77,7 @@
             android:background="@drawable/selector_bg_classmate_button2"
             android:text="@string/noclass_text"
             android:gravity="center"
-            android:textColor="@color/tv_black"
+            android:textColor="@color/tv_grey"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"/>
 
@@ -108,4 +110,10 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/bg_header_shadow"
+        android:layout_below="@id/header"/>
+
+</RelativeLayout>

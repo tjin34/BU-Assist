@@ -16,6 +16,7 @@ public class Comment {
      * dateline : 1511738849
      * fromUsername : leeli123
      * avatar : http://bucssa.net/uc_server/avatar.php?uid=25&size=middle
+     * toUsername : Sh1nJi
      */
 
     private int postId;
@@ -26,6 +27,7 @@ public class Comment {
     private int dateline;
     private String fromUsername;
     private String avatar;
+    private String toUsername;
 
     public int getPostId() {
         return postId;
@@ -89,5 +91,13 @@ public class Comment {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getToUsername() {
+        return toUsername;
+    }
+
+    public void setToUsername(String toUsername) {
+        this.toUsername = toUsername;
     }
 }

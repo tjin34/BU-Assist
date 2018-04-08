@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@color/grey_300">
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/ll_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/borderless_wrap_layout_white"
+        android:background="@drawable/borderless_wrap_layout_grey"
         android:layout_margin="7dp"
         android:gravity="center">
 
@@ -23,8 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/search_class"
-            android:textColor="@color/tv_grey"
-            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
             android:gravity="center"/>
     </LinearLayout>
 </LinearLayout>

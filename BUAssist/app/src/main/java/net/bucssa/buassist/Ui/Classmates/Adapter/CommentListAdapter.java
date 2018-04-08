@@ -81,12 +81,13 @@ public class CommentListAdapter extends BaseAdapter {
         }
 
         Glide.with(mContext)
+                .asBitmap()
                 .load(comment.getAvatar())
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
                 .into(viewHolder.ivProfile);
         viewHolder.tvCreator.setText(comment.getFromUsername());
         viewHolder.tvTime.setText(DateUtil.dateToOutput(comment.getDateline()));
-        viewHolder.tvContent.setText(comment.getContent());
+        viewHolder.tvContent.setText( "@" + comment.getToUsername() + " " + comment.getContent());
         return view;
     }
 

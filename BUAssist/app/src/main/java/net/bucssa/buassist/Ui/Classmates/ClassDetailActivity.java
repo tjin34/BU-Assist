@@ -11,18 +11,33 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
+import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Classmate.Class;
+import net.bucssa.buassist.Bean.Request.AddClassCollectionReq;
+import net.bucssa.buassist.Bean.Request.DelClassCollectionReq;
+import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.Adapter.FragmentAdapter;
 import net.bucssa.buassist.Ui.Classmates.Fragments.GroupsFragment;
 import net.bucssa.buassist.Ui.Classmates.Fragments.PostsFragment;
+import net.bucssa.buassist.UserSingleton;
+import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.StatusBarUtil;
+import net.bucssa.buassist.Util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.RequestBody;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by KimuraShin on 17/7/24.
@@ -113,13 +128,39 @@ public class ClassDetailActivity extends BaseActivity {
 
         /* 确认当前用户是否收藏了这课程 */
         if (classItem.isCollected()) {
-            tv_add_collection.setText(getResources().getString(R.string.isCollected));
-            // TODO: 2018/4/5  
+            setDeleteCollection();
         } else {
-            tv_add_collection.setText(getResources().getString(R.string.notCollected));
-            // TODO: 2018/4/5  
+            setAddCollection();
         }
 
+    }
+
+    private void setDeleteCollection() {
+        tv_add_collection.setText(getResources().getString(R.string.isCollected));
+        tv_add_collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DelClassCollectionReq req = new DelClassCollectionReq(UserSingleton.USERINFO.getUid(),
+                        classItem.getClassId(),UserSingleton.USERINFO.getToken());
+                Gson gson=new Gson();
+                String json = gson.toJson(req);
+                delCollection(json);
+            }
+        });
+    }
+
+    private void setAddCollection() {
+        tv_add_collection.setText(getResources().getString(R.string.notCollected));
+        tv_add_collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddClassCollectionReq req = new AddClassCollectionReq(UserSingleton.USERINFO.getUid(),
+                        classItem.getClassId(),UserSingleton.USERINFO.getToken());
+                Gson gson=new Gson();
+                String json = gson.toJson(req);
+                addCollection(json);
+            }
+        });
     }
 
     /**
@@ -170,6 +211,83 @@ public class ClassDetailActivity extends BaseActivity {
             }
         });
 
-
     }
+
+    private void addCollection(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .addClassCollection(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "收藏成功！");
+                            setDeleteCollection();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+    private void delCollection(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .deleteClassCollection(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "删除收藏成功！");
+                            setAddCollection();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+
 }

@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/selector_bg_news_shadow"
-        android:layout_marginTop="3dp"
         android:gravity="center_vertical">
 
 
@@ -17,7 +16,8 @@
             android:id="@+id/iv_groupCover"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/bucssa"/>
+            android:src="@drawable/bucssa"
+            android:layout_marginLeft="5dp"/>
 
 
         <LinearLayout
@@ -30,8 +30,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp">
+                android:layout_height="wrap_content">
 
 
                 <TextView
@@ -40,7 +39,30 @@
                     android:layout_height="wrap_content"
                     android:text="学习小组123"
                     android:textColor="@color/tv_black"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/tv_member"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:text="15"
+                    android:textColor="@color/tv_grey"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_member"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:src="@drawable/members"
+                    android:padding="3dp"
+                    android:layout_toLeftOf="@id/tv_member"
+                    android:layout_centerVertical="true"/>
+
+
 
 
             </RelativeLayout>

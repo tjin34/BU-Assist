@@ -59,7 +59,6 @@
         <activity android:name=".Ui.Classmates.ClassDetailActivity"/>
         <activity android:name=".Ui.Classmates.GroupDetailActivity"/>
         <activity android:name=".Ui.Classmates.MyGroupActivity"/>
-        <activity android:name=".Ui.Classmates.MyCollectionActivity"/>
         <activity android:name=".Ui.Classmates.MyTopicActivity"/>
         <activity android:name=".Ui.Classmates.PostDetailActivity"/>
 

@@ -3,101 +3,106 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_200">
+    android:background="@color/grey_100">
 
-    <include layout="@layout/header"/>
+    <include layout="@layout/header" android:id="@+id/header"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_changePwd"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:background="@drawable/selector_bg_textview_rect"
+            android:layout_marginTop="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="修改密码"
+                    android:textColor="@color/tv_black"
+                    android:textSize="14sp"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@color/mainTabTheme"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_setPublic"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:background="@drawable/selector_bg_textview_rect"
+            android:layout_below="@id/ll_changePwd">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="公开个人信息"
+                    android:textColor="@color/tv_black"
+                    android:textSize="14sp"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/enter"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不公开"
+                    android:layout_toLeftOf="@id/enter"
+                    android:layout_centerVertical="true"
+                    android:textSize="13sp"
+                    android:textColor="@color/tv_grey"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@drawable/bg_header_shadow"/>
+
+
+    </RelativeLayout>
     <!--<View-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="0.1dp"-->
     <!--android:background="@color/mainTabTheme"-->
     <!--android:layout_marginTop="10dp"/>-->
-
-    <LinearLayout
-        android:id="@+id/ll_changePwd"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="horizontal"
-        android:background="@drawable/selector_bg_textview_rect"
-        android:layout_marginTop="10dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="修改密码"
-                android:textColor="@color/tv_black"
-                android:textSize="14sp"
-                android:gravity="center"/>
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/ic_arrow_right"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:background="@color/mainTabTheme"
-                android:layout_alignParentBottom="true"/>
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_setPublic"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="horizontal"
-        android:background="@drawable/selector_bg_textview_rect">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="公开个人信息"
-                android:textColor="@color/tv_black"
-                android:textSize="14sp"
-                android:gravity="center"/>
-
-            <ImageView
-                android:id="@+id/enter"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/ic_arrow_right"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="不公开"
-                android:layout_toLeftOf="@id/enter"
-                android:layout_centerVertical="true"
-                android:textSize="13sp"
-                android:textColor="@color/tv_grey"/>
-        </RelativeLayout>
-    </LinearLayout>
-
-
-
-
-
-
-
 
 
 </LinearLayout>

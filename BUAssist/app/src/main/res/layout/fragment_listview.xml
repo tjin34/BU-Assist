@@ -3,17 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.cjj.MaterialRefreshLayout
-        android:id="@+id/mRefreshLayout"
+    <net.bucssa.buassist.Widget.RefreshView
+        android:id="@+id/rvRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <net.bucssa.buassist.Widget.CustomListViewForRefreshView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/transparent"/>
 
-    </com.cjj.MaterialRefreshLayout>
+
+    </net.bucssa.buassist.Widget.RefreshView>
 
 </RelativeLayout>

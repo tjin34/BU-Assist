@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.bucssa.buassist.Bean.Classmate.Group;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.GroupDetailActivity;
 
@@ -23,10 +24,10 @@ import java.util.List;
 public class GroupsListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<String> mDatas = new ArrayList<>();
+    private List<Group> mDatas = new ArrayList<>();
     private LayoutInflater mInflater;
 
-    public GroupsListAdapter(Context context, List<String> data) {
+    public GroupsListAdapter(Context context, List<Group> data) {
         this.mContext = context;
         this.mDatas = data;
         this.mInflater = LayoutInflater.from(context);
@@ -47,26 +48,46 @@ public class GroupsListAdapter extends BaseAdapter {
         return mDatas.size();
     }
 
+    public void clear() {
+        mDatas = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+    public void addData(Group groups) {
+        mDatas.add(groups);
+        notifyDataSetChanged();
+    }
+
+    public void addDatas(List<Group> groups) {
+        for(int i = 0; i < groups.size(); i++) {
+            addData(groups.get(i));
+        }
+    }
+    
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final String data = mDatas.get(position);
+        final Group data = mDatas.get(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_group_list, null);
             viewHolder = new ViewHolder();
             viewHolder.rootView = (LinearLayout) convertView.findViewById(R.id.rootView);
-            viewHolder.groupName = (TextView) convertView.findViewById(R.id.tv_groupName);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.tv_groupName);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.tv_description);
+            viewHolder.members = (TextView) convertView.findViewById(R.id.tv_member);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.groupName.setText(data);
+        viewHolder.name.setText(data.getGroupName());
+        viewHolder.description.setText(data.getGroupIntro());
+        viewHolder.members.setText(String.valueOf(data.getMembers()));
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, GroupDetailActivity.class);
-                intent.putExtra("groupName", data);
+                intent.putExtra("group", data);
                 ((Activity) mContext).startActivity(intent);
             }
         });
@@ -74,7 +95,9 @@ public class GroupsListAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        LinearLayout rootView;
-        TextView groupName;
+        private LinearLayout rootView;
+        private TextView name;
+        private TextView description;
+        private TextView members;
     }
 }

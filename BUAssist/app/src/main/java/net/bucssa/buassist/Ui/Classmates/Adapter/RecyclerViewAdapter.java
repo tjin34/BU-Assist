@@ -1,11 +1,14 @@
 package net.bucssa.buassist.Ui.Classmates.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import net.bucssa.buassist.Bean.Classmate.Post;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Ui.Classmates.PostDetailActivity;
 import net.bucssa.buassist.Util.DateUtil;
 
 import java.util.List;
@@ -55,10 +59,11 @@ public  class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapt
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Post data = datas.get(position);
+        final Post data = datas.get(position);
 
         Glide.with(context)
-                .load("http://bucssa.net/uc_server/avatar.php?uid="+data.getAuthorId()+"&size=middle")
+                .asBitmap()
+                .load(data.getAvatar())
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
                 .into(viewHolder.ivProfile);
         viewHolder.tvCreator.setText(data.getAuthorName());
@@ -72,11 +77,22 @@ public  class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapt
             viewHolder.ivComment.setSelected(false);
 
         viewHolder.tvTime.setText(DateUtil.dateToOutput(data.getDateline()));
+
+        viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PostDetailActivity.class);
+                intent.putExtra("Post",data);
+                ((Activity) context).startActivity(intent);
+            }
+        });
+
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder
     {
-
+        LinearLayout rootView;
         ImageView ivProfile;
         TextView tvCreator;
         TextView tvTitle;
@@ -87,6 +103,7 @@ public  class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapt
 
         public ViewHolder(View convertView){
             super(convertView);
+            rootView = (LinearLayout) convertView.findViewById(R.id.rootView);
             ivProfile = (ImageView) convertView.findViewById(R.id.ivProfile);
             tvCreator = (TextView) convertView.findViewById(R.id.tvCreator);
             tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);

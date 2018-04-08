@@ -32,12 +32,20 @@
 
     </FrameLayout>
 
-    <net.bucssa.buassist.Widget.LuluRefreshListView
-        android:id="@+id/lv_message"
+    <net.bucssa.buassist.Widget.RefreshView
+        android:id="@+id/rvRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="@null"
-        android:divider="#00000000"/>
+        android:layout_height="match_parent">
+
+        <net.bucssa.buassist.Widget.CustomListViewForRefreshView
+            android:id="@+id/lv_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="@null"
+            android:divider="#00000000"
+            android:layout_marginTop="10dp"/>
+
+    </net.bucssa.buassist.Widget.RefreshView>
 
     <LinearLayout
         android:id="@+id/initView"

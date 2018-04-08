@@ -5,8 +5,6 @@
 
     <include layout="@layout/header" android:id="@+id/header"/>
 
-
-
     <LinearLayout
         android:id="@+id/tab_bar"
         android:layout_width="match_parent"
@@ -97,6 +95,12 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:layout_above="@id/tab_bar"
+        android:layout_below="@id/header"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/bg_header_shadow"
         android:layout_below="@id/header"/>
 
     <ImageView

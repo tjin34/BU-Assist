@@ -1,6 +1,9 @@
 package net.bucssa.buassist.Ui.Classmates;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +24,8 @@ import net.bucssa.buassist.Ui.Classmates.Adapter.CommentListAdapter;
 import net.bucssa.buassist.Util.DateUtil;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Widget.RefreshHelper;
+import net.bucssa.buassist.Widget.RefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class PostDetailActivity extends BaseActivity {
+
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
+
+    @BindView(R.id.tv_title)
+    TextView title;
+
+    @BindView(R.id.rvRefresh)
+    RefreshView rvRefresh;
 
     @BindView(R.id.ivProfile)
     ImageView ivProfile;
@@ -90,8 +104,12 @@ public class PostDetailActivity extends BaseActivity {
     }
     
     private void initView() {
+        
+        title.setText("话题详情");
+
         Glide.with(mContext)
-                .load("http://bucssa.net/uc_server/avatar.php?uid="+post.getAuthorId()+"&size=middle")
+                .asBitmap()
+                .load(post.getAvatar())
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
                 .into(ivProfile);
         tvCreator.setText(post.getAuthorName());
@@ -114,7 +132,75 @@ public class PostDetailActivity extends BaseActivity {
 
     @Override
     protected void initResAndListener() {
-        super.initResAndListener();
+
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+        rvRefresh.setRefreshHelper(new RefreshHelper() {
+            //初始化刷新view
+            @Override
+            public View onInitRefreshHeaderView() {
+                return LayoutInflater.from(mContext).inflate(R.layout.widget_lulu_headview, null);
+            }
+
+            //初始化尺寸高度
+            @Override
+            public boolean onInitRefreshHeight(int originRefreshHeight) {
+                rvRefresh.setRefreshNormalHeight(0);
+                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
+                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
+                return false;
+            }
+
+            //刷新状态的改变
+            @Override
+            public void onRefreshStateChanged(View refreshView, int refreshState) {
+                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
+                switch (refreshState) {
+                    case RefreshView.STATE_REFRESH_NORMAL:
+                        Glide.with(mContext)
+                                .asGif()
+                                .load(R.raw.pull)
+                                .into(ivLulu);
+                        break;
+                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
+                        break;
+                    case RefreshView.STATE_REFRESH_ARRIVED:
+                        break;
+                    case RefreshView.STATE_REFRESHING:
+                        Glide.with(mContext)
+                                .asGif()
+                                .load(R.raw.refreshing)
+                                .into(ivLulu);
+                        refresh();
+                        new Thread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Thread.sleep(2000);
+                                            ((Activity)mContext).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    rvRefresh.onCompleteRefresh();
+                                                }
+                                            });
+                                        } catch (InterruptedException e) {
+                                        }
+                                    }
+                                }
+                        ).start();
+                        break;
+                }
+            }
+        });
+
     }
 
 

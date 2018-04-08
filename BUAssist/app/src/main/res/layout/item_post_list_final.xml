@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_bg_news_shadow">
+    android:background="@drawable/selector_bg_news_shadow"
+    android:id="@+id/rootView">
 
     <net.bucssa.buassist.Widget.RoundImageView
         android:id="@+id/ivProfile"
@@ -23,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
             android:gravity="bottom">
             
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2 分钟前"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:textColor="@color/grey_400"
                 android:layout_marginLeft="20dp"/>
 

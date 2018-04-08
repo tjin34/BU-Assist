@@ -20,6 +20,7 @@ public class Post implements Serializable{
      * lastReply : 0
      * comment : 0
      * like : 0
+     * avatar : http://bucssa.net/uc_server/avatar.php?uid=25&size=middle
      */
 
     private int classId;
@@ -32,6 +33,7 @@ public class Post implements Serializable{
     private int lastReply;
     private int comment;
     private int like;
+    private String avatar;
 
     public int getClassId() {
         return classId;
@@ -111,5 +113,13 @@ public class Post implements Serializable{
 
     public void setLike(int like) {
         this.like = like;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

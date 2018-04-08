@@ -1,15 +1,19 @@
 package net.bucssa.buassist.Ui.Classmates;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
@@ -22,7 +26,10 @@ import net.bucssa.buassist.Ui.Classmates.Adapter.ClassListAdapter;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
 import net.bucssa.buassist.Widget.LuluRefreshListView;
+import net.bucssa.buassist.Widget.RefreshHelper;
+import net.bucssa.buassist.Widget.RefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,32 +67,23 @@ public class FindClassActivity extends BaseActivity {
     @BindView(R.id.tv_cancel)
     TextView tv_cancel;
 
-    @BindView(R.id.luluRefreshListView)
-    LuluRefreshListView listView;
+    @BindView(R.id.rvRefresh)
+    RefreshView rvRefresh;
+
+    @BindView(R.id.listView)
+    CustomListViewForRefreshView lv_class;
 
     private String searchKey = "";
 
     private List<Class> classList = new ArrayList<>();
     private ClassListAdapter myAdapter;
-    private int totalCount = 0;
 
-    private final static int REFRESH_COMPLETE = 0;
     private int state = Enum.STATE_NORMAL;
 
-    private Handler mHandler = new Handler(){
-        public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case REFRESH_COMPLETE:
-                    listView.setOnRefreshComplete();
-                    myAdapter.notifyDataSetChanged();
-                    listView.setSelection(0);
-                    break;
+    private int pageIndex = 1;
+    private int pageSize = 10;
+    private int totalCount = 0;
 
-                default:
-                    break;
-            }
-        };
-    };
 
 
     @Override
@@ -151,45 +149,139 @@ public class FindClassActivity extends BaseActivity {
             }
         });
 
-        listView.setOnLuluRefreshListener(new LuluRefreshListView.OnLuluRefreshListener() {
+        rvRefresh.setRefreshHelper(new RefreshHelper() {
+            //初始化刷新view
             @Override
-            public void onRefresh() {
+            public View onInitRefreshHeaderView() {
+                return LayoutInflater.from(mContext).inflate(R.layout.widget_lulu_headview, null);
+            }
 
-                new Thread(new Runnable() {
+            //初始化尺寸高度
+            @Override
+            public boolean onInitRefreshHeight(int originRefreshHeight) {
+                rvRefresh.setRefreshNormalHeight(0);
+                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
+                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
+                return false;
+            }
 
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(3000);
-                            mHandler.sendEmptyMessage(REFRESH_COMPLETE);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+            //刷新状态的改变
+            @Override
+            public void onRefreshStateChanged(View refreshView, int refreshState) {
+                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
+                switch (refreshState) {
+                    case RefreshView.STATE_REFRESH_NORMAL:
+                        Glide.with(mContext)
+                                .load(R.raw.pull)
+                                .into(ivLulu);
+                        break;
+                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
+                        break;
+                    case RefreshView.STATE_REFRESH_ARRIVED:
+                        break;
+                    case RefreshView.STATE_REFRESHING:
+                        Glide.with(mContext)
+                                .asGif()
+                                .load(R.raw.refreshing)
+                                .into(ivLulu);
+                        new Thread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Thread.sleep(2000);
+                                            ((Activity)mContext).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    refreshData();
+                                                    rvRefresh.onCompleteRefresh();
+                                                }
+                                            });
+                                        } catch (InterruptedException e) {
+                                        }
+                                    }
+                                }
+                        ).start();
+                        break;
+                }
+            }
+        });
+
+        lv_class.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                new Thread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMore();
+                                        }
+                                    });
+                                } catch (InterruptedException e) {
+                                }
+                            }
                         }
-                    }
-                }).start();
+                ).start();
             }
         });
     }
 
+    /**
+     * 下拉刷新
+     */
+    public void refreshData() {
+        pageIndex = 1;
+        state = Enum.STATE_REFRESH;
+        initData();
+    }
+
+    /**
+     * 上拉刷新
+     */
+    private void loadMore() {
+        pageIndex++;
+        state = Enum.STATE_MORE;
+        initData();
+    }
+
     private void initData() {
         classList = new ArrayList<>();
-        getClassCollection(1,20);
+        getClassCollection(pageIndex, pageSize);
     }
+
 
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
                 myAdapter = new ClassListAdapter(mContext, classList);
-                listView.setAdapter(myAdapter);
+                lv_class.setAdapter(myAdapter);
                 break;
+            case Enum.STATE_REFRESH:
+                myAdapter.clearData();
+                myAdapter.addData(0, classList);
+                lv_class.LoadingComplete();
+                break;
+            case Enum.STATE_MORE:
+                if (classList.size() == 0) {
+                    lv_class.NoMoreData();
+                    break;
+                }
+                myAdapter.addData(myAdapter.getCount(), classList);
+                lv_class.LoadingComplete();
+                break;
+
         }
     }
 
 
     private void getClassCollection(int pageIndex, int pageSize){
         Observable<BaseEntity<List<Class>>> observable = RetrofitClient.createService(ClassmateAPI.class)
-                .getClassList(pageIndex, pageSize, searchKey);
+                .getClassList(UserSingleton.USERINFO.getUid(), pageIndex, pageSize, searchKey);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

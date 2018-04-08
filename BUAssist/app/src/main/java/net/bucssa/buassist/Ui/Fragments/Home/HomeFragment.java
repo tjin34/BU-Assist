@@ -6,23 +6,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -36,18 +28,18 @@ import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.ClassmateActivity;
-import net.bucssa.buassist.Ui.Fragments.Home.Adapter.NewNewsRecyclerAdapter;
-import net.bucssa.buassist.Ui.Fragments.Home.Adapter.NewsRecyclerAdapter;
-import net.bucssa.buassist.Ui.Fragments.Home.Adapter.SimpleNewsRecyclerAdapter;
+import net.bucssa.buassist.Ui.Fragments.Home.Adapter.NewsListAdapter;
 import net.bucssa.buassist.Ui.Fragments.Home.Adapter.ViewPagerAdapter;
-import net.bucssa.buassist.Ui.News.WebPageActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
-import net.bucssa.buassist.Util.StatusBarUtil;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
+import net.bucssa.buassist.Widget.CustomListViewWithLoadMore;
+import net.bucssa.buassist.Widget.CustomScrollView;
 import net.bucssa.buassist.Widget.RefreshHelper;
 import net.bucssa.buassist.Widget.RefreshView;
 
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -67,14 +59,11 @@ import rx.schedulers.Schedulers;
 
 public class HomeFragment extends BaseFragment {
 
-//    @BindView(R.id.mRefreshLayout)
-//    MaterialRefreshLayout mRefreshLayout;
-
     @BindView(R.id.rv_refresh)
     RefreshView rv_refresh;
 
-    @BindView(R.id.rv_news)
-    RecyclerView recyclerView;
+    @BindView(R.id.lv_news)
+    CustomListViewForRefreshView lv_news;
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -87,7 +76,7 @@ public class HomeFragment extends BaseFragment {
 
 
     private List<TuiSong> tuiSongList = new ArrayList<>();
-    private SimpleNewsRecyclerAdapter myAdapter;
+    private NewsListAdapter myAdapter;
     private int state = Enum.STATE_NORMAL;
 
     int pageIndex = 1;//当前页
@@ -139,24 +128,24 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-//        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-//        // 每隔2秒钟切换一张图片
-//        scheduledExecutorService.scheduleWithFixedDelay(new ViewPagerTask(), 10, 10, TimeUnit.SECONDS);
-//        // scheduleAtFixedRate(command, initialDelay, period, unit);
-//        // command：执行线程 initialDelay：初始化延时 period：前一次执行结束到下一次执行开始的间隔时间（间隔执行延迟时间）
-//        // unit：计时单位
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        // 每隔2秒钟切换一张图片
+        scheduledExecutorService.scheduleWithFixedDelay(new ViewPagerTask(), 10, 10, TimeUnit.SECONDS);
+        // scheduleAtFixedRate(command, initialDelay, period, unit);
+        // command：执行线程 initialDelay：初始化延时 period：前一次执行结束到下一次执行开始的间隔时间（间隔执行延迟时间）
+        // unit：计时单位
     }
 
-//    // 切换图片
-//    private class ViewPagerTask implements Runnable {
-//        @Override
-//        public void run() {
-//            currentItem = (currentItem + 1) % pics.length;
-//            // 更新界面
-//            handler.obtainMessage().sendToTarget();
-//            // message对象sendToTarget()，handler对象sendMessage();
-//        }
-//    }
+    // 切换图片
+    private class ViewPagerTask implements Runnable {
+        @Override
+        public void run() {
+            currentItem = (currentItem + 1) % pics.length;
+            // 更新界面
+            handler.obtainMessage().sendToTarget();
+            // message对象sendToTarget()，handler对象sendMessage();
+        }
+    }
 
     RadioGroup.OnCheckedChangeListener listener = new RadioGroup.OnCheckedChangeListener() {
 
@@ -228,24 +217,6 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-//        mRefreshLayout.setLoadMore(true);
-//        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
-//            @Override
-//            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-//                refreshData();
-//            }
-//
-//            @Override
-//            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-//                if ((pageIndex * pageSize) <= totalCount) {
-//                    loadMore();
-//                } else {
-//                    ToastUtils.showToast(context, "没有更多了...");
-//                    mRefreshLayout.finishRefreshLoadMore();
-//                }
-//            }
-//        });
-
         ll_classmate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -284,7 +255,6 @@ public class HomeFragment extends BaseFragment {
                 switch (refreshState) {
                     case RefreshView.STATE_REFRESH_NORMAL:
                         Glide.with(context)
-                                .asBitmap()
                                 .load(R.raw.pull)
                                 .into(ivLulu);
                         break;
@@ -297,7 +267,6 @@ public class HomeFragment extends BaseFragment {
                                 .asGif()
                                 .load(R.raw.refreshing)
                                 .into(ivLulu);
-                        refreshData();
                         new Thread(
                                 new Runnable() {
                                     @Override
@@ -307,6 +276,7 @@ public class HomeFragment extends BaseFragment {
                                             ((Activity)context).runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
+                                                    refreshData();
                                                     rv_refresh.onCompleteRefresh();
                                                 }
                                             });
@@ -320,17 +290,29 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        lv_news.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+            public void onLoadMore() {
+                new Thread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    ((Activity)context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMore();
+                                        }
+                                    });
+                                } catch (InterruptedException e) {
+                                }
+                            }
+                        }
+                ).start();
             }
         });
+
     }
 
 
@@ -359,23 +341,28 @@ public class HomeFragment extends BaseFragment {
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                myAdapter = new SimpleNewsRecyclerAdapter(context, tuiSongList);
+                myAdapter = new NewsListAdapter(context, tuiSongList);
                 setListener();
-                recyclerView.setAdapter(myAdapter);
+                lv_news.setAdapter(myAdapter);
                 break;
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
                 myAdapter.addItems(tuiSongList, 0);
+                lv_news.LoadingComplete();
                 break;
             case Enum.STATE_MORE:
-                myAdapter.addItems(tuiSongList, myAdapter.getItemCount());
+                if (tuiSongList.size() == 0) {
+                    lv_news.NoMoreData();
+                    break;
+                }
+                myAdapter.addItems(tuiSongList, myAdapter.getCount());
+                lv_news.LoadingComplete();
                 break;
         }
     }
 
     private void setListener() {
-        myAdapter.setOnRecyclerItemClickListener(new SimpleNewsRecyclerAdapter.OnRecyclerItemClickListener() {
+        myAdapter.setOnRecyclerItemClickListener(new NewsListAdapter.OnRecyclerItemClickListener() {
             @Override
             public void onClick(String url) {
 

@@ -23,7 +23,7 @@
             android:id="@+id/grey_bar"
             android:layout_width="5dp"
             android:layout_height="match_parent"
-            android:background="#7f7f7f"/>
+            android:background="@drawable/bg_news_bar"/>
 
         <LinearLayout
             android:layout_width="match_parent"

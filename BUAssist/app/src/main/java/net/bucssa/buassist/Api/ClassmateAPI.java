@@ -32,7 +32,8 @@ public interface ClassmateAPI {
      * @return
      */
     @GET("classmate/class/get.php")
-    Observable<BaseEntity<List<Class>>> getClassList(@Query("pageIndex") int pageIndex,
+    Observable<BaseEntity<List<Class>>> getClassList(@Query("uid") int uid,
+                                                     @Query("pageIndex") int pageIndex,
                                                      @Query("pageSize") int pageSize,
                                                      @Query("key") String key);
 

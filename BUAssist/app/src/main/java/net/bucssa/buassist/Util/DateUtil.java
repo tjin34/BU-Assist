@@ -837,16 +837,18 @@ public class DateUtil {
     public static String dateToOutput(int timeStamp) {
         String result = "";
         Date currentTime = new Date();
+        long lt = new Long(timeStamp);
+        Date date = new Date(lt*1000L);
         int minute = 1000 * 60;
         int hour = minute * 60;
         int day = hour * 24;
         int halfamonth = day * 15;
         int month = day * 30;
-        long diffValue = currentTime.getTime() - timeStamp;
+        long diffValue = currentTime.getTime() - date.getTime();
         if(diffValue < 0){
             return "Wrong Input";
         }
-        long monthDiff = diffValue / month;
+        long monthDiff = diffValue / day / 30;
         long weekDiff = diffValue / (7*day);
         long dayDiff = diffValue / day;
         long hourDiff = diffValue / hour;

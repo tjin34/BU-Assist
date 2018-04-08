@@ -15,6 +15,12 @@ public class DelClassCollectionReq {
     private int classid;
     private String token;
 
+    public DelClassCollectionReq(int uid, int classid, String token) {
+        this.uid = uid;
+        this.classid = classid;
+        this.token = token;
+    }
+
     public int getUid() {
         return uid;
     }

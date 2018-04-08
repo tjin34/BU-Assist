@@ -16,6 +16,12 @@ public class AddClassCollectionReq {
     private int classid;
     private String token;
 
+    public AddClassCollectionReq(int uid, int classid, String token) {
+        this.uid = uid;
+        this.classid = classid;
+        this.token = token;
+    }
+
     public int getUid() {
         return uid;
     }

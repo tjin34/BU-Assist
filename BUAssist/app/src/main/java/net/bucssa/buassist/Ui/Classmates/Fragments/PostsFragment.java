@@ -1,12 +1,15 @@
 package net.bucssa.buassist.Ui.Classmates.Fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 
@@ -14,11 +17,16 @@ import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseFragment;
 import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Classmate.Post;
+import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Ui.Classmates.Adapter.PostListAdapter;
 import net.bucssa.buassist.Ui.Classmates.Adapter.RecyclerViewAdapter;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
+import net.bucssa.buassist.Widget.RefreshHelper;
+import net.bucssa.buassist.Widget.RefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,18 +43,21 @@ import rx.schedulers.Schedulers;
 
 public class PostsFragment extends BaseFragment{
 
-    @BindView(R.id.mRefreshLayout)
-    MaterialRefreshLayout mRefreshLayout;
+    @BindView(R.id.rvRefresh)
+    RefreshView rvRefresh;
 
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.listView)
+    CustomListViewForRefreshView listView;
 
+    private List<Post> postList = new ArrayList<>();
+    private PostListAdapter myAdapter;
     private int classId = 0;
+
+    private int state = Enum.STATE_NORMAL;
+
+    private int pageIndex = 1;
+    private int pageSize = 10;
     private int totalCount = 0;
-
-
-    private List<Post> posts = new ArrayList<>();
-    private RecyclerViewAdapter adapter;
 
     @Override
     protected String getTAG() {
@@ -55,7 +66,7 @@ public class PostsFragment extends BaseFragment{
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_recyclerview;
+        return R.layout.fragment_listview;
     }
 
     @Override
@@ -70,30 +81,133 @@ public class PostsFragment extends BaseFragment{
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-        mRefreshLayout.setLoadMore(true);
-        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        rvRefresh.setRefreshHelper(new RefreshHelper() {
+            //初始化刷新view
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                initData();
+            public View onInitRefreshHeaderView() {
+                return LayoutInflater.from(context).inflate(R.layout.widget_lulu_headview, null);
             }
 
+            //初始化尺寸高度
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                super.onRefreshLoadMore(materialRefreshLayout);
-                // TODO: 2018/4/3
+            public boolean onInitRefreshHeight(int originRefreshHeight) {
+                rvRefresh.setRefreshNormalHeight(0);
+                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
+                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
+                return false;
+            }
+
+            //刷新状态的改变
+            @Override
+            public void onRefreshStateChanged(View refreshView, int refreshState) {
+                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
+                switch (refreshState) {
+                    case RefreshView.STATE_REFRESH_NORMAL:
+                        Glide.with(context)
+                                .load(R.raw.pull)
+                                .into(ivLulu);
+                        break;
+                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
+                        break;
+                    case RefreshView.STATE_REFRESH_ARRIVED:
+                        break;
+                    case RefreshView.STATE_REFRESHING:
+                        Glide.with(context)
+                                .asGif()
+                                .load(R.raw.refreshing)
+                                .into(ivLulu);
+                        new Thread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Thread.sleep(2000);
+                                            ((Activity)context).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    refreshData();
+                                                    rvRefresh.onCompleteRefresh();
+                                                }
+                                            });
+                                        } catch (InterruptedException e) {
+                                        }
+                                    }
+                                }
+                        ).start();
+                        break;
+                }
+            }
+        });
+
+        listView.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                new Thread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    ((Activity)context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMore();
+                                        }
+                                    });
+                                } catch (InterruptedException e) {
+                                }
+                            }
+                        }
+                ).start();
             }
         });
     }
 
-    private void initData() {
-        posts = new ArrayList<>();
-        getPost(1, 10);
+    /**
+     * 下拉刷新
+     */
+    public void refreshData() {
+        pageIndex = 1;
+        state = Enum.STATE_REFRESH;
+        initData();
     }
 
+    /**
+     * 上拉刷新
+     */
+    private void loadMore() {
+        pageIndex++;
+        state = Enum.STATE_MORE;
+        initData();
+    }
+
+    private void initData() {
+        postList = new ArrayList<>();
+        getPost(pageIndex, pageSize);
+    }
+
+
     private void changeByState() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new RecyclerViewAdapter(context, posts);
-        recyclerView.setAdapter(adapter);
+        switch (state) {
+            case Enum.STATE_NORMAL:
+                myAdapter = new PostListAdapter(context, postList);
+                listView.setAdapter(myAdapter);
+                break;
+            case Enum.STATE_REFRESH:
+                myAdapter.clear();
+                myAdapter.addDatas(postList);
+                listView.LoadingComplete();
+                break;
+            case Enum.STATE_MORE:
+                if (postList.size() == 0) {
+                    listView.NoMoreData();
+                    break;
+                }
+                myAdapter.addDatas(postList);
+                listView.LoadingComplete();
+                break;
+
+        }
     }
 
     private void getPost(int pageIndex, int pageSize){
@@ -123,7 +237,7 @@ public class PostsFragment extends BaseFragment{
                     @Override
                     public void onNext(BaseEntity<List<Post>> baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            posts = baseEntity.getDatas();
+                            postList = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {

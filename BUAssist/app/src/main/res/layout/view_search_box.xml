@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_300">
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/tv_cancel"
@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:text="@string/cancel"
             android:textSize="16sp"
-            android:textColor="@color/tv_blue"
+            android:textColor="@color/semidark_red"
             android:gravity="center"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -25,7 +25,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/borderless_wrap_layout_white"
+            android:background="@drawable/borderless_wrap_layout_grey"
             android:layout_margin="7dp"
             android:layout_toLeftOf="@id/tv_cancel">
 
@@ -54,8 +54,8 @@
                 android:background="@null"
                 android:hint="请输入课程或教授名字搜索"
                 android:gravity="center|left"
-                android:textColorHint="@color/tv_grey"
-                android:textSize="16sp"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/tv_grey"
