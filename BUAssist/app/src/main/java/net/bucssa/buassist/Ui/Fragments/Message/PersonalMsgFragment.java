@@ -156,7 +156,7 @@ public class PersonalMsgFragment extends BaseFragment {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    Thread.sleep(1000);
                                     ((Activity)context).runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {

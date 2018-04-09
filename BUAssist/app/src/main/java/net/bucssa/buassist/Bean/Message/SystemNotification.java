@@ -20,6 +20,8 @@ public class SystemNotification {
      * from_type : 好友请求
      * delstatus : 0
      * avatar : http://bucssa.net/uc_server/avatar.php?uid=&size=middle
+     * extra : 10006
+
      */
 
 
@@ -36,6 +38,7 @@ public class SystemNotification {
     private String from_type;
     private int delstatus;
     private String avatar;
+    private int extra;
 
     public int getId() {
         return id;
@@ -139,5 +142,13 @@ public class SystemNotification {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public int getExtra() {
+        return extra;
+    }
+
+    public void setExtra(int extra) {
+        this.extra = extra;
     }
 }

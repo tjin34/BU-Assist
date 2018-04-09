@@ -23,7 +23,7 @@
                 android:layout_height="80dp"
                 android:orientation="horizontal"
                 android:background="@drawable/selector_bg_textview_rect"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="5dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -476,7 +476,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="8dp"
         android:background="@drawable/bg_header_shadow"
         android:layout_below="@id/header"/>
 

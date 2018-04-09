@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_200">
 
-    <include layout="@layout/header"/>
+    <include layout="@layout/header" android:id="@+id/header"/>
 
     <RelativeLayout
         android:id="@+id/name_inputBox"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:layout_below="@id/header"
         android:visibility="gone">
 
         <net.bucssa.buassist.Widget.SuperEditText
@@ -42,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
+        android:layout_below="@id/header"
         android:visibility="gone">
 
         <net.bucssa.buassist.Widget.SuperEditText
@@ -70,10 +72,11 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_header_shadow"
+        android:layout_below="@id/header"/>
 
 
-
-
-
-
-</LinearLayout>
+</RelativeLayout>

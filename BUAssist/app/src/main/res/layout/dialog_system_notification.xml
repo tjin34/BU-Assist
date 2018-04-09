@@ -1,23 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:background="@drawable/bg_area_wrap_layout_pink"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/ivClose"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/selector_close_window"/>
+            android:src="@drawable/selector_close_window"
+            android:padding="10dp"
+            android:layout_gravity="top|right"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ivRing"
+                        android:layout_width="66dp"
+                        android:layout_height="66dp"
+                        android:src="@drawable/border_bg_layer_1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="30dp"/>
+
+                    <net.bucssa.buassist.Widget.RoundImageView
+                        android:id="@+id/ivAvatar"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/profile_photo"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginLeft="33dp"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="76dp"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="15dp">
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我郝帅"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_marginTop="20dp"/>
+
+                    <TextView
+                        android:id="@+id/tvFromType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="From 吃鸡大队"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="5dp"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <net.bucssa.buassist.Widget.BubbleLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:arrowWidth="20dp"
+                app:angle="8dp"
+                app:arrowHeight="15dp"
+                app:arrowPosition="35dp"
+                app:arrowLocation="top"
+                app:bubbleColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/tvMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_comment"
+                    android:textColor="@color/tv_grey"
+                    android:textSize="12sp"
+                    android:padding="7dp"
+                    android:layout_marginTop="15dp"/>
+
+            </net.bucssa.buassist.Widget.BubbleLinearLayout>
+
+            <net.bucssa.buassist.Widget.BubbleLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:arrowWidth="20dp"
+                app:angle="8dp"
+                app:arrowHeight="15dp"
+                app:arrowPosition="35dp"
+                app:arrowLocation="bottom"
+                app:bubbleColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp">
+
+                <EditText
+                    android:id="@+id/etComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="处理留言（选填）"
+                    android:background="@null"
+                    android:textColorHint="@color/tv_grey"
+                    android:textSize="12sp"
+                    android:padding="7dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"/>
+
+            </net.bucssa.buassist.Widget.BubbleLinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llButtons"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:id="@+id/tvAgree"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_bg_dialog_left_button"
+                    android:text="同意"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:layout_marginRight="-2dp"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/tvDisagree"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_bg_dialog_right_button"
+                    android:text="拒绝"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
     </FrameLayout>
 </RelativeLayout>

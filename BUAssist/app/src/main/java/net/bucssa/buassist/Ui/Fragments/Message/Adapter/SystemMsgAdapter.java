@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -93,6 +94,7 @@ public class SystemMsgAdapter extends BaseAdapter{
                     viewHolderRequest.tvTitle = (TextView) convertView.findViewById(R.id.tv_msg_type);
                     viewHolderRequest.tvContent = (TextView) convertView.findViewById(R.id.tv_message);
                     viewHolderRequest.tvDateline = (TextView) convertView.findViewById(R.id.tv_dateline);
+                    viewHolderRequest.rootView = (LinearLayout) convertView.findViewById(R.id.rootView);
                     convertView.setTag(viewHolderRequest);
                 } else {
                     viewHolderRequest = (ViewHolderRequest) convertView.getTag();
@@ -102,9 +104,18 @@ public class SystemMsgAdapter extends BaseAdapter{
                         .load(data.getAvatar())
                         .into(viewHolderRequest.ivAvatar);
 
-                viewHolderRequest.tvTitle.setText(data.getFrom_type());
-                viewHolderRequest.tvContent.setText(data.getContent());
+                viewHolderRequest.tvTitle.setText(data.getAuthor());
+                viewHolderRequest.tvContent.setText(data.getFrom_type());
                 viewHolderRequest.tvDateline.setText(DateUtil.dateToOutput(data.getDateline()));
+
+                viewHolderRequest.rootView.setSelected(data.getIs_new() == 1);
+                viewHolderRequest.rootView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onSystemRequestClickListener.OnSystemRequestClick(data);
+                    }
+                });
+
                 break;
             case 1:
                 if (convertView == null) {
@@ -112,12 +123,14 @@ public class SystemMsgAdapter extends BaseAdapter{
                     convertView = LayoutInflater.from(mContext).inflate(R.layout.item_system_message, null);
                     viewHolderMsg.tvContent = (TextView) convertView.findViewById(R.id.tv_message);
                     viewHolderMsg.tvDateline = (TextView) convertView.findViewById(R.id.tv_dateline);
+                    viewHolderMsg.rootView = (LinearLayout) convertView.findViewById(R.id.rootView);
                     convertView.setTag(viewHolderMsg);
                 } else {
                     viewHolderMsg = (ViewHolderMsg) convertView.getTag();
                 }
                 viewHolderMsg.tvContent.setText(data.getContent());
                 viewHolderMsg.tvDateline.setText(DateUtil.dateToOutput(data.getDateline()));
+                viewHolderMsg.rootView.setSelected(data.getIs_new() == 1);
                 break;
         }
 
@@ -129,14 +142,23 @@ public class SystemMsgAdapter extends BaseAdapter{
         TextView tvTitle;
         TextView tvContent;
         TextView tvDateline;
+        LinearLayout rootView;
     }
 
     private class ViewHolderMsg{
         TextView tvContent;
         TextView tvDateline;
+        LinearLayout rootView;
     }
 
 
+    public interface OnSystemRequestClickListener {
+        void OnSystemRequestClick(SystemNotification systemNotification);
+    }
 
+    private OnSystemRequestClickListener onSystemRequestClickListener;
 
+    public void setOnSystemRequestClickListener(OnSystemRequestClickListener onSystemRequestClickListener) {
+        this.onSystemRequestClickListener = onSystemRequestClickListener;
+    }
 }

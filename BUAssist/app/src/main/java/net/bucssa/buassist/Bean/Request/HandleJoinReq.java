@@ -24,6 +24,16 @@ public class HandleJoinReq {
     private String comment;
     private String token;
 
+    public HandleJoinReq(int nid, int uid, int memberuid, int groupid, int result, String comment, String token){
+        this.nid = nid;
+        this.uid = uid;
+        this.memberuid = memberuid;
+        this.groupid = groupid;
+        this.result = result;
+        this.comment = comment;
+        this.token = token;
+    }
+
     public int getNid() {
         return nid;
     }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/cardShadowColor_1" />
+            <padding
+                android:top="@dimen/cardPadding2"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/cardShadowColor_2" />
+            <padding
+                android:top="@dimen/cardPadding2"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/cardShadowColor_3" />
+            <padding
+                android:top="@dimen/cardPadding2"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/cardShadowColor_4" />
+            <padding
+                android:top="@dimen/cardPadding2"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/cardShadowColor_5" />
+            <padding
+                android:top="@dimen/cardPadding2"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/cardShadowColor_6" />
+            <padding
+                android:top="@dimen/cardPadding2" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/cardShadowColor_7" />
+            <padding
+                android:top="@dimen/cardPadding2"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/cardShadowColor_8" />
+            <padding
+                android:top="@dimen/cardPadding2"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/cardBodyColor"/>
+        </shape>
+    </item>
+</layer-list>

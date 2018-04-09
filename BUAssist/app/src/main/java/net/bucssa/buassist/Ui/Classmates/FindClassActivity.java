@@ -215,7 +215,7 @@ public class FindClassActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    Thread.sleep(1000);
                                     ((Activity)mContext).runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {

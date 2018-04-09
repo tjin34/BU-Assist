@@ -20,6 +20,14 @@ public class HandleInviteReq {
     private int result;
     private String token;
 
+    public HandleInviteReq(int nid, int uid, int groupid, int result, String token){
+        this.nid = nid;
+        this.uid = uid;
+        this.groupid = groupid;
+        this.result = result;
+        this.token = token;
+    }
+
     public int getNid() {
         return nid;
     }

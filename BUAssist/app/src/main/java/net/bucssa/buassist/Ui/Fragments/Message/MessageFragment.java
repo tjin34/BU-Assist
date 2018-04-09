@@ -87,6 +87,8 @@ public class MessageFragment extends BaseFragment {
         myAdapter = new FragmentAdapter(getChildFragmentManager(), fragments);
         viewPager.setAdapter(myAdapter);
 
+        onSwitchBarListener.switchContent(0);
+
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

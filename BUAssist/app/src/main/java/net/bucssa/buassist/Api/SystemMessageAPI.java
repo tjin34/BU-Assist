@@ -6,7 +6,10 @@ import net.bucssa.buassist.Bean.Message.SystemNotification;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -30,4 +33,13 @@ public interface SystemMessageAPI {
                                                                       @Query("token") String token,
                                                                       @Query("pageIndex") int pageIndex,
                                                                       @Query("pageSize") int pageSize);
+
+
+    /**
+     * 删除系统消息列表
+     * @param json
+     * @return
+     */
+    @POST("systemMessage/message/delete.php")
+    Observable<BaseEntity> deleteSystemMessage(@Body RequestBody json);
 }

@@ -24,6 +24,7 @@ import net.bucssa.buassist.Ui.Classmates.Adapter.CommentListAdapter;
 import net.bucssa.buassist.Util.DateUtil;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
 import net.bucssa.buassist.Widget.RefreshHelper;
 import net.bucssa.buassist.Widget.RefreshView;
 
@@ -73,7 +74,7 @@ public class PostDetailActivity extends BaseActivity {
     ImageView ivComment;
 
     @BindView(R.id.lvComment)
-    ListView lvComment;
+    CustomListViewForRefreshView lvComment;
 
     
     private Post post;
@@ -198,6 +199,13 @@ public class PostDetailActivity extends BaseActivity {
                         ).start();
                         break;
                 }
+            }
+        });
+
+        lvComment.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+
             }
         });
 
