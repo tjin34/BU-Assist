@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:background="@color/transparent"
         android:layout_alignParentBottom="true">
 
@@ -99,7 +99,7 @@
 
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomBar"
@@ -107,24 +107,56 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rlAdvertise"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:orientation="vertical"
-            android:layout_margin="20dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-            <include layout="@layout/widget_viewpager_radiogroup" android:id="@+id/RadioGroup"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_partial_shadow"
+                android:layout_alignParentBottom="true">
+
+                <include layout="@layout/widget_viewpager_radiogroup" android:id="@+id/RadioGroup"/>
+
+
+                <TextView
+                    android:id="@+id/tvAdvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_news_title"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_toLeftOf="@id/RadioGroup"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+
+            </RelativeLayout>
+
 
         </RelativeLayout>
 
         <net.bucssa.buassist.Widget.RefreshView
             android:id="@+id/rv_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/rlAdvertise">
 
             <net.bucssa.buassist.Widget.CustomListViewForRefreshView
                 android:id="@+id/lv_news"
@@ -138,7 +170,19 @@
 
         </net.bucssa.buassist.Widget.RefreshView>
 
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/bg_header_shadow"
+            android:layout_below="@id/rlAdvertise"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/bg_header_shadow_reverse"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
 
 
 

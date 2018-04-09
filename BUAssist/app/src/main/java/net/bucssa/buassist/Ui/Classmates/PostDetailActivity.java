@@ -1,11 +1,16 @@
 package net.bucssa.buassist.Ui.Classmates;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +29,7 @@ import net.bucssa.buassist.Ui.Classmates.Adapter.CommentListAdapter;
 import net.bucssa.buassist.Util.DateUtil;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Util.Utils;
 import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
 import net.bucssa.buassist.Widget.RefreshHelper;
 import net.bucssa.buassist.Widget.RefreshView;
@@ -76,6 +82,12 @@ public class PostDetailActivity extends BaseActivity {
     @BindView(R.id.lvComment)
     CustomListViewForRefreshView lvComment;
 
+    @BindView(R.id.header)
+    LinearLayout headerRootView;
+
+    @BindView(R.id.rootView)
+    RelativeLayout rootView;
+
     
     private Post post;
     private List<Comment> comments;
@@ -83,6 +95,9 @@ public class PostDetailActivity extends BaseActivity {
     private CommentListAdapter myAdapter;
 
     private int state = Enum.STATE_NORMAL;
+
+    private int pageIndex = 1;
+    private int pageSize = 10;
 
     @Override
     protected String getTAG() {
@@ -98,6 +113,9 @@ public class PostDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         post = (Post) getIntent().getSerializableExtra("Post");
         super.onCreate(savedInstanceState);
+
+        ((Activity) mContext).getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         
         initView();
         initData();
@@ -185,7 +203,7 @@ public class PostDetailActivity extends BaseActivity {
                                     @Override
                                     public void run() {
                                         try {
-                                            Thread.sleep(2000);
+                                            Thread.sleep(1000);
                                             ((Activity)mContext).runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -205,16 +223,35 @@ public class PostDetailActivity extends BaseActivity {
         lvComment.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
             @Override
             public void onLoadMore() {
+                loadMore();
+            }
+        });
 
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                rootView.getWindowVisibleDisplayFrame(r);
+                int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
+
+                if (heightDiff > 100) {
+                    rvRefresh.getRefreshHeaderView().setPadding(0, -(Utils.px2dp(mContext, rvRefresh.getOriginRefreshHeight())-20),0,0);
+                }
             }
         });
 
     }
 
-
     private void refresh() {
+        pageIndex = 1;
         state = Enum.STATE_REFRESH;
-        getComment(0,0);
+        getComment(pageIndex,pageSize);
+    }
+
+    private void loadMore() {
+        pageIndex++;
+        state = Enum.STATE_MORE;
+        getComment(pageIndex, pageSize);
     }
 
 
@@ -229,6 +266,12 @@ public class PostDetailActivity extends BaseActivity {
                 myAdapter.addDatas(comments);
                 break;
             case Enum.STATE_MORE:
+                if (comments.size() == 0) {
+                    lvComment.NoMoreData();
+                } else {
+                    myAdapter.addDatas(comments);
+                    lvComment.LoadingComplete();
+                }
                 break;
         }
     }
@@ -260,7 +303,8 @@ public class PostDetailActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseEntity<List<Comment>> baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            comments = baseEntity.getDatas();
+                            if (baseEntity.getDatas() != null)
+                                comments = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {

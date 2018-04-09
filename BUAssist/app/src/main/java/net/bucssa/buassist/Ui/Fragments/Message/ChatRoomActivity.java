@@ -121,9 +121,9 @@ public class ChatRoomActivity extends BaseActivity{
             type = 1;
         super.onCreate(savedInstanceState);
 
-        headerRootView.setFitsSystemWindows(false);
-//        statusBar.getLayoutParams().height = getStatusBarHeight();
-        headerRootView.setPadding(0, getStatusBarHeight(), 0, 0);
+//        headerRootView.setFitsSystemWindows(false);
+////        statusBar.getLayoutParams().height = getStatusBarHeight();
+//        headerRootView.setPadding(0, getStatusBarHeight(), 0, 0);
 
 
         ((Activity) mContext).getWindow().setSoftInputMode(
@@ -223,9 +223,9 @@ public class ChatRoomActivity extends BaseActivity{
                 rootView.getWindowVisibleDisplayFrame(r);
                 int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
 
-//                if (heightDiff > 100) {
-//                    rv_message.scrollToPosition(myAdapter.getItemCount()-1);
-//                }
+                if (heightDiff > 100) {
+                    rv_message.scrollToPosition(myAdapter == null ? 0 : myAdapter.getItemCount()-1);
+                }
             }
         });
 
@@ -320,8 +320,7 @@ public class ChatRoomActivity extends BaseActivity{
 
 
     private void scrollToBottom() {
-        rv_message.scrollToPosition(myAdapter.getItemCount() - 1);
-
+        rv_message.scrollToPosition(myAdapter == null ? 0 : myAdapter.getItemCount()-1);
     }
 
 

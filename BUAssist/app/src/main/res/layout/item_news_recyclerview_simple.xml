@@ -7,8 +7,59 @@
         android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/selector_bg_textview_borderless">
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="6dp"
+            android:background="@drawable/bg_news_bar"
+            android:layout_alignParentBottom="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/bg_news_bar"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="2dp"/>
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="6dp"
+            android:background="@drawable/bg_news_bar"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
+
+        <View
+            android:id="@+id/grey_bar_right"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_news_bar"
+            android:layout_marginRight="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"/>
+
+        <View
+            android:layout_width="6dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_news_bar"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"/>
+
+
+        <View
+            android:layout_width="6dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_news_bar"
+            android:layout_alignParentBottom="true"/>
+
+        <View
+            android:id="@+id/grey_bar_left"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_news_bar"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="10dp"/>
 
         <ImageView
             android:id="@+id/iv_like"
@@ -16,23 +67,17 @@
             android:layout_height="40dp"
             android:src="@drawable/selector_like_button"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:padding="5dp"/>
-
-        <View
-            android:id="@+id/grey_bar"
-            android:layout_width="5dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_news_bar"/>
+            android:padding="5dp"
+            android:layout_toLeftOf="@id/grey_bar_right"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toLeftOf="@id/iv_like"
-            android:layout_toRightOf="@id/grey_bar"
+            android:layout_toRightOf="@id/grey_bar_left"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_centerVertical="true">
 
 
@@ -66,22 +111,9 @@
                     android:textSize="12sp"
                     android:textColor="@color/tv_grey"/>
 
-
             </LinearLayout>
-
-
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@drawable/bg_news_bar"
-            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
-
-
-
-
-
 </LinearLayout>

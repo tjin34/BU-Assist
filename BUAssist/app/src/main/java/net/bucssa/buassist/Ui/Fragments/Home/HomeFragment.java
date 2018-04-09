@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -68,6 +69,9 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
+    @BindView(R.id.tvAdvTitle)
+    TextView tvAdvTitle;
+
     @BindView(R.id.RadioGroup)
     RadioGroup radioGroup;
 
@@ -107,6 +111,7 @@ public class HomeFragment extends BaseFragment {
             "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=858706739,1622508857&fm=27&gp=0.jpg",
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523297551&di=f9bde8aa6311dd014ee4d685b224423d&imgtype=jpg&er=1&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fe1fe9925bc315c60ebc2eb768ab1cb13485477d0.jpg"};
 
+    private static final String[] advTitle = {"新垣结衣-1","新垣结衣-2","新垣结衣-3","新垣结衣-4","新垣结衣-5"};
 
 
 @Override
@@ -155,22 +160,27 @@ public class HomeFragment extends BaseFragment {
                 case R.id.radio1:
                     viewPager.setCurrentItem(0);
                     currentItem = 0;
+                    tvAdvTitle.setText(advTitle[0]);
                     break;
                 case R.id.radio2:
                     viewPager.setCurrentItem(1);
                     currentItem = 1;
+                    tvAdvTitle.setText(advTitle[1]);
                     break;
                 case R.id.radio3:
                     viewPager.setCurrentItem(2);
                     currentItem = 2;
+                    tvAdvTitle.setText(advTitle[2]);
                     break;
                 case R.id.radio4:
                     viewPager.setCurrentItem(3);
                     currentItem = 3;
+                    tvAdvTitle.setText(advTitle[3]);
                     break;
                 case R.id.radio5:
                     viewPager.setCurrentItem(4);
                     currentItem = 4;
+                    tvAdvTitle.setText(advTitle[4]);
                     break;
                 default:
                     break;
@@ -197,6 +207,7 @@ public class HomeFragment extends BaseFragment {
 
         viewPagerAdapter = new ViewPagerAdapter(views);
         viewPager.setAdapter(viewPagerAdapter);
+        tvAdvTitle.setText(advTitle[0]);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -204,6 +215,7 @@ public class HomeFragment extends BaseFragment {
                 radioButton = (RadioButton) radioGroup.getChildAt(position);
                 radioButton.setChecked(true);
                 currentItem = position;
+                tvAdvTitle.setText(advTitle[position]);
             }
 
             @Override

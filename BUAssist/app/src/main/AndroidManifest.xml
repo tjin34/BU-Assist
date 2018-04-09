@@ -43,8 +43,7 @@
         <!--我的好友-->
         <activity android:name=".Ui.Fragments.Mine.MyFriendActivity"/>
         <!--聊天室页-->
-        <activity android:name=".Ui.Fragments.Message.ChatRoomActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+        <activity android:name=".Ui.Fragments.Message.ChatRoomActivity">
 
         </activity>
 
@@ -60,7 +59,8 @@
         <activity android:name=".Ui.Classmates.GroupDetailActivity"/>
         <activity android:name=".Ui.Classmates.MyGroupActivity"/>
         <activity android:name=".Ui.Classmates.MyTopicActivity"/>
-        <activity android:name=".Ui.Classmates.PostDetailActivity"/>
+        <activity android:name=".Ui.Classmates.PostDetailActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
 
         <!--网页WebView-->
