@@ -253,6 +253,13 @@ public class MainActivity  extends BaseActivity {
                 tvSystem.setSelected(true);
             }
         });
+
+        iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     /**

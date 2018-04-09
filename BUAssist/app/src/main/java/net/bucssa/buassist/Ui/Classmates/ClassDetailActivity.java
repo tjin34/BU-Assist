@@ -1,6 +1,7 @@
 package net.bucssa.buassist.Ui.Classmates;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -104,6 +105,7 @@ public class ClassDetailActivity extends BaseActivity {
 
     private Class classItem;
 
+    private final int CREATE_POST = 1;
 
 
     @Override
@@ -150,6 +152,15 @@ public class ClassDetailActivity extends BaseActivity {
         } else {
             setAddCollection();
         }
+
+        llTopicRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, CreatePostActivity.class);
+                intent.putExtra("Class", classItem);
+                startActivityForResult(intent, CREATE_POST);
+            }
+        });
 
     }
 
@@ -264,6 +275,16 @@ public class ClassDetailActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CREATE_POST:
+                PostsFragment.refreshData();
+                break;
+        }
+    }
+
     private void addCollection(String json){
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
         Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
@@ -332,81 +353,6 @@ public class ClassDetailActivity extends BaseActivity {
                         if (baseEntity.isSuccess()) {
                             ToastUtils.showToast(mContext, "删除收藏成功！");
                             setAddCollection();
-                        } else {
-                            ToastUtils.showToast(mContext, baseEntity.getError());
-                        }
-                        Logger.d();
-                    }
-                });
-    }
-
-
-    private void createGroup(String json){
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
-        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
-                .createGroup(body);
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseEntity>() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                        Logger.d();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        Logger.d();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.d(e.toString());
-                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
-                    }
-
-                    @Override
-                    public void onNext(BaseEntity baseEntity) {
-                        if (baseEntity.isSuccess()) {
-                            ToastUtils.showToast(mContext, "创建成功！");
-                        } else {
-                            ToastUtils.showToast(mContext, baseEntity.getError());
-                        }
-                        Logger.d();
-                    }
-                });
-    }
-
-    private void createPost(String json){
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
-        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
-                .createPost(body);
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseEntity>() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                        Logger.d();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        Logger.d();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.d(e.toString());
-                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
-                    }
-
-                    @Override
-                    public void onNext(BaseEntity baseEntity) {
-                        if (baseEntity.isSuccess()) {
-                            ToastUtils.showToast(mContext, "创建成功！");
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }

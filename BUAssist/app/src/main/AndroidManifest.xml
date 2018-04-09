@@ -61,6 +61,7 @@
         <activity android:name=".Ui.Classmates.MyTopicActivity"/>
         <activity android:name=".Ui.Classmates.PostDetailActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".Ui.Classmates.CreatePostActivity"/>
 
 
         <!--网页WebView-->

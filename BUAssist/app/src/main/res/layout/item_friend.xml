@@ -7,8 +7,6 @@
         android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:background="@drawable/selector_bg_textview_rect">
 
         <net.bucssa.buassist.Widget.RoundImageView
@@ -17,7 +15,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/profile_photo"
             android:scaleType="centerCrop"/>
@@ -29,20 +27,23 @@
             android:text="名字"
             android:layout_toRightOf="@id/iv_avatar"
             android:layout_centerVertical="true"
-            android:textColor="@color/tv_black"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:layout_marginLeft="20dp"/>
+            android:textColor="@color/tv_grey"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"/>
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="@color/mainTabTheme"
-            android:layout_alignParentBottom="true"/>
-
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src=""/>
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/mainTabTheme"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
 </LinearLayout>

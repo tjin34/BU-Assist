@@ -1,6 +1,7 @@
 package net.bucssa.buassist.Ui.Classmates.Fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -210,6 +211,12 @@ public class PostsFragment extends BaseFragment{
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        refreshData();
+    }
+
     private void getPost(int pageIndex, int pageSize){
         Observable<BaseEntity<List<Post>>> observable = RetrofitClient.createService(ClassmateAPI.class)
                 .getPost(0,classId, pageIndex, pageSize,"");
@@ -237,7 +244,8 @@ public class PostsFragment extends BaseFragment{
                     @Override
                     public void onNext(BaseEntity<List<Post>> baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            postList = baseEntity.getDatas();
+                            if (baseEntity.getDatas() != null)
+                                postList = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {
