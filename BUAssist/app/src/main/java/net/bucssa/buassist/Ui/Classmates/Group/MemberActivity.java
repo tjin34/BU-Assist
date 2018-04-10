@@ -1,23 +1,23 @@
-package net.bucssa.buassist.Ui.Classmates.Fragments;
+package net.bucssa.buassist.Ui.Classmates.Group;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
 import net.bucssa.buassist.Api.ClassmateAPI;
-import net.bucssa.buassist.Base.BaseFragment;
+import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
-import net.bucssa.buassist.Bean.Classmate.Group;
+import net.bucssa.buassist.Bean.Classmate.Member;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
-import net.bucssa.buassist.Ui.Classmates.Adapter.GroupsListAdapter;
+import net.bucssa.buassist.Ui.Classmates.Adapter.MemberListAdapter;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
 import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
@@ -33,22 +33,34 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
 /**
- * Created by KimuraShin on 17/7/24.
+ * Created by Shinji on 2018/4/10.
  */
 
-public class GroupsFragment extends BaseFragment{
-    
+public class MemberActivity extends BaseActivity {
+
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
+
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+
+    @BindView(R.id.search)
+    LinearLayout search;
+
+    @BindView(R.id.searchShadow)
+    View searchShadow;
+
     @BindView(R.id.rvRefresh)
     RefreshView rvRefresh;
 
     @BindView(R.id.listView)
-    CustomListViewForRefreshView listView;
-    
-    private String classCode = "";
+    CustomListViewForRefreshView lv_class;
 
-    private List<Group> groupList = new ArrayList<>();
-    private GroupsListAdapter myAdapter;
+    private int groupId;
+    private List<Member> memberList = new ArrayList<>();
+    private MemberListAdapter myAdapter;
 
     private int state = Enum.STATE_NORMAL;
 
@@ -57,32 +69,43 @@ public class GroupsFragment extends BaseFragment{
     private int totalCount = 0;
 
     @Override
+    protected int getLayoutId() {
+        return R.layout.activity_classmate_listview;
+    }
+
+    @Override
     protected String getTAG() {
         return this.toString();
     }
 
     @Override
-    public int getContentViewId() {
-        return R.layout.fragment_listview;
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        groupId = getIntent().getIntExtra("groupId", 0);
+        super.onCreate(savedInstanceState);
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            classCode = bundle.getString("classCode");
-        }
         initData();
+
     }
 
     @Override
-    protected void initAllMembersView(Bundle savedInstanceState) {
+    protected void initResAndListener() {
+        tv_title.setText("成员列表");
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        search.setVisibility(View.GONE);
+        searchShadow.setVisibility(View.GONE);
+
         rvRefresh.setRefreshHelper(new RefreshHelper() {
             //初始化刷新view
             @Override
             public View onInitRefreshHeaderView() {
-                return LayoutInflater.from(context).inflate(R.layout.widget_lulu_headview, null);
+                return LayoutInflater.from(mContext).inflate(R.layout.widget_lulu_headview, null);
             }
 
             //初始化尺寸高度
@@ -100,7 +123,7 @@ public class GroupsFragment extends BaseFragment{
                 ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
                 switch (refreshState) {
                     case RefreshView.STATE_REFRESH_NORMAL:
-                        Glide.with(context)
+                        Glide.with(mContext)
                                 .load(R.raw.pull)
                                 .into(ivLulu);
                         break;
@@ -109,7 +132,7 @@ public class GroupsFragment extends BaseFragment{
                     case RefreshView.STATE_REFRESH_ARRIVED:
                         break;
                     case RefreshView.STATE_REFRESHING:
-                        Glide.with(context)
+                        Glide.with(mContext)
                                 .asGif()
                                 .load(R.raw.refreshing)
                                 .into(ivLulu);
@@ -119,7 +142,7 @@ public class GroupsFragment extends BaseFragment{
                                     public void run() {
                                         try {
                                             Thread.sleep(2000);
-                                            ((Activity)context).runOnUiThread(new Runnable() {
+                                            ((Activity)mContext).runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     refreshData();
@@ -136,7 +159,7 @@ public class GroupsFragment extends BaseFragment{
             }
         });
 
-        listView.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        lv_class.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 new Thread(
@@ -145,7 +168,7 @@ public class GroupsFragment extends BaseFragment{
                             public void run() {
                                 try {
                                     Thread.sleep(1000);
-                                    ((Activity)context).runOnUiThread(new Runnable() {
+                                    ((Activity)mContext).runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             loadMore();
@@ -179,47 +202,53 @@ public class GroupsFragment extends BaseFragment{
     }
 
     private void initData() {
-        groupList = new ArrayList<>();
-        getGroup(pageIndex, pageSize);
+        memberList = new ArrayList<>();
+        getMember(pageIndex, pageSize);
     }
 
 
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                myAdapter = new GroupsListAdapter(context, groupList);
-                listView.setAdapter(myAdapter);
+                myAdapter = new MemberListAdapter(mContext, memberList);
+                myAdapter.setOnClickEventListener(new MemberListAdapter.OnClickEventListener() {
+                    @Override
+                    public void OnItemClick(Member member) {
+                        // TODO: 2018/4/10  
+                    }
+
+                    @Override
+                    public void OnItemLongClick() {
+                        // TODO: 2018/4/10
+                    }
+                });
+                lv_class.setAdapter(myAdapter);
                 break;
             case Enum.STATE_REFRESH:
-                myAdapter.clear();
-                myAdapter.addDatas(groupList);
-                listView.LoadingComplete();
+                myAdapter.clearData();
+                myAdapter.addData(0, memberList);
+                lv_class.LoadingComplete();
                 break;
             case Enum.STATE_MORE:
-                if (groupList.size() == 0) {
-                    listView.NoMoreData();
+                if (memberList.size() == 0) {
+                    lv_class.NoMoreData();
                     break;
                 }
-                myAdapter.addDatas(groupList);
-                listView.LoadingComplete();
+                myAdapter.addData(myAdapter.getCount(), memberList);
+                lv_class.LoadingComplete();
                 break;
 
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        refreshData();
-    }
 
-    private void getGroup(int pageIndex, int pageSize){
-        Observable<BaseEntity<List<Group>>> observable = RetrofitClient.createService(ClassmateAPI.class)
-                .getGroup(0,classCode, pageIndex, pageSize,"");
+    private void getMember(int pageIndex, int pageSize){
+        Observable<BaseEntity<List<Member>>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getMember(groupId,pageIndex, pageSize);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseEntity<List<Group>>>() {
+                .subscribe(new Subscriber<BaseEntity<List<Member>>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -234,27 +263,21 @@ public class GroupsFragment extends BaseFragment{
                     @Override
                     public void onError(Throwable e) {
                         Logger.d(e.toString());
-                        ToastUtils.showToast(context, getString(R.string.snack_message_net_error));
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
                     }
 
                     @Override
-                    public void onNext(BaseEntity<List<Group>> baseEntity) {
+                    public void onNext(BaseEntity<List<Member>> baseEntity) {
                         if (baseEntity.isSuccess()) {
                             if (baseEntity.getDatas() != null)
-                                groupList = baseEntity.getDatas();
+                                memberList = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {
-                            ToastUtils.showToast(context, baseEntity.getError());
+                            ToastUtils.showToast(mContext, baseEntity.getError());
                         }
                         Logger.d();
                     }
                 });
     }
-
-
-
-
-
-
 }

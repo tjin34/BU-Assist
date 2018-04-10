@@ -1,36 +1,31 @@
-package net.bucssa.buassist.Ui.Classmates;
+package net.bucssa.buassist.Ui.Classmates.Post;
 
 import android.app.Activity;
-import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 
 import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
-import net.bucssa.buassist.Bean.Classmate.Comment;
 import net.bucssa.buassist.Bean.Classmate.Post;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
-import net.bucssa.buassist.Ui.Classmates.Adapter.CommentListAdapter;
-import net.bucssa.buassist.Util.DateUtil;
+import net.bucssa.buassist.Ui.Classmates.Adapter.PostListAdapter;
+import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
-import net.bucssa.buassist.Util.Utils;
 import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
+import net.bucssa.buassist.Widget.LuluRefreshListView;
 import net.bucssa.buassist.Widget.RefreshHelper;
 import net.bucssa.buassist.Widget.RefreshView;
 
@@ -44,60 +39,52 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by shinji on 2018/4/6.
+ * Created by KimuraShin on 17/7/29.
  */
 
-public class PostDetailActivity extends BaseActivity {
+public class MyTopicActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
-    ImageView ivBack;
+    ImageView iv_back;
 
     @BindView(R.id.tv_title)
-    TextView title;
+    TextView tv_title;
+
+    @BindView(R.id.search_textView)
+    LinearLayout fakeSearchBox;
+
+    @BindView(R.id.tv_search)
+    TextView tv_search;
+
+    @BindView(R.id.et_search)
+    EditText et_search;
+
+    @BindView(R.id.search_editText)
+    LinearLayout realSearchBox;
+
+    @BindView(R.id.tv_cancel)
+    TextView tv_cancel;
 
     @BindView(R.id.rvRefresh)
     RefreshView rvRefresh;
 
-    @BindView(R.id.ivProfile)
-    ImageView ivProfile;
+    @BindView(R.id.listView)
+    CustomListViewForRefreshView listView;
 
-    @BindView(R.id.tvCreator)
-    TextView tvCreator;
-
-    @BindView(R.id.tvTitle)
-    TextView tvTitle;
-
-    @BindView(R.id.tvContent)
-    TextView tvContent;
-
-    @BindView(R.id.tvComment)
-    TextView tvComment;
-
-    @BindView(R.id.tvTime)
-    TextView tvTime;
-
-    @BindView(R.id.ivComment)
-    ImageView ivComment;
-
-    @BindView(R.id.lvComment)
-    CustomListViewForRefreshView lvComment;
-
-    @BindView(R.id.header)
-    LinearLayout headerRootView;
-
-    @BindView(R.id.rootView)
-    RelativeLayout rootView;
-
-    
-    private Post post;
-    private List<Comment> comments;
-    private int totalCount;
-    private CommentListAdapter myAdapter;
+    private List<Post> postList = new ArrayList<>();
+    private PostListAdapter myAdapter;
 
     private int state = Enum.STATE_NORMAL;
 
     private int pageIndex = 1;
     private int pageSize = 10;
+    private int totalCount = 0;
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_classmate_listview;
+    }
 
     @Override
     protected String getTAG() {
@@ -105,61 +92,40 @@ public class PostDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_post_detail;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        post = (Post) getIntent().getSerializableExtra("Post");
         super.onCreate(savedInstanceState);
 
-        ((Activity) mContext).getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        
-        initView();
         initData();
-
     }
-    
-    private void initView() {
-        
-        title.setText("话题详情");
-
-        Glide.with(mContext)
-                .asBitmap()
-                .load(post.getAvatar())
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
-                .into(ivProfile);
-        tvCreator.setText(post.getAuthorName());
-        tvTitle.setText(post.getSubject());
-        tvContent.setText(post.getContent());
-        tvComment.setText(String.valueOf(post.getComment()));
-
-        ivComment.setSelected(false);
-        if (post.getComment() > 5)
-            ivComment.setSelected(false);
-
-        tvTime.setText(DateUtil.dateToOutput(post.getDateline()));
-    }
-
-    private void initData() {
-        comments = new ArrayList<>();
-        getComment(0,0);
-    }
-
 
     @Override
     protected void initResAndListener() {
-
-        ivBack.setVisibility(View.VISIBLE);
-        ivBack.setOnClickListener(new View.OnClickListener() {
+        tv_title.setText("我的话题");
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
+        tv_search.setText(R.string.search_topic);
+        et_search.setHint(R.string.search_topic);
+        fakeSearchBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fakeSearchBox.setVisibility(View.GONE);
+                realSearchBox.setVisibility(View.VISIBLE);
+            }
+        });
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fakeSearchBox.setVisibility(View.VISIBLE);
+                realSearchBox.setVisibility(View.GONE);
+            }
+        });
 
         rvRefresh.setRefreshHelper(new RefreshHelper() {
             //初始化刷新view
@@ -184,7 +150,6 @@ public class PostDetailActivity extends BaseActivity {
                 switch (refreshState) {
                     case RefreshView.STATE_REFRESH_NORMAL:
                         Glide.with(mContext)
-                                .asGif()
                                 .load(R.raw.pull)
                                 .into(ivLulu);
                         break;
@@ -197,16 +162,16 @@ public class PostDetailActivity extends BaseActivity {
                                 .asGif()
                                 .load(R.raw.refreshing)
                                 .into(ivLulu);
-                        refresh();
                         new Thread(
                                 new Runnable() {
                                     @Override
                                     public void run() {
                                         try {
-                                            Thread.sleep(1000);
+                                            Thread.sleep(2000);
                                             ((Activity)mContext).runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
+                                                    refreshData();
                                                     rvRefresh.onCompleteRefresh();
                                                 }
                                             });
@@ -220,69 +185,84 @@ public class PostDetailActivity extends BaseActivity {
             }
         });
 
-        lvComment.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        listView.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                loadMore();
+                new Thread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1000);
+                                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMore();
+                                        }
+                                    });
+                                } catch (InterruptedException e) {
+                                }
+                            }
+                        }
+                ).start();
             }
         });
-
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                rootView.getWindowVisibleDisplayFrame(r);
-                int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
-
-                if (heightDiff > 100) {
-                    rvRefresh.getRefreshHeaderView().setPadding(0, -(Utils.px2dp(mContext, rvRefresh.getOriginRefreshHeight())-20),0,0);
-                }
-            }
-        });
-
     }
 
-    private void refresh() {
+    /**
+     * 下拉刷新
+     */
+    public void refreshData() {
         pageIndex = 1;
         state = Enum.STATE_REFRESH;
-        getComment(pageIndex,pageSize);
+        initData();
     }
 
+    /**
+     * 上拉刷新
+     */
     private void loadMore() {
         pageIndex++;
         state = Enum.STATE_MORE;
-        getComment(pageIndex, pageSize);
+        initData();
+    }
+
+    private void initData() {
+        postList = new ArrayList<>();
+        getPost(pageIndex, pageSize);
     }
 
 
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                myAdapter = new CommentListAdapter(mContext, comments);
-                lvComment.setAdapter(myAdapter);
+                myAdapter = new PostListAdapter(mContext, postList);
+                listView.setAdapter(myAdapter);
                 break;
             case Enum.STATE_REFRESH:
                 myAdapter.clear();
-                myAdapter.addDatas(comments);
+                myAdapter.addDatas(postList);
+                listView.LoadingComplete();
                 break;
             case Enum.STATE_MORE:
-                if (comments.size() == 0) {
-                    lvComment.NoMoreData();
-                } else {
-                    myAdapter.addDatas(comments);
-                    lvComment.LoadingComplete();
+                if (postList.size() == 0) {
+                    listView.NoMoreData();
+                    break;
                 }
+                myAdapter.addDatas(postList);
+                listView.LoadingComplete();
                 break;
+
         }
     }
 
-    private void getComment(int pageIndex, int pageSize){
-        Observable<BaseEntity<List<Comment>>> observable = RetrofitClient.createService(ClassmateAPI.class)
-                .getComment(0,post.getPostId(), pageIndex, pageSize,"");
+    private void getPost(int pageIndex, int pageSize){
+        Observable<BaseEntity<List<Post>>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getPost(UserSingleton.USERINFO.getUid(),0, pageIndex, pageSize,UserSingleton.USERINFO.getToken());
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseEntity<List<Comment>>>() {
+                .subscribe(new Subscriber<BaseEntity<List<Post>>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -301,10 +281,9 @@ public class PostDetailActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(BaseEntity<List<Comment>> baseEntity) {
+                    public void onNext(BaseEntity<List<Post>> baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            if (baseEntity.getDatas() != null)
-                                comments = baseEntity.getDatas();
+                            postList = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {
@@ -314,6 +293,4 @@ public class PostDetailActivity extends BaseActivity {
                     }
                 });
     }
-
-
 }

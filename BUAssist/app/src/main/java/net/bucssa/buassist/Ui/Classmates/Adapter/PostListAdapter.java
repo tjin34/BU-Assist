@@ -15,10 +15,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import net.bucssa.buassist.Bean.Classmate.Group;
 import net.bucssa.buassist.Bean.Classmate.Post;
 import net.bucssa.buassist.R;
-import net.bucssa.buassist.Ui.Classmates.PostDetailActivity;
+import net.bucssa.buassist.Ui.Classmates.Post.PostDetailActivity;
 import net.bucssa.buassist.Ui.Fragments.Mine.OtherProfileActivity;
 import net.bucssa.buassist.Util.DateUtil;
 

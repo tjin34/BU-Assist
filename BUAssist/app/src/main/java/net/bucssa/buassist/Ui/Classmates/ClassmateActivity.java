@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +14,9 @@ import net.bucssa.buassist.Bean.Classmate.Class;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.Adapter.ClassListAdapter;
+import net.bucssa.buassist.Ui.Classmates.Class.FindClassActivity;
+import net.bucssa.buassist.Ui.Classmates.Group.MyGroupActivity;
+import net.bucssa.buassist.Ui.Classmates.Post.MyTopicActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;

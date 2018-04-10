@@ -61,7 +61,7 @@ public interface PersonalMessageAPI {
 
 
     @GET("personalMessage/chat/getChatByPlid.php")
-    Observable<BaseEntity<Chat>> getChatByPlid(@Query("uid") int uid,
+    Observable<BaseEntity<List<Chat>>> getChatByPlid(@Query("uid") int uid,
                                           @Query("plid") int plid,
                                           @Query("token") String token);
 

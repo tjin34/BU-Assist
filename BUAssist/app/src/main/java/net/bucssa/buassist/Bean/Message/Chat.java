@@ -26,6 +26,8 @@ public class Chat implements Serializable{
      * hasnew : 1
      */
 
+
+
     private int uid;
     private int plid;
     private int pmtype;

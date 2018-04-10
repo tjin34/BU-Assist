@@ -11,8 +11,8 @@
 
     <!-- 渐变 -->
     <gradient
-        android:startColor="#D74177"
-        android:endColor="#FFE98A"
+        android:startColor="#EECDA3"
+        android:endColor="#ef629f"
         android:angle="0" />
 
     <!-- 描边 -->

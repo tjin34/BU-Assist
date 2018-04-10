@@ -1,4 +1,4 @@
-package net.bucssa.buassist.Ui.Classmates;
+package net.bucssa.buassist.Ui.Classmates.Group;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import net.bucssa.buassist.Bean.Classmate.Class;
 import net.bucssa.buassist.Bean.Request.CreateGroupReq;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Ui.Classmates.Class.FindClassActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;

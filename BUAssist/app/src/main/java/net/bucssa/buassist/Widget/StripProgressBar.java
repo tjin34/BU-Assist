@@ -32,6 +32,7 @@ public class StripProgressBar extends FrameLayout{
 
     private float progressBarWidth = 0;//进度条的宽，使用这个宽来计算进度的
     private String progressBarTips = null;//进度条上显示的字
+    private float progress = 0;
 
     private Context context = null;
 
@@ -51,7 +52,7 @@ public class StripProgressBar extends FrameLayout{
         LayoutInflater.from(context).inflate(R.layout.strip_progress_bar,this,true);
 
 //      TypedArray mTypedArray = context.obtainStyledAttributes(attrs,
-//              R.styleable.StripProgressBar);
+//                R.styleable.StripProgressBar);
 //
         //获取自定义属性和默认值
 //      progressBarWidth = mTypedArray.getDimension(R.styleable.StripProgressBar_progressBarWidth, 200);
@@ -73,9 +74,9 @@ public class StripProgressBar extends FrameLayout{
 
     @Override
     public void onLayout(boolean changed, int left, int top, int right, int bottom){
-
         super.onLayout(changed, left, top, right, bottom);
         progressBarWidth = p1.getWidth();
+        setProgress(progress);
         Log.d(TAG , "====== onLayout     progressBarWidth======>" + progressBarWidth);
     }
 
@@ -83,7 +84,8 @@ public class StripProgressBar extends FrameLayout{
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
-        progressBarWidth = p1.getWidth();
+        progressBarWidth = p1.getWidth();;
+        setProgress(progress);
         Log.d(TAG , "====== onWindowFocusChanged     progressBarWidth======>" + progressBarWidth);
     }
 
@@ -92,9 +94,10 @@ public class StripProgressBar extends FrameLayout{
      * 进度，从一到100数字来表示
      * @param progress
      */
-    public void setProgress(int progress){
+    public void setProgress(float progress){
+        this.progress = progress;
         p2.setVisibility(View.VISIBLE);
-        int w = (int) (progressBarWidth*progress/100.0);
+        int w = (int) (progressBarWidth*(this.progress/100.0));
         Log.d(TAG , "======W=========>" + w);
 
         /**

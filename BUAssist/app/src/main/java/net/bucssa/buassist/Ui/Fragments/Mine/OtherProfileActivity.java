@@ -26,6 +26,8 @@ import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import okhttp3.RequestBody;
 import rx.Observable;
@@ -210,12 +212,12 @@ public class OtherProfileActivity extends BaseActivity {
     }
 
     private void getChatByPlid() {
-        Observable<BaseEntity<Chat>> observable = RetrofitClient.createService(PersonalMessageAPI.class)
+        Observable<BaseEntity<List<Chat>>> observable = RetrofitClient.createService(PersonalMessageAPI.class)
                 .getChatByPlid(UserSingleton.USERINFO.getUid(), otherInfo.getPlid(), UserSingleton.USERINFO.getToken());
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseEntity<Chat>>() {
+                .subscribe(new Subscriber<BaseEntity<List<Chat>>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -234,11 +236,11 @@ public class OtherProfileActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(BaseEntity<Chat> baseEntity) {
+                    public void onNext(BaseEntity<List<Chat>> baseEntity) {
                         if (baseEntity.isSuccess()) {
                             chat = new Chat();
                             if (baseEntity.getDatas() != null) {
-                                chat = baseEntity.getDatas();
+                                chat = baseEntity.getDatas().get(0);
                                 Intent intent = new Intent(mContext, ChatRoomActivity.class);
                                 intent.putExtra("chat", chat);
                                 startActivity(intent);

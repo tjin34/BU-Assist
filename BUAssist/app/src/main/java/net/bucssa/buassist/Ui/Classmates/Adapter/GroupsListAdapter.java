@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import net.bucssa.buassist.Bean.Classmate.Group;
 import net.bucssa.buassist.R;
-import net.bucssa.buassist.Ui.Classmates.GroupDetailActivity;
+import net.bucssa.buassist.Ui.Classmates.Group.GroupDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;

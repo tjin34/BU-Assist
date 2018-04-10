@@ -1,14 +1,14 @@
-package net.bucssa.buassist.Ui.Classmates;
+package net.bucssa.buassist.Ui.Classmates.Class;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,17 +16,15 @@ import com.bumptech.glide.Glide;
 import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
-import net.bucssa.buassist.Bean.Classmate.Group;
-import net.bucssa.buassist.Bean.Classmate.Group;
+import net.bucssa.buassist.Bean.Classmate.Class;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
-import net.bucssa.buassist.Ui.Classmates.Adapter.GroupsListAdapter;
+import net.bucssa.buassist.Ui.Classmates.Adapter.ClassListAdapter;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
 import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
-import net.bucssa.buassist.Widget.LuluRefreshListView;
 import net.bucssa.buassist.Widget.RefreshHelper;
 import net.bucssa.buassist.Widget.RefreshView;
 
@@ -43,13 +41,10 @@ import rx.schedulers.Schedulers;
  * Created by KimuraShin on 17/7/29.
  */
 
-public class MyGroupActivity extends BaseActivity {
+public class FindClassActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
     ImageView iv_back;
-    
-    @BindView(R.id.iv_add)
-    ImageView iv_add;
 
     @BindView(R.id.tv_title)
     TextView tv_title;
@@ -57,14 +52,14 @@ public class MyGroupActivity extends BaseActivity {
     @BindView(R.id.search_textView)
     LinearLayout fakeSearchBox;
 
-    @BindView(R.id.tv_search)
-    TextView tv_search;
+    @BindView(R.id.search_editText)
+    LinearLayout realSearchBox;
+
+    @BindView(R.id.iv_search_clear)
+    ImageView iv_search_clear;
 
     @BindView(R.id.et_search)
     EditText et_search;
-
-    @BindView(R.id.search_editText)
-    LinearLayout realSearchBox;
 
     @BindView(R.id.tv_cancel)
     TextView tv_cancel;
@@ -73,16 +68,19 @@ public class MyGroupActivity extends BaseActivity {
     RefreshView rvRefresh;
 
     @BindView(R.id.listView)
-    CustomListViewForRefreshView listView;
+    CustomListViewForRefreshView lv_class;
 
-    private List<Group> groupList = new ArrayList<>();
-    private GroupsListAdapter myAdapter;
+    private String searchKey = "";
+
+    private List<Class> classList = new ArrayList<>();
+    private ClassListAdapter myAdapter;
 
     private int state = Enum.STATE_NORMAL;
 
     private int pageIndex = 1;
     private int pageSize = 10;
     private int totalCount = 0;
+
 
 
     @Override
@@ -100,11 +98,12 @@ public class MyGroupActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         initData();
+
     }
 
     @Override
     protected void initResAndListener() {
-        tv_title.setText("我的小组");
+        tv_title.setText("寻找课程");
         iv_back.setVisibility(View.VISIBLE);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,16 +111,7 @@ public class MyGroupActivity extends BaseActivity {
                 finish();
             }
         });
-        iv_add.setVisibility(View.VISIBLE);
-        iv_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: 2018/4/3  
-            }
-        });
 
-        tv_search.setText(R.string.search_group);
-        et_search.setHint(R.string.search_group);
         fakeSearchBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +125,24 @@ public class MyGroupActivity extends BaseActivity {
             public void onClick(View v) {
                 fakeSearchBox.setVisibility(View.VISIBLE);
                 realSearchBox.setVisibility(View.GONE);
+            }
+        });
+
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchKey = charSequence.toString();
+                getClassCollection(1, 10);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -196,7 +204,7 @@ public class MyGroupActivity extends BaseActivity {
             }
         });
 
-        listView.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        lv_class.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 new Thread(
@@ -239,41 +247,42 @@ public class MyGroupActivity extends BaseActivity {
     }
 
     private void initData() {
-        groupList = new ArrayList<>();
-        getGroup(pageIndex, pageSize);
+        classList = new ArrayList<>();
+        getClassCollection(pageIndex, pageSize);
     }
 
 
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                myAdapter = new GroupsListAdapter(mContext, groupList);
-                listView.setAdapter(myAdapter);
+                myAdapter = new ClassListAdapter(mContext, classList);
+                lv_class.setAdapter(myAdapter);
                 break;
             case Enum.STATE_REFRESH:
-                myAdapter.clear();
-                myAdapter.addDatas(groupList);
-                listView.LoadingComplete();
+                myAdapter.clearData();
+                myAdapter.addData(0, classList);
+                lv_class.LoadingComplete();
                 break;
             case Enum.STATE_MORE:
-                if (groupList.size() == 0) {
-                    listView.NoMoreData();
+                if (classList.size() == 0) {
+                    lv_class.NoMoreData();
                     break;
                 }
-                myAdapter.addDatas(groupList);
-                listView.LoadingComplete();
+                myAdapter.addData(myAdapter.getCount(), classList);
+                lv_class.LoadingComplete();
                 break;
 
         }
     }
 
-    private void getGroup(int pageIndex, int pageSize){
-        Observable<BaseEntity<List<Group>>> observable = RetrofitClient.createService(ClassmateAPI.class)
-                .getGroup(UserSingleton.USERINFO.getUid(),"", pageIndex, pageSize,UserSingleton.USERINFO.getToken());
+
+    private void getClassCollection(int pageIndex, int pageSize){
+        Observable<BaseEntity<List<Class>>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getClassList(UserSingleton.USERINFO.getUid(), pageIndex, pageSize, searchKey);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseEntity<List<Group>>>() {
+                .subscribe(new Subscriber<BaseEntity<List<Class>>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -292,9 +301,15 @@ public class MyGroupActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(BaseEntity<List<Group>> baseEntity) {
+                    public void onNext(BaseEntity<List<Class>> baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            groupList = baseEntity.getDatas();
+                            /* 每次获取都将列表清楚 */
+                            classList = new ArrayList<>();
+                            /* 如果列表不为空，更新列表 */
+                            if (baseEntity.getDatas() !=  null) {
+                                classList = baseEntity.getDatas();
+                            }
+                            /* 更新总数并更新adapter和listView */
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {

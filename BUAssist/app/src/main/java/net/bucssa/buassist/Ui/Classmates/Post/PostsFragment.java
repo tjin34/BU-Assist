@@ -1,4 +1,4 @@
-package net.bucssa.buassist.Ui.Classmates.Fragments;
+package net.bucssa.buassist.Ui.Classmates.Post;
 
 import android.app.Activity;
 import android.content.Intent;

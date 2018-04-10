@@ -146,7 +146,6 @@ public class MyCollectionActivity extends BaseActivity {
                 mRefreshLayout.finishRefresh();
                 break;
             case Enum.STATE_MORE:
-                myAdapter.clearData();
                 myAdapter.addItems(collections, myAdapter.getItemCount());
                 mRefreshLayout.finishRefreshLoadMore();
                 break;

@@ -115,10 +115,7 @@ public class ChatRoomActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
 
         chat = (Chat) getIntent().getSerializableExtra("Chat");
-        if (chat.getMembers() > 2)
-            type = 2;
-        else
-            type = 1;
+        type = chat.getPmtype();
         super.onCreate(savedInstanceState);
 
 //        headerRootView.setFitsSystemWindows(false);
@@ -134,7 +131,7 @@ public class ChatRoomActivity extends BaseActivity{
             case 1:
                 tv_title.setText(chat.getTousername());
                 break;
-            case 2:
+            default:
                 tv_title.setText(chat.getSubject());
                 break;
         }

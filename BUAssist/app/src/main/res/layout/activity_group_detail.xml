@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <include layout="@layout/header" android:id="@+id/header"/>
 
@@ -148,7 +149,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:background="@color/secondary_pink"
                     android:gravity="center">
 
@@ -173,8 +174,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="-8dp">
+                    android:layout_marginRight="30dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -296,8 +296,7 @@
                     android:background="@drawable/selector_add_class_collection"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="15dp"
-                    android:visibility="gone"/>
+                    android:layout_marginTop="15dp"/>
 
             </LinearLayout>
 
@@ -307,7 +306,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_below="@id/buttons"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -317,7 +316,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="40dp"
                         android:background="@color/secondary_pink"
                         android:gravity="center">
 
@@ -338,23 +337,23 @@
                     <RelativeLayout
                         android:id="@+id/rl_members"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="55dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
                         android:layout_marginTop="-5dp">
 
                         <net.bucssa.buassist.Widget.RoundImageView
                             android:id="@+id/iv_avatar0"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:src="@drawable/profile_photo"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"/>
 
                         <net.bucssa.buassist.Widget.RoundImageView
                             android:id="@+id/iv_avatar1"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:src="@drawable/profile_photo"
                             android:layout_toRightOf="@id/iv_avatar0"
                             android:layout_centerVertical="true"
@@ -362,8 +361,8 @@
 
                         <net.bucssa.buassist.Widget.RoundImageView
                             android:id="@+id/iv_avatar2"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:src="@drawable/profile_photo"
                             android:layout_toRightOf="@id/iv_avatar1"
                             android:layout_centerVertical="true"
@@ -371,8 +370,8 @@
 
                         <net.bucssa.buassist.Widget.RoundImageView
                             android:id="@+id/iv_avatar3"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:src="@drawable/profile_photo"
                             android:layout_toRightOf="@id/iv_avatar2"
                             android:layout_centerVertical="true"
@@ -380,8 +379,8 @@
 
                         <net.bucssa.buassist.Widget.RoundImageView
                             android:id="@+id/iv_avatar4"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_alignTop="@+id/iv_avatar3"
                             android:layout_marginStart="11dp"
                             android:layout_toEndOf="@+id/iv_avatar3"
@@ -418,7 +417,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:background="@color/secondary_pink"
                     android:gravity="center">
 
@@ -446,7 +445,8 @@
                     android:background="@drawable/selector_add_class_collection"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="5dp"/>
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -466,7 +466,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:background="@drawable/bg_header_shadow"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_below="@id/buttons"/>
 
         </RelativeLayout>

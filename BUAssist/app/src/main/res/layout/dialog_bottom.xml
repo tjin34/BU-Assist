@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <LinearLayout
+            android:id="@+id/bottom_dialog_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvSignIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="小组签到"
+                    android:background="@drawable/selector_bottom_dialog_top"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/tv_black"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_100"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/llEditProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="修改资料"
+                    android:background="@drawable/selector_bottom_dialog_middle"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/tv_black"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_100"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="小组活动"
+                    android:background="@drawable/selector_bottom_dialog_bottom"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/tv_black"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_below="@+id/bottom_dialog_ll"
+            android:layout_marginTop="8dp"
+            android:id="@+id/tvCancel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/selector_bottom_dialog_button"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/mainTheme"
+            android:text="@string/cancel"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

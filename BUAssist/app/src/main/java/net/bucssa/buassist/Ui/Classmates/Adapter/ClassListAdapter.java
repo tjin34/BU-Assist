@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.bucssa.buassist.Bean.Classmate.Class;
 import net.bucssa.buassist.R;
-import net.bucssa.buassist.Ui.Classmates.ClassDetailActivity;
+import net.bucssa.buassist.Ui.Classmates.Class.ClassDetailActivity;
 
 import java.util.List;
 

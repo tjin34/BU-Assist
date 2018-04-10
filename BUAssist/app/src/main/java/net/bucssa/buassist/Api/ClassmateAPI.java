@@ -4,6 +4,7 @@ import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Classmate.Class;
 import net.bucssa.buassist.Bean.Classmate.Comment;
 import net.bucssa.buassist.Bean.Classmate.Group;
+import net.bucssa.buassist.Bean.Classmate.Meeting;
 import net.bucssa.buassist.Bean.Classmate.Member;
 import net.bucssa.buassist.Bean.Classmate.Post;
 
@@ -248,5 +249,36 @@ public interface ClassmateAPI {
     Observable<BaseEntity<List<Member>>> getMember(@Query("groupid") int groupid,
                                                    @Query("pageIndex") int pageIndex,
                                                    @Query("pageSize") int pageSize);
+
+
+    /**
+     * 获取小组会议
+     *
+     * @param groupId
+     * @return
+     */
+    @GET("classmate/event/getCheckInEvent.php")
+    Observable<BaseEntity<Meeting>> getMeeting(@Query("groupId") int groupId);
+
+
+    /**
+     * 开始小组签到会议
+     *
+     * @param json
+     * @return
+     */
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("classmate/event/initMeeting.php")
+    Observable<BaseEntity> initMeeting(@Body RequestBody json);
+
+    /**
+     * 小组签到
+     *
+     * @param json
+     * @return
+     */
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("classmate/event/checkIn.php")
+    Observable<BaseEntity> meetingCheckIn(@Body RequestBody json);
 
 }

@@ -1,10 +1,8 @@
-package net.bucssa.buassist.Ui.Classmates;
+package net.bucssa.buassist.Ui.Classmates.Class;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -24,8 +22,10 @@ import net.bucssa.buassist.Bean.Request.DelClassCollectionReq;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.Adapter.FragmentAdapter;
-import net.bucssa.buassist.Ui.Classmates.Fragments.GroupsFragment;
-import net.bucssa.buassist.Ui.Classmates.Fragments.PostsFragment;
+import net.bucssa.buassist.Ui.Classmates.Group.CreateGroupActivity;
+import net.bucssa.buassist.Ui.Classmates.Post.CreatePostActivity;
+import net.bucssa.buassist.Ui.Classmates.Group.GroupsFragment;
+import net.bucssa.buassist.Ui.Classmates.Post.PostsFragment;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.StatusBarUtil;

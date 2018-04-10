@@ -1,12 +1,15 @@
-package net.bucssa.buassist.Ui.Classmates;
+package net.bucssa.buassist.Ui.Classmates.Group;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,17 +19,21 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 
 import net.bucssa.buassist.Api.ClassmateAPI;
+import net.bucssa.buassist.Api.PersonalMessageAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Classmate.Group;
 import net.bucssa.buassist.Bean.Classmate.Member;
+import net.bucssa.buassist.Bean.Message.Chat;
 import net.bucssa.buassist.Bean.Request.JoinGroupReq;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Ui.Fragments.Message.ChatRoomActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.CreditUtils;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Util.Utils;
 import net.bucssa.buassist.Widget.StripProgressBar;
 
 import java.util.ArrayList;
@@ -50,6 +57,9 @@ public class GroupDetailActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
     ImageView iv_back;
+
+    @BindView(R.id.tv_more)
+    TextView tv_more;
 
     @BindView(R.id.tv_groupName)
     TextView tv_groupName;
@@ -101,9 +111,12 @@ public class GroupDetailActivity extends BaseActivity {
     TextView tv_historyEvent;
 
     private Group group;
+    private Chat chat;
     private CreditUtils.Level level;
     private List<Member> members = new ArrayList<>();
     private ImageView[] imageViews;
+
+    private Dialog moreDialog;
 
     @Override
     protected int getLayoutId() {
@@ -138,6 +151,8 @@ public class GroupDetailActivity extends BaseActivity {
         /* 小组名字 */
         tv_groupName.setText(group.getGroupName());
 
+        tv_more.setVisibility(View.VISIBLE);
+
         /* 用CreditUtils生成Level object */
         level = CreditUtils.calculateLevel(group.getCredit());
         if (level.getCurrentLV() == 5) {    /* 如果小组已达到满级 */
@@ -170,6 +185,10 @@ public class GroupDetailActivity extends BaseActivity {
 
         /* 获取小组5名成员 */
         getMember();
+
+        getChat();
+
+        initMoreDialog();
 
     }
 
@@ -213,6 +232,16 @@ public class GroupDetailActivity extends BaseActivity {
             }
         });
 
+        tv_groupChat.setVisibility(!group.isIsInGroup() ? View.GONE : View.VISIBLE);
+        tv_groupChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ChatRoomActivity.class);
+                intent.putExtra("Chat", chat);
+                ((Activity) mContext).startActivityForResult(intent, 101);
+            }
+        });
+
         /* 进入小组成员列表 */
         rl_members.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +251,53 @@ public class GroupDetailActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        /* 更多操作点击操作 */
+        tv_more.setVisibility(View.VISIBLE);
+        tv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moreDialog.show();//显示对话框
+            }
+        });
+    }
+
+    public void initMoreDialog(){
+        moreDialog = new Dialog(this,R.style.bottom_dialog);
+        //填充对话框的布局
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_bottom, null);
+        //初始化控件
+        TextView tvCancel = (TextView) view.findViewById(R.id.tvCancel);
+        TextView tvSignIn = (TextView) view.findViewById(R.id.tvSignIn);
+        TextView tvHistory = (TextView) view.findViewById(R.id.tvHistory);
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moreDialog.dismiss();
+            }
+        });
+        tvSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, SignInActivity.class);
+                intent.putExtra("Group", group);
+                startActivity(intent);
+                moreDialog.dismiss();
+            }
+        });
+        //将布局设置给Dialog
+        moreDialog.setContentView(view);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = moreDialog.getWindow();
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        //获得窗体的属性
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.y = 20;//设置Dialog距离底部的距离
+        // 将属性设置给窗体
+        dialogWindow.setAttributes(lp);
     }
 
     private void requestJoin(String json){
@@ -300,5 +376,41 @@ public class GroupDetailActivity extends BaseActivity {
     }
 
 
+    private void getChat(){
+        Observable<BaseEntity<List<Chat>>> observable = RetrofitClient.createService(PersonalMessageAPI.class)
+                .getChatByPlid(UserSingleton.USERINFO.getUid(),group.getPlid(), UserSingleton.USERINFO.getToken());
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity<List<Chat>>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<List<Chat>> baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            if (baseEntity.getDatas() != null)
+                                chat = baseEntity.getDatas().get(0);
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
 
 }
