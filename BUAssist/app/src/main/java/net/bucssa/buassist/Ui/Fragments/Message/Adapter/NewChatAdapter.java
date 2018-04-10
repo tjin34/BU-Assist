@@ -96,10 +96,8 @@ public class NewChatAdapter extends BaseAdapter{
                 ((Activity) mContext).startActivityForResult(intent, 101);
             }
         });
-        if (chat.getPmtype() == 2)
-            viewHolder.title.setText(chat.getSubject());
-        else
-            viewHolder.title.setText(chat.getTousername());
+
+        viewHolder.title.setText(chat.getPmtype() == 1?chat.getTousername():chat.getSubject());
 
         viewHolder.lastMsg.setText(chat.getSummary());
         viewHolder.dateline.setText(DateUtil.dateToOutput(chat.getLastdateline()));

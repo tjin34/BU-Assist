@@ -20,6 +20,7 @@ import net.bucssa.buassist.Ui.Fragments.Mine.OtherProfileActivity;
 import net.bucssa.buassist.Util.DateUtil;
 import net.bucssa.buassist.Util.MD5;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.http.POST;

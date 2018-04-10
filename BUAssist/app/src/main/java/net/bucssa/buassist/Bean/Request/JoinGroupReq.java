@@ -18,6 +18,13 @@ public class JoinGroupReq {
     private String message;
     private String token;
 
+    public JoinGroupReq(int uid, int groupId, String message, String token) {
+        setGroupid(groupId);
+        setMessage(message);
+        setToken(token);
+        setUid(uid);
+    }
+
     public int getUid() {
         return uid;
     }

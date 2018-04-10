@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="70dp"
         android:background="@color/transparent"
         android:layout_alignParentBottom="true">
 
@@ -19,10 +19,12 @@
             android:layout_marginRight="25dp">
 
             <LinearLayout
+                android:id="@+id/llManual"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:background="@drawable/selector_bg_textview_rect"
                 android:orientation="vertical">
 
                 <ImageView
@@ -37,18 +39,26 @@
                     android:text="@string/manual"
                     android:textSize="12sp"
                     android:textColor="@color/mainTheme"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="2dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
 
             </LinearLayout>
 
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="@color/tv_grey"
+                android:layout_gravity="center_vertical"/>
+
             <LinearLayout
+                android:id="@+id/llRoommate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@drawable/selector_bg_textview_rect">
 
                 <ImageView
                     android:id="@+id/ivRoommate"
@@ -62,11 +72,17 @@
                     android:text="@string/roommate"
                     android:textSize="12sp"
                     android:textColor="@color/mainTheme"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="2dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
 
             </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="@color/tv_grey"
+                android:layout_gravity="center_vertical"/>
 
 
             <LinearLayout
@@ -75,7 +91,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@drawable/selector_bg_textview_rect">
 
                 <ImageView
                     android:id="@+id/ivClassmate"
@@ -89,7 +106,7 @@
                     android:text="@string/classmate"
                     android:textSize="12sp"
                     android:textColor="@color/mainTheme"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="2dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
 
@@ -110,11 +127,7 @@
             android:id="@+id/rlAdvertise"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:orientation="vertical"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp">
+            android:orientation="vertical">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"

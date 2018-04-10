@@ -344,10 +344,19 @@
                         android:layout_marginTop="-5dp">
 
                         <net.bucssa.buassist.Widget.RoundImageView
+                            android:id="@+id/iv_avatar0"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/profile_photo"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"/>
+
+                        <net.bucssa.buassist.Widget.RoundImageView
                             android:id="@+id/iv_avatar1"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:src="@drawable/profile_photo"
+                            android:layout_toRightOf="@id/iv_avatar0"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"/>
 
@@ -373,18 +382,9 @@
                             android:id="@+id/iv_avatar4"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:src="@drawable/profile_photo"
-                            android:layout_toRightOf="@id/iv_avatar3"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"/>
-
-                        <net.bucssa.buassist.Widget.RoundImageView
-                            android:id="@+id/iv_avatar5"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_alignTop="@+id/iv_avatar4"
+                            android:layout_alignTop="@+id/iv_avatar3"
                             android:layout_marginStart="11dp"
-                            android:layout_toEndOf="@+id/iv_avatar4"
+                            android:layout_toEndOf="@+id/iv_avatar3"
                             android:src="@drawable/profile_photo" />
 
                         <TextView

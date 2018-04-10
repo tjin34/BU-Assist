@@ -1,35 +1,25 @@
-package net.bucssa.buassist.Ui.Fragments.Message;
+package net.bucssa.buassist.Ui.Classmates;
 
 import android.app.Activity;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
-import net.bucssa.buassist.Api.PersonalMessageAPI;
-import net.bucssa.buassist.Api.UserAPI;
+import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
-import net.bucssa.buassist.Bean.Friend.Friend;
-import net.bucssa.buassist.Bean.Request.SendReq;
+import net.bucssa.buassist.Bean.Classmate.Member;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
-import net.bucssa.buassist.Ui.Fragments.Mine.Adapter.FriendListAdapter;
-import net.bucssa.buassist.UserSingleton;
+import net.bucssa.buassist.Ui.Classmates.Adapter.MemberListAdapter;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
-import net.bucssa.buassist.Util.Utils;
 import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
 import net.bucssa.buassist.Widget.RefreshHelper;
 import net.bucssa.buassist.Widget.RefreshView;
@@ -38,48 +28,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
 /**
- * Created by Shinji on 2018/4/9.
+ * Created by Shinji on 2018/4/10.
  */
 
-public class CreateChatActivity extends BaseActivity {
+public class MemberActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
-    ImageView ivBack;
+    ImageView iv_back;
 
     @BindView(R.id.tv_title)
-    TextView tvTitle;
+    TextView tv_title;
 
-    @BindView(R.id.rootView)
-    RelativeLayout rootView;
+    @BindView(R.id.search)
+    LinearLayout search;
+
+    @BindView(R.id.searchShadow)
+    View searchShadow;
 
     @BindView(R.id.rvRefresh)
     RefreshView rvRefresh;
 
-    @BindView(R.id.lvFriend)
-    CustomListViewForRefreshView lvFriend;
+    @BindView(R.id.listView)
+    CustomListViewForRefreshView lv_class;
 
-    @BindView(R.id.et_message)
-    EditText etMessage;
+    private int groupId;
+    private List<Member> memberList = new ArrayList<>();
+    private MemberListAdapter myAdapter;
 
-    @BindView(R.id.iv_send)
-    ImageView ivSend;
-
-    private List<Friend> Friends = new ArrayList<>();
-    private FriendListAdapter myAdapter;
     private int state = Enum.STATE_NORMAL;
 
-    int pageIndex = 1;//当前页
-    int pageSize = 10;//每一页数量
-    int totalCount = 0;//总数
+    private int pageIndex = 1;
+    private int pageSize = 10;
+    private int totalCount = 0;
 
-    private List<String> toUidList = new ArrayList<>();
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_classmate_listview;
+    }
 
     @Override
     protected String getTAG() {
@@ -87,16 +79,9 @@ public class CreateChatActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_create_chat;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        groupId = getIntent().getIntExtra("groupId", 0);
         super.onCreate(savedInstanceState);
-
-        ((Activity) mContext).getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         initData();
 
@@ -104,14 +89,18 @@ public class CreateChatActivity extends BaseActivity {
 
     @Override
     protected void initResAndListener() {
-        ivBack.setVisibility(View.VISIBLE);
-        ivBack.setOnClickListener(new View.OnClickListener() {
+        tv_title.setText("成员列表");
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        tvTitle.setText("创建对话");
+
+        search.setVisibility(View.GONE);
+        searchShadow.setVisibility(View.GONE);
+
         rvRefresh.setRefreshHelper(new RefreshHelper() {
             //初始化刷新view
             @Override
@@ -135,7 +124,6 @@ public class CreateChatActivity extends BaseActivity {
                 switch (refreshState) {
                     case RefreshView.STATE_REFRESH_NORMAL:
                         Glide.with(mContext)
-                                .asGif()
                                 .load(R.raw.pull)
                                 .into(ivLulu);
                         break;
@@ -148,7 +136,6 @@ public class CreateChatActivity extends BaseActivity {
                                 .asGif()
                                 .load(R.raw.refreshing)
                                 .into(ivLulu);
-                        lvFriend.onRefresh();
                         new Thread(
                                 new Runnable() {
                                     @Override
@@ -172,7 +159,7 @@ public class CreateChatActivity extends BaseActivity {
             }
         });
 
-        lvFriend.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        lv_class.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 new Thread(
@@ -194,32 +181,6 @@ public class CreateChatActivity extends BaseActivity {
                 ).start();
             }
         });
-
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                rootView.getWindowVisibleDisplayFrame(r);
-                int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
-
-                if (heightDiff > 100) {
-                    rvRefresh.getRefreshHeaderView().setPadding(0, -(Utils.px2dp(mContext, rvRefresh.getOriginRefreshHeight())-40),0,0);
-                }
-            }
-        });
-
-        ivSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SendReq req=new SendReq(UserSingleton.USERINFO.getUid(),
-                        UserSingleton.USERINFO.getUsername(), toUidToString(toUidList),
-                        etMessage.getText().toString(), etMessage.getText().toString() ,UserSingleton.USERINFO.getToken());
-                Gson gson=new Gson();
-                String json = gson.toJson(req);
-                createChat(json);
-            }
-        });
-
     }
 
     /**
@@ -241,60 +202,53 @@ public class CreateChatActivity extends BaseActivity {
     }
 
     private void initData() {
-        getFriend();
+        memberList = new ArrayList<>();
+        getMember(pageIndex, pageSize);
     }
+
 
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                myAdapter = new FriendListAdapter(mContext, Friends, 1);
-                myAdapter.setOnFriendSelectedListener(new FriendListAdapter.onFriendSelectedListener() {
+                myAdapter = new MemberListAdapter(mContext, memberList);
+                myAdapter.setOnClickEventListener(new MemberListAdapter.OnClickEventListener() {
                     @Override
-                    public void onFriendSelected(Friend friend) {
-                        if (toUidList.contains(String.valueOf(friend.getFriendid()))) {
-                            toUidList.remove(String.valueOf(friend.getFriendid()));
-                        } else {
-                            toUidList.add(String.valueOf(friend.getFriendid()));
-                        }
+                    public void OnItemClick(Member member) {
+                        // TODO: 2018/4/10  
+                    }
+
+                    @Override
+                    public void OnItemLongClick() {
+                        // TODO: 2018/4/10
                     }
                 });
-                lvFriend.setAdapter(myAdapter);
+                lv_class.setAdapter(myAdapter);
                 break;
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
-                myAdapter.addItems(Friends);
-                lvFriend.LoadingComplete();
+                myAdapter.addData(0, memberList);
+                lv_class.LoadingComplete();
                 break;
             case Enum.STATE_MORE:
-                if (Friends.size() == 0) {
-                    lvFriend.LoadingComplete();
+                if (memberList.size() == 0) {
+                    lv_class.NoMoreData();
                     break;
                 }
-                myAdapter.addItems(Friends);
-                lvFriend.LoadingComplete();
+                myAdapter.addData(myAdapter.getCount(), memberList);
+                lv_class.LoadingComplete();
                 break;
+
         }
     }
 
-    private String toUidToString(List<String> list) {
-        StringBuilder toUidBuilder = new StringBuilder();
-        toUidBuilder = toUidBuilder.append(list.get(0));
-        for (int i = 1; i < list.size(); i++) {
-            String temp = "," + list.get(i);
-            toUidBuilder = toUidBuilder.append(",").append(list.get(i));
-        }
-        return toUidBuilder.toString();
-    }
 
-
-    private void getFriend() {
-        Observable<BaseEntity<List<Friend>>> observable = RetrofitClient.createService(UserAPI.class)
-                .getFriends(UserSingleton.USERINFO.getUid(),
-                        pageIndex, pageSize , UserSingleton.USERINFO.getToken());
+    private void getMember(int pageIndex, int pageSize){
+        Observable<BaseEntity<List<Member>>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getMember(groupId,pageIndex, pageSize);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseEntity<List<Friend>>>() {
+                .subscribe(new Subscriber<BaseEntity<List<Member>>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -313,10 +267,10 @@ public class CreateChatActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(BaseEntity<List<Friend>> baseEntity) {
+                    public void onNext(BaseEntity<List<Member>> baseEntity) {
                         if (baseEntity.isSuccess()) {
                             if (baseEntity.getDatas() != null)
-                                Friends = baseEntity.getDatas();
+                                memberList = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {
@@ -326,44 +280,4 @@ public class CreateChatActivity extends BaseActivity {
                     }
                 });
     }
-
-
-    private void createChat(String json){
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
-        Observable<BaseEntity> observable = RetrofitClient.createService(PersonalMessageAPI.class)
-                .createChat(body);
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseEntity>() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                        Logger.d();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        Logger.d();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.d(e.toString());
-                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
-                    }
-
-                    @Override
-                    public void onNext(BaseEntity baseEntity) {
-                        if (baseEntity.isSuccess()) {
-                            ToastUtils.showToast(mContext, "发送成功！");
-                            finish();
-                        } else {
-                            ToastUtils.showToast(mContext, baseEntity.getError());
-                        }
-                        Logger.d();
-                    }
-                });
-    }
-
 }

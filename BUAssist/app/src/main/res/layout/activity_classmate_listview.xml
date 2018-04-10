@@ -42,6 +42,7 @@
     </net.bucssa.buassist.Widget.RefreshView>
 
     <View
+        android:id="@+id/searchShadow"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:background="@drawable/bg_header_shadow"

@@ -19,6 +19,7 @@ public class Group implements Serializable{
      * members : 2
      * credit : 0
      * plid : 0
+     * isInGroup : false
      */
 
     private int groupId;
@@ -30,6 +31,8 @@ public class Group implements Serializable{
     private int members;
     private int credit;
     private int plid;
+    private boolean isInGroup;
+
 
     public int getGroupId() {
         return groupId;
@@ -101,5 +104,13 @@ public class Group implements Serializable{
 
     public void setPlid(int plid) {
         this.plid = plid;
+    }
+
+    public boolean isIsInGroup() {
+        return isInGroup;
+    }
+
+    public void setIsInGroup(boolean isInGroup) {
+        this.isInGroup = isInGroup;
     }
 }

@@ -105,8 +105,8 @@
 
     <ImageView
         android:id="@+id/iv_lulu"
-        android:layout_width="160dp"
-        android:layout_height="140dp"
+        android:layout_width="140dp"
+        android:layout_height="120dp"
         android:src="@drawable/lulu_main"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="38dp"

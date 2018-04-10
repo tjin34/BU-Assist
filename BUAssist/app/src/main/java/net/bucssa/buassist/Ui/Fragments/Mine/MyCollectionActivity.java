@@ -129,6 +129,7 @@ public class MyCollectionActivity extends BaseActivity {
     }
 
     private void initData() {
+        collections = new ArrayList<>();
         getCollection();
     }
 
@@ -189,7 +190,8 @@ public class MyCollectionActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseEntity<List<Collection>> baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            collections = baseEntity.getDatas();
+                            if (baseEntity.getDatas() != null)
+                                collections = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
                         } else {

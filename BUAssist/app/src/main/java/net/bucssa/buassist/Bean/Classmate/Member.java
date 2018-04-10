@@ -7,20 +7,22 @@ package net.bucssa.buassist.Bean.Classmate;
 public class Member {
 
     /**
-     * userid : 24
-     * username : cssa
-     * avatar : http://bucssa.net/uc_server/avatar.php?uid=24&size=middle
+     * userid : 59
+     * username : NewSh1nJi
+     * avatar : http://bucssa.net/uc_server/avatar.php?uid=59&size=middle
+     * role : 3
      */
 
-    private String userid;
+    private int userid;
     private String username;
     private String avatar;
+    private int role;
 
-    public String getUserid() {
+    public int getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(int userid) {
         this.userid = userid;
     }
 
@@ -38,5 +40,13 @@ public class Member {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

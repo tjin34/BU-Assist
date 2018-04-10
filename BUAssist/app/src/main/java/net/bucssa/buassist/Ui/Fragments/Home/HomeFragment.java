@@ -16,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -200,7 +202,11 @@ public class HomeFragment extends BaseFragment {
         for (int i = 0; i < picPath.length; i++) {
             ImageView iv = new ImageView(context);
             iv.setLayoutParams(mParams);
-            Picasso.with(context).load(picPath[i]).error(pics[i]).into(iv);
+            Glide.with(context)
+                    .asBitmap()
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
+                    .load(picPath[i])
+                    .into(iv);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             views.add(iv);
         }

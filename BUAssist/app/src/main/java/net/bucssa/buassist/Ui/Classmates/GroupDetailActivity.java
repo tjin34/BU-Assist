@@ -1,6 +1,7 @@
 package net.bucssa.buassist.Ui.Classmates;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -9,16 +10,27 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+
 import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Classmate.Group;
+import net.bucssa.buassist.Bean.Classmate.Member;
+import net.bucssa.buassist.Bean.Request.JoinGroupReq;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.CreditUtils;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
 import net.bucssa.buassist.Widget.StripProgressBar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.RequestBody;
@@ -69,11 +81,29 @@ public class GroupDetailActivity extends BaseActivity {
     @BindView(R.id.rl_members)
     RelativeLayout rl_members;
 
+    @BindView(R.id.iv_avatar0)
+    ImageView iv_avatar0;
+
+    @BindView(R.id.iv_avatar1)
+    ImageView iv_avatar1;
+
+    @BindView(R.id.iv_avatar2)
+    ImageView iv_avatar2;
+
+    @BindView(R.id.iv_avatar3)
+    ImageView iv_avatar3;
+
+    @BindView(R.id.iv_avatar4)
+    ImageView iv_avatar4;
+
+
     @BindView(R.id.tv_historyEvent)
     TextView tv_historyEvent;
 
     private Group group;
     private CreditUtils.Level level;
+    private List<Member> members = new ArrayList<>();
+    private ImageView[] imageViews;
 
     @Override
     protected int getLayoutId() {
@@ -132,16 +162,31 @@ public class GroupDetailActivity extends BaseActivity {
         /* 小组ID，因为ID为int，所以进行String转化再setText */
         tv_groupId.setText(String.valueOf(group.getGroupId()));
 
+        /* 获取小组Tag */
+        tv_groupTag.setText(group.getGroupTag());
+
         /* 小组简介 */
         tv_groupIntro.setText(group.getGroupIntro());
 
-//        AddCollectionReq req=new AddCollectionReq(UserSingleton.USERINFO.getUid(),
-//                tuiSong.getTid(), tuiSong.getSubject(),
-//                tuiSong.getAuthor(), tuiSong.getDateline() ,UserSingleton.USERINFO.getToken());
-//        Gson gson=new Gson();
-//        String json = gson.toJson(req);
-//        addCollection(json);
+        /* 获取小组5名成员 */
+        getMember();
 
+    }
+
+    /* 生成Member头像列表 */
+    private void initMemberList() {
+        ImageView[] imageViews = {iv_avatar0, iv_avatar1, iv_avatar2, iv_avatar3, iv_avatar4};
+        for (int i = 0; i < 5; i++) {
+            if (i < members.size()) {
+                Glide.with(mContext)
+                        .asBitmap()
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
+                        .load(members.get(i).getAvatar())
+                        .into(imageViews[i]);
+            } else {
+                imageViews[i].setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     @Override
@@ -155,11 +200,26 @@ public class GroupDetailActivity extends BaseActivity {
             }
         });
 
+        tv_requestJoin.setVisibility(group.isIsInGroup() ? View.GONE : View.VISIBLE);
         /* 如果当前用户不在小组中的话，可选择申请加入 */
         tv_requestJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                JoinGroupReq req = new JoinGroupReq(UserSingleton.USERINFO.getUid(),
+                        group.getGroupId(),"", UserSingleton.USERINFO.getToken());
+                Gson gson = new Gson();
+                String json = gson.toJson(req);
+                requestJoin(json);
+            }
+        });
 
+        /* 进入小组成员列表 */
+        rl_members.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MemberActivity.class);
+                intent.putExtra("groupId", group.getGroupId());
+                startActivity(intent);
             }
         });
     }
@@ -193,6 +253,44 @@ public class GroupDetailActivity extends BaseActivity {
                     public void onNext(BaseEntity baseEntity) {
                         if (baseEntity.isSuccess()) {
                             ToastUtils.showToast(mContext, "申请成功");
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+    private void getMember(){
+        Observable<BaseEntity<List<Member>>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getMember(group.getGroupId(),1, 5);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity<List<Member>>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<List<Member>> baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            if (baseEntity.getDatas() != null)
+                                members = baseEntity.getDatas();
+                            initMemberList();
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }

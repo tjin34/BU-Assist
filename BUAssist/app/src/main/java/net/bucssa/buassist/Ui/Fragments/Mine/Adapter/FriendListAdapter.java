@@ -35,10 +35,12 @@ public class FriendListAdapter extends BaseAdapter {
     private Context mContext;
     private List<Friend> mData = new ArrayList<>();
     private List<Boolean> mCheck = new ArrayList<>();
+    private int mMode;
 
-    public  FriendListAdapter(Context context, List<Friend> data) {
+    public  FriendListAdapter(Context context, List<Friend> data, int mode) {
         this.mContext = context;
         this.mData = data;
+        this.mMode = mode;
     }
 
     @Override
@@ -95,7 +97,7 @@ public class FriendListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tvName.setText(friend.getUsername());
-        viewHolder.ivCheck.setVisibility(View.VISIBLE);
+        viewHolder.ivCheck.setVisibility(mMode == 1 ? View.VISIBLE : View.INVISIBLE);
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

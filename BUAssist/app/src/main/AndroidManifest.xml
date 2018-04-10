@@ -63,6 +63,7 @@
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".Ui.Classmates.CreatePostActivity"/>
         <activity android:name=".Ui.Classmates.CreateGroupActivity"/>
+        <activity android:name=".Ui.Classmates.MemberActivity"/>
 
 
         <!--网页WebView-->

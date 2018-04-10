@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/selector_bg_news_shadow"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
 
 
@@ -34,21 +36,12 @@
 
 
                 <TextView
-                    android:id="@+id/tv_groupName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="学习小组123"
-                    android:textColor="@color/tv_black"
-                    android:textSize="16sp"
-                    android:layout_centerVertical="true"/>
-
-                <TextView
                     android:id="@+id/tv_member"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="20dp"
                     android:text="15"
                     android:textColor="@color/tv_grey"
                     android:textSize="14sp" />
@@ -60,6 +53,18 @@
                     android:src="@drawable/members"
                     android:padding="3dp"
                     android:layout_toLeftOf="@id/tv_member"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/tv_groupName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="学习小组123"
+                    android:textColor="@color/tv_black"
+                    android:textSize="16sp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_toLeftOf="@id/iv_member"
                     android:layout_centerVertical="true"/>
 
 

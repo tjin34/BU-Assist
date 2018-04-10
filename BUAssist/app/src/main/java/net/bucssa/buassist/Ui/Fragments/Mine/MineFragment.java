@@ -21,6 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
 
@@ -169,7 +172,11 @@ public class MineFragment extends BaseFragment {
     }
 
     private void setProfileValues() {
-        Picasso.with(context).load(UserSingleton.bigAvatar).error(R.drawable.profile_photo).into(iv_profile);
+        Glide.with(context)
+                .asBitmap()
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
+                .load(UserSingleton.bigAvatar)
+                .into(iv_profile);
         tv_username.setText(UserSingleton.USERINFO.getUsername());
         tv_college.setText(UserSingleton.USERINFO.getCollege());
         tv_dateOfBirth.setText(UserSingleton.USERINFO.getDateOfBirth());
