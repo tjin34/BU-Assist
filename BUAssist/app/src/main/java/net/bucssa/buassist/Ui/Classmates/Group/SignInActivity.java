@@ -160,18 +160,21 @@ public class SignInActivity extends BaseActivity {
 //        tvMeetType.setText();
         String signCount = meeting.getChecked() +" / "+ group.getMembers();
         tvSignCount.setText(signCount);
-        Date finishTime = new Date(meeting.getCreated()+86400);
+        long lt = new Long(meeting.getCreated()+86400);
+        Date finishTime = new Date(lt*1000L);
         Date currentTime = new Date();
         final long interval = finishTime.getTime()- currentTime.getTime();
-        CountDownTimer timer = new CountDownTimer(interval,60000) {
+        new CountDownTimer(interval,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long hourCount =  60 * 60 * 1000;
                 long remain = millisUntilFinished;
-                int hours = (int) ( remain / hourCount );
+                int hours = (int) ( remain / hourCount);
                 remain -= hourCount * hours;
-                int minutes = (int) (remain / 60);
-                String remainDisplay = hours + "小时" + minutes + "分钟";
+                int minutes = (int) (remain / 60 / 1000);
+                remain -= 60 * 1000 * minutes;
+                int seconds = (int) (remain / 1000);
+                String remainDisplay = hours + "小时" + minutes + "分钟" + seconds + "秒";
                 tvRemainTime.setText(remainDisplay);
             }
 
