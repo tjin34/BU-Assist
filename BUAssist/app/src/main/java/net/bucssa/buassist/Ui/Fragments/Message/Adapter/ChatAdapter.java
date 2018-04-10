@@ -11,11 +11,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import net.bucssa.buassist.Bean.Message.Chat;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Fragments.Message.ChatRoomActivity;
+import net.bucssa.buassist.Ui.Fragments.Mine.OtherProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,8 +100,20 @@ public class ChatAdapter extends BaseAdapter{
         else
             viewHolder.title.setText(chat.getTousername());
         viewHolder.lastMsg.setText(chat.getSummary());
-        Picasso.with(mContext).load(chat.getAvatar()).error(R.drawable.profile_photo).into(viewHolder.avatar);
+        Glide.with(mContext)
+                .asBitmap()
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
+                .load(chat.getAvatar())
+                .into(viewHolder.avatar);
 
+        viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra("OtherId",chat.getUid());
+                ((Activity)mContext).startActivity(intent);
+            }
+        });
         if (chat.getHasnew()==1) {
             viewHolder.hasNew.setVisibility(View.VISIBLE);
         } else if (chat.getHasnew() == 0){

@@ -3,7 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootView"
-    android:background="@color/grey_200">
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
 
     <include layout="@layout/header" android:id="@+id/header"/>
 
@@ -17,15 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:fitsSystemWindows="true">
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/grey_300">
-
-
 
                 <ImageView
                     android:id="@+id/iv_send"
@@ -57,21 +55,22 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <com.cjj.MaterialRefreshLayout
-            android:id="@+id/mRefreshLayout"
+        <net.bucssa.buassist.Widget.RefreshView
+            android:id="@+id/rvRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/bottom_bar">
+            android:layout_above="@id/bottom_bar"
+            android:layout_marginTop="5dp">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_friend"
+            <net.bucssa.buassist.Widget.CustomListViewForRefreshView
+                android:id="@+id/lvFriend"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="#00000000"
-                android:background="#00000000"/>
+                android:background="#00000000"
+                android:divider="#00000000"/>
 
 
-        </com.cjj.MaterialRefreshLayout>
+        </net.bucssa.buassist.Widget.RefreshView>
 
 
     </RelativeLayout>

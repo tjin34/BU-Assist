@@ -10,38 +10,63 @@
         android:layout_height="match_parent"
         android:layout_below="@id/header">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@color/white">
 
             <RelativeLayout
+                android:id="@+id/topBar"
                 android:layout_width="match_parent"
                 android:layout_height="120dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/login_background2"
+                    android:src="@color/third_pink"
                     android:scaleType="centerCrop"/>
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/ll_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp">
+                    android:layout_marginRight="20dp">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/border_bg_layer_4"
+                        android:layout_centerInParent="true"/>
+
+                    <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:background="@drawable/border_bg_layer_3"
+                        android:layout_centerInParent="true"/>
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@drawable/border_bg_layer_2"
+                        android:layout_centerInParent="true"/>
+
+                    <ImageView
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:background="@drawable/border_bg_layer_1"
+                        android:layout_centerInParent="true"/>
 
                     <net.bucssa.buassist.Widget.RoundImageView
                         android:id="@+id/iv_groupCover"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/profile_photo"/>
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/profile_photo"
+                        android:layout_centerInParent="true"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -55,9 +80,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="小组名字"
-                        android:textStyle="bold"
                         android:textColor="@color/white"
-                        android:textSize="16sp"/>
+                        android:textSize="18sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -111,22 +135,16 @@
 
 
                     </LinearLayout>
-
-
-
                 </LinearLayout>
-
-
-
-
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/detailInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_below="@id/topBar">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,13 +161,20 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@drawable/bg_header_shadow"
+                    android:layout_below="@id/header"/>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp">
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="-8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -235,130 +260,161 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/tv_requestJoin"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:text="申请加入"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:background="@drawable/selector_add_class_collection"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="15dp"/>
+                android:layout_height="5dp"
+                android:background="@drawable/bg_header_shadow"
+                android:layout_below="@id/topBar"/>
 
-            <TextView
-                android:id="@+id/tv_groupChat"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:text="进入群聊"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:background="@drawable/selector_add_class_collection"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="15dp"
-                android:visibility="gone"/>
 
             <LinearLayout
+                android:id="@+id/buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_below="@id/detailInfo">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_requestJoin"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:background="@color/secondary_pink"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="小组成员"
-                        android:textColor="@color/dark_red"
-                        android:textSize="15sp"/>
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_members"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:text="申请加入"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/selector_add_class_collection"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp">
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="15dp"/>
 
-                    <net.bucssa.buassist.Widget.RoundImageView
-                        android:id="@+id/iv_avatar1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/profile_photo"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"/>
+                <TextView
+                    android:id="@+id/tv_groupChat"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:text="进入群聊"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/selector_add_class_collection"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="15dp"
+                    android:visibility="gone"/>
 
-                    <net.bucssa.buassist.Widget.RoundImageView
-                        android:id="@+id/iv_avatar2"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/profile_photo"
-                        android:layout_toRightOf="@id/iv_avatar1"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"/>
-
-                    <net.bucssa.buassist.Widget.RoundImageView
-                        android:id="@+id/iv_avatar3"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/profile_photo"
-                        android:layout_toRightOf="@id/iv_avatar2"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"/>
-
-                    <net.bucssa.buassist.Widget.RoundImageView
-                        android:id="@+id/iv_avatar4"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/profile_photo"
-                        android:layout_toRightOf="@id/iv_avatar3"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"/>
-
-                    <net.bucssa.buassist.Widget.RoundImageView
-                        android:id="@+id/iv_avatar5"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignTop="@+id/iv_avatar4"
-                        android:layout_marginStart="11dp"
-                        android:layout_toEndOf="@+id/iv_avatar4"
-                        android:src="@drawable/profile_photo" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="全部 >"
-                        android:textColor="@color/tv_grey"
-                        android:textSize="14sp"
-                        android:gravity="center_vertical"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/dark_red"
-                        android:layout_alignParentBottom="true"/>
-
-                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/members"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@id/buttons"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@color/secondary_pink"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="小组成员"
+                            android:textColor="@color/dark_red"
+                            android:textSize="15sp"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@drawable/bg_header_shadow"/>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginTop="-5dp">
+
+                        <net.bucssa.buassist.Widget.RoundImageView
+                            android:id="@+id/iv_avatar1"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/profile_photo"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"/>
+
+                        <net.bucssa.buassist.Widget.RoundImageView
+                            android:id="@+id/iv_avatar2"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/profile_photo"
+                            android:layout_toRightOf="@id/iv_avatar1"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"/>
+
+                        <net.bucssa.buassist.Widget.RoundImageView
+                            android:id="@+id/iv_avatar3"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/profile_photo"
+                            android:layout_toRightOf="@id/iv_avatar2"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"/>
+
+                        <net.bucssa.buassist.Widget.RoundImageView
+                            android:id="@+id/iv_avatar4"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/profile_photo"
+                            android:layout_toRightOf="@id/iv_avatar3"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"/>
+
+                        <net.bucssa.buassist.Widget.RoundImageView
+                            android:id="@+id/iv_avatar5"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_alignTop="@+id/iv_avatar4"
+                            android:layout_marginStart="11dp"
+                            android:layout_toEndOf="@+id/iv_avatar4"
+                            android:src="@drawable/profile_photo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="全部 >"
+                            android:textColor="@color/tv_grey"
+                            android:textSize="14sp"
+                            android:gravity="center_vertical"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/dark_red"
+                            android:layout_alignParentBottom="true"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/otherInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/members">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -375,6 +431,11 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@drawable/bg_header_shadow"/>
+
                 <TextView
                     android:id="@+id/tv_historyEvent"
                     android:layout_width="match_parent"
@@ -385,14 +446,30 @@
                     android:background="@drawable/selector_add_class_collection"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="15dp"/>
+                    android:layout_marginTop="5dp"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="50dp"/>
 
             </LinearLayout>
-        </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/bg_header_shadow"
+                android:layout_below="@id/members"
+                android:layout_marginTop="5dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/bg_header_shadow"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/buttons"/>
+
+        </RelativeLayout>
     </ScrollView>
 
     <View

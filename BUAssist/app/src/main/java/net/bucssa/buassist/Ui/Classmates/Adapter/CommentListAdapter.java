@@ -1,6 +1,8 @@
 package net.bucssa.buassist.Ui.Classmates.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import net.bucssa.buassist.Bean.Classmate.Comment;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Ui.Fragments.Mine.OtherProfileActivity;
 import net.bucssa.buassist.Util.DateUtil;
 
 import java.util.ArrayList;
@@ -85,6 +88,14 @@ public class CommentListAdapter extends BaseAdapter {
                 .load(comment.getAvatar())
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
                 .into(viewHolder.ivProfile);
+        viewHolder.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra("OtherId",comment.getFromUid());
+                ((Activity)mContext).startActivity(intent);
+            }
+        });
         viewHolder.tvCreator.setText(comment.getFromUsername());
         viewHolder.tvTime.setText(DateUtil.dateToOutput(comment.getDateline()));
         viewHolder.tvContent.setText( "@" + comment.getToUsername() + " " + comment.getContent());

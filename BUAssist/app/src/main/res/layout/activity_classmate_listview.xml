@@ -7,11 +7,12 @@
     <include layout="@layout/header" android:id="@+id/header"/>
 
     <LinearLayout
+        android:id="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@id/header"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="2dp">
 
         <include layout="@layout/view_search_box_text"
             android:id="@+id/search_textView"
@@ -21,22 +22,30 @@
             android:id="@+id/search_editText"
             android:visibility="gone"/>
 
-        <net.bucssa.buassist.Widget.RefreshView
-            android:id="@+id/rvRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <net.bucssa.buassist.Widget.CustomListViewForRefreshView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="#00000000"
-                android:dividerHeight="0dp"/>
-
-
-        </net.bucssa.buassist.Widget.RefreshView>
     </LinearLayout>
+
+    <net.bucssa.buassist.Widget.RefreshView
+        android:id="@+id/rvRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search">
+
+
+        <net.bucssa.buassist.Widget.CustomListViewForRefreshView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#00000000"
+            android:dividerHeight="0dp"/>
+
+
+    </net.bucssa.buassist.Widget.RefreshView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_header_shadow"
+        android:layout_below="@id/search"/>
 
     <View
         android:layout_width="match_parent"

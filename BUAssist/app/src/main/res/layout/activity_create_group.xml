@@ -54,13 +54,13 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/etTitle"
+            android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_news_layout"
             android:textSize="16sp"
             android:textColor="@color/grey_700"
-            android:hint="请输入一个标题"
+            android:hint="请为你的小组取个名字吧"
             android:textColorHint="@color/tv_grey"
             android:padding="10dp"
             android:layout_marginLeft="20dp"
@@ -70,13 +70,13 @@
             android:maxLines="2"/>
 
         <EditText
-            android:id="@+id/etContent"
+            android:id="@+id/etIntro"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/bg_news_layout"
             android:textSize="16sp"
             android:textColor="@color/grey_700"
-            android:hint="请输入发起的话题的内容"
+            android:hint="请为你的小组加一段介绍吧"
             android:textColorHint="@color/tv_grey"
             android:padding="10dp"
             android:layout_marginLeft="20dp"
@@ -96,7 +96,7 @@
         android:id="@+id/tvSubmit"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:text="发布话题"
+        android:text="创建小组"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:gravity="center"

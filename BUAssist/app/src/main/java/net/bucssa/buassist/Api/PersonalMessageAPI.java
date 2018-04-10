@@ -60,6 +60,12 @@ public interface PersonalMessageAPI {
                                                 @Query("pageSize") int pageSize);
 
 
+    @GET("personalMessage/chat/getChatByPlid.php")
+    Observable<BaseEntity<Chat>> getChatByPlid(@Query("uid") int uid,
+                                          @Query("plid") int plid,
+                                          @Query("token") String token);
+
+
     /**
      * 对话设置已读
      *

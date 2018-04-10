@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import net.bucssa.buassist.Bean.Message.Chat;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Fragments.Message.ChatRoomActivity;
+import net.bucssa.buassist.Ui.Fragments.Mine.OtherProfileActivity;
 import net.bucssa.buassist.Util.DateUtil;
 
 import java.util.ArrayList;
@@ -106,7 +107,14 @@ public class NewChatAdapter extends BaseAdapter{
                 .asBitmap()
                 .load(chat.getAvatar())
                 .into(viewHolder.avatar);
-
+        viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra("OtherId",chat.getUid());
+                ((Activity)mContext).startActivity(intent);
+            }
+        });
         viewHolder.hasNew.setVisibility(chat.getHasnew() == 1 ? View.VISIBLE : View.INVISIBLE);
         viewHolder.rootView.setSelected(chat.getHasnew() == 1);
         return convertView;

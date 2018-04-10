@@ -224,7 +224,7 @@ public interface UserAPI {
      * @param token
      * @return
      */
-    @GET("user/friend/getOtherInfo.php")
+    @GET("user/friend/getOthersInfo.php")
     Observable<BaseEntity<OtherInfo>> getOthersInfo(@Query("uid") int uid,
                                                     @Query("requestUid") int requestUid,
                                                     @Query("token") String token);

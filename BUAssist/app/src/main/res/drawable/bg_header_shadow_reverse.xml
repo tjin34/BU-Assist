@@ -56,9 +56,4 @@
                 android:top="@dimen/cardPadding2"/>
         </shape>
     </item>
-    <item>
-        <shape>
-            <solid android:color="@color/cardBodyColor"/>
-        </shape>
-    </item>
 </layer-list>

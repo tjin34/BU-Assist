@@ -1,6 +1,8 @@
 package net.bucssa.buassist.Ui.Fragments.Message.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import net.bucssa.buassist.Bean.Message.Message;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Ui.Fragments.Mine.OtherProfileActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.DateUtil;
 
@@ -98,10 +104,22 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Message message = mDatas.get(position);
+        final Message message = mDatas.get(position);
         viewHolder.tv_time.setText(DateUtil.stampToDate(message.getDateline()));
         viewHolder.tv_message.setText(message.getMessage());
-        Picasso.with(mContext).load(message.getAuthoravatar()).error(R.drawable.profile_photo).into(viewHolder.iv_profile);
+        Glide.with(mContext)
+                .asBitmap()
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
+                .load(message.getAuthoravatar())
+                .into(viewHolder.iv_profile);
+        viewHolder.iv_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra("OtherId",message.getMsgfromid());
+                ((Activity)mContext).startActivity(intent);
+            }
+        });
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

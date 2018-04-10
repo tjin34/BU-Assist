@@ -106,6 +106,8 @@ public class ClassDetailActivity extends BaseActivity {
     private Class classItem;
 
     private final int CREATE_POST = 1;
+    private final int CREATE_GROUP= 2;
+
 
 
     @Override
@@ -159,6 +161,15 @@ public class ClassDetailActivity extends BaseActivity {
                 Intent intent = new Intent(mContext, CreatePostActivity.class);
                 intent.putExtra("Class", classItem);
                 startActivityForResult(intent, CREATE_POST);
+            }
+        });
+
+        llGroupRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, CreateGroupActivity.class);
+                intent.putExtra("Class", classItem);
+                startActivityForResult(intent, CREATE_GROUP);
             }
         });
 
@@ -281,6 +292,9 @@ public class ClassDetailActivity extends BaseActivity {
         switch (requestCode) {
             case CREATE_POST:
                 PostsFragment.refreshData();
+                break;
+            case CREATE_GROUP:
+                GroupsFragment.refreshData();
                 break;
         }
     }

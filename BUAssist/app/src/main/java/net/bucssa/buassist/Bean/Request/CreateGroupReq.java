@@ -20,6 +20,14 @@ public class CreateGroupReq {
     private String tags;
     private String token;
 
+    public CreateGroupReq(int uid, String name, String intro, String tag, String token) {
+        setUid(uid);
+        setGroupIntro(intro);
+        setGroupName(name);
+        setTags(tag);
+        setToken(token);
+    }
+
     public int getUid() {
         return uid;
     }

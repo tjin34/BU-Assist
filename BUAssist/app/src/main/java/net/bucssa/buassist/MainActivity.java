@@ -17,6 +17,7 @@ import com.github.moduth.blockcanary.BlockCanary;
 
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Ui.Fragments.Home.HomeFragment;
+import net.bucssa.buassist.Ui.Fragments.Message.CreateChatActivity;
 import net.bucssa.buassist.Ui.Fragments.Message.MessageFragment;
 import net.bucssa.buassist.Ui.Fragments.Mine.MineFragment;
 import net.bucssa.buassist.Util.AppBlockCanaryContext;
@@ -99,6 +100,8 @@ public class MainActivity  extends BaseActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
     private Fragment mContent = new Fragment();
+
+    private final int CREATE_CHAT_REQUEST = 1;
 
     public static void launch(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
@@ -257,7 +260,7 @@ public class MainActivity  extends BaseActivity {
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivityForResult(new Intent(mContext, CreateChatActivity.class), CREATE_CHAT_REQUEST);
             }
         });
     }

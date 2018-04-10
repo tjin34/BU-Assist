@@ -14,16 +14,16 @@ public class Friend {
      * avatar : http://bucssa.net/uc_server/avatar.php?uid=24&size=middle
      */
 
-    private String friendid;
+    private int friendid;
     private String username;
     private String comment;
     private String avatar;
 
-    public String getFriendid() {
+    public int getFriendid() {
         return friendid;
     }
 
-    public void setFriendid(String friendid) {
+    public void setFriendid(int friendid) {
         this.friendid = friendid;
     }
 

@@ -192,4 +192,11 @@ public class CustomListViewForRefreshView extends ListView {
         canLoadMore = false;
     }
 
+    public void onRefresh() {
+        progressBar.setVisibility(GONE);
+        tv_load_more.setText("加载更多");
+        isLoadingMore = false;
+        canLoadMore = false;
+    }
+
 }

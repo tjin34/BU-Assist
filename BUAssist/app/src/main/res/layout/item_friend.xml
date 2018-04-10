@@ -32,9 +32,14 @@
             android:layout_marginLeft="10dp"/>
 
         <ImageView
+            android:id="@+id/ivCheck"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src=""/>
+            android:src="@drawable/selector_check"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="35dp"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

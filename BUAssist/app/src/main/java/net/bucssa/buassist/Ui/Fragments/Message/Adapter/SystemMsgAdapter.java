@@ -1,6 +1,8 @@
 package net.bucssa.buassist.Ui.Fragments.Message.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import net.bucssa.buassist.Bean.Message.SystemNotification;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Ui.Fragments.Mine.OtherProfileActivity;
 import net.bucssa.buassist.Util.DateUtil;
 import net.bucssa.buassist.Util.MD5;
 
@@ -103,7 +106,14 @@ public class SystemMsgAdapter extends BaseAdapter{
                         .asBitmap()
                         .load(data.getAvatar())
                         .into(viewHolderRequest.ivAvatar);
-
+                viewHolderRequest.ivAvatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                        intent.putExtra("OtherId",data.getAuthorid());
+                        ((Activity)mContext).startActivity(intent);
+                    }
+                });
                 viewHolderRequest.tvTitle.setText(data.getAuthor());
                 viewHolderRequest.tvContent.setText(data.getFrom_type());
                 viewHolderRequest.tvDateline.setText(DateUtil.dateToOutput(data.getDateline()));

@@ -43,9 +43,9 @@
         <!--我的好友-->
         <activity android:name=".Ui.Fragments.Mine.MyFriendActivity"/>
         <!--聊天室页-->
-        <activity android:name=".Ui.Fragments.Message.ChatRoomActivity">
-
-        </activity>
+        <activity android:name=".Ui.Fragments.Message.ChatRoomActivity"/>
+        <!--创建聊天-->
+        <activity android:name=".Ui.Fragments.Message.CreateChatActivity"/>
 
         <!--设置相关-->
         <activity android:name=".Ui.Fragments.Mine.InputActivity"/>
@@ -62,10 +62,14 @@
         <activity android:name=".Ui.Classmates.PostDetailActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".Ui.Classmates.CreatePostActivity"/>
+        <activity android:name=".Ui.Classmates.CreateGroupActivity"/>
 
 
         <!--网页WebView-->
         <activity android:name=".Ui.News.WebPageActivity"/>
+
+        <!--他人资料-->
+        <activity android:name=".Ui.Fragments.Mine.OtherProfileActivity"/>
 
     </application>
 

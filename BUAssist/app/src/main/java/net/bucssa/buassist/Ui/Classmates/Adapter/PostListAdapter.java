@@ -19,6 +19,7 @@ import net.bucssa.buassist.Bean.Classmate.Group;
 import net.bucssa.buassist.Bean.Classmate.Post;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.PostDetailActivity;
+import net.bucssa.buassist.Ui.Fragments.Mine.OtherProfileActivity;
 import net.bucssa.buassist.Util.DateUtil;
 
 import java.util.ArrayList;
@@ -96,6 +97,14 @@ public class PostListAdapter extends BaseAdapter {
                 .load(data.getAvatar())
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
                 .into(viewHolder.ivProfile);
+        viewHolder.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra("OtherId",data.getAuthorId());
+                ((Activity)mContext).startActivity(intent);
+            }
+        });
         viewHolder.tvCreator.setText(data.getAuthorName());
         viewHolder.tvTitle.setText(data.getSubject());
         viewHolder.tvContent.setText(data.getContent());
