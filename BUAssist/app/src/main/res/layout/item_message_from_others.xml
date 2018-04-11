@@ -35,7 +35,7 @@
             app:arrowHeight="10dp"
             app:arrowPosition="14dp"
             app:arrowLocation="left"
-            app:bubbleColor="@color/test">
+            app:bubbleColor="@color/white">
 
             <LinearLayout
                 android:layout_width="wrap_content"

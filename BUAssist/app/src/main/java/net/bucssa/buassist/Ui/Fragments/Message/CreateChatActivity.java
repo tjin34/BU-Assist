@@ -195,6 +195,20 @@ public class CreateChatActivity extends BaseActivity {
             }
         });
 
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.hideKeyboard(mContext, v);
+            }
+        });
+
+        rvRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.hideKeyboard(mContext, v);
+            }
+        });
+
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -211,6 +225,7 @@ public class CreateChatActivity extends BaseActivity {
         ivSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.hideKeyboard(mContext, v);
                 SendReq req=new SendReq(UserSingleton.USERINFO.getUid(),
                         UserSingleton.USERINFO.getUsername(), toUidToString(toUidList),
                         etMessage.getText().toString(), etMessage.getText().toString() ,UserSingleton.USERINFO.getToken());
@@ -251,6 +266,7 @@ public class CreateChatActivity extends BaseActivity {
                 myAdapter.setOnFriendSelectedListener(new FriendListAdapter.onFriendSelectedListener() {
                     @Override
                     public void onFriendSelected(Friend friend) {
+                        Utils.hideKeyboard(mContext, rootView);
                         if (toUidList.contains(String.valueOf(friend.getFriendid()))) {
                             toUidList.remove(String.valueOf(friend.getFriendid()));
                         } else {

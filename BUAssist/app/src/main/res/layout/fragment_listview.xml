@@ -22,10 +22,10 @@
         android:layout_height="7dp"
         android:background="@drawable/bg_header_shadow"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="7dp"
-        android:background="@drawable/bg_header_shadow_reverse"
-        android:layout_alignParentBottom="true"/>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="7dp"-->
+        <!--android:background="@drawable/bg_header_shadow_reverse"-->
+        <!--android:layout_alignParentBottom="true"/>-->
 
 </RelativeLayout>

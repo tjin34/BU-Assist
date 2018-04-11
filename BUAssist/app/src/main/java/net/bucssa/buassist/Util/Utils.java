@@ -8,7 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -255,6 +257,17 @@ public final class Utils {
         }else {
             return false;
         }
+    }
+
+
+    /**
+     * 将软键盘收起
+     * @param mContext
+     * @param view
+     */
+    public static void hideKeyboard(Context mContext, View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 

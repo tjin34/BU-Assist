@@ -13,13 +13,14 @@
         android:layout_alignParentBottom="true">
 
         <LinearLayout
+            android:id="@+id/buttons"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="25dp">
+            android:layout_marginRight="5dp">
 
             <LinearLayout
-                android:id="@+id/llManual"
+                android:id="@+id/ll_manual"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -45,11 +46,11 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:background="@color/tv_grey"
-                android:layout_gravity="center_vertical"/>
+            <!--<View-->
+                <!--android:layout_width="0.1dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="@color/tv_grey"-->
+                <!--android:layout_gravity="center_vertical"/>-->
 
             <LinearLayout
                 android:id="@+id/llRoommate"
@@ -78,11 +79,11 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:background="@color/tv_grey"
-                android:layout_gravity="center_vertical"/>
+            <!--<View-->
+                <!--android:layout_width="0.1dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="@color/tv_grey"-->
+                <!--android:layout_gravity="center_vertical"/>-->
 
 
             <LinearLayout
@@ -112,6 +113,22 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="近期活动"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@drawable/bg_area_wrap_layout_red"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_toLeftOf="@id/buttons"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"/>
+
     </RelativeLayout>
 
 
@@ -191,8 +208,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@drawable/bg_header_shadow_reverse"
+            android:layout_height="0.1dp"
+            android:background="@color/tv_grey"
             android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>

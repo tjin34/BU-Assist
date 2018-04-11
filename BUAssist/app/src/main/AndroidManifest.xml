@@ -79,6 +79,7 @@
 
         <!--网页WebView-->
         <activity android:name=".Ui.News.WebPageActivity"/>
+        <activity android:name=".Ui.Webview.WebViewActivity"/>
 
         <!--他人资料-->
         <activity android:name=".Ui.Fragments.Mine.OtherProfileActivity"/>

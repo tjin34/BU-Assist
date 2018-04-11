@@ -33,6 +33,7 @@ import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.ClassmateActivity;
 import net.bucssa.buassist.Ui.Fragments.Home.Adapter.NewsListAdapter;
 import net.bucssa.buassist.Ui.Fragments.Home.Adapter.ViewPagerAdapter;
+import net.bucssa.buassist.Ui.Webview.WebViewActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
@@ -79,6 +80,9 @@ public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.ll_classmate)
     LinearLayout ll_classmate;
+
+    @BindView(R.id.ll_manual)
+    LinearLayout ll_manual;
 
 
     private List<TuiSong> tuiSongList = new ArrayList<>();
@@ -239,6 +243,15 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(context, ClassmateActivity.class));
+            }
+        });
+
+        ll_manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("url", "https://tianrenli92.github.io/BUCSSA-new-student-manual/index.html");
+                startActivity(intent);
             }
         });
 
