@@ -3,14 +3,21 @@ package net.bucssa.buassist.Ui.Fragments.Mine;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import net.bucssa.buassist.Api.TuiSongAPI;
 import net.bucssa.buassist.Base.BaseActivity;
@@ -45,11 +52,14 @@ public class MyCollectionActivity extends BaseActivity {
     @BindView(R.id.iv_back)
     ImageView iv_back;
 
-    @BindView(R.id.mRefreshLayout)
-    MaterialRefreshLayout mRefreshLayout;
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.ivLulu)
+    ImageView ivLulu;
 
     private List<Collection> collections = new ArrayList<>();
     private CollectionAdapter myAdapter;
@@ -66,7 +76,7 @@ public class MyCollectionActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_listview;
+        return R.layout.activity_smart_recyclerview;
     }
 
     public static void launch(Activity activity) {
@@ -91,21 +101,31 @@ public class MyCollectionActivity extends BaseActivity {
                 finish();
             }
         });
-        mRefreshLayout.setLoadMore(true);
-        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+
+        Glide.with(mContext)
+                .asGif()
+                .load(R.raw.pull)
+                .into(ivLulu);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.refreshing)
+                        .into(ivLulu);
                 refreshData();
             }
+        });
 
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                if ((pageIndex * pageSize) <= totalCount) {
-                    loadMore();
-                } else {
-                    ToastUtils.showToast(mContext, "没有更多了...");
-                    mRefreshLayout.finishRefreshLoadMore();
-                }
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
+                loadMore();
             }
         });
     }
@@ -143,11 +163,16 @@ public class MyCollectionActivity extends BaseActivity {
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
                 myAdapter.addItems(collections, 0);
-                mRefreshLayout.finishRefresh();
+                refreshLayout.finishRefresh(1000);
                 break;
             case Enum.STATE_MORE:
+                if (collections.size() == 0) {
+                    refreshLayout.finishLoadMore(1000);
+                    ToastUtils.showToast(mContext, "已加载全部推送！");
+                    break;
+                }
                 myAdapter.addItems(collections, myAdapter.getItemCount());
-                mRefreshLayout.finishRefreshLoadMore();
+                refreshLayout.finishLoadMore(1000);
                 break;
         }
     }
@@ -175,14 +200,6 @@ public class MyCollectionActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Logger.d(e.toString());
-                        switch (state) {
-                            case Enum.STATE_REFRESH:
-                                mRefreshLayout.finishRefresh();
-                                break;
-                            case Enum.STATE_MORE:
-                                mRefreshLayout.finishRefreshLoadMore();
-                                break;
-                        }
                         ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
                     }
 

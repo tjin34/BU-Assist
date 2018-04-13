@@ -59,7 +59,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTabTheme"
+                        android:background="@color/mainTheme"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -80,7 +80,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="用户名"
+                        android:text="昵称"
                         android:textColor="@color/tv_black"
                         android:textSize="14sp"
                         android:gravity="center"/>
@@ -107,7 +107,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTabTheme"
+                        android:background="@color/mainTheme"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -128,7 +128,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="用户名"
+                        android:text="真名"
                         android:textColor="@color/tv_black"
                         android:textSize="14sp"
                         android:gravity="center"/>
@@ -155,7 +155,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTabTheme"
+                        android:background="@color/mainTheme"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -203,7 +203,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTabTheme"
+                        android:background="@color/mainTheme"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -251,7 +251,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTabTheme"
+                        android:background="@color/mainTheme"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -299,7 +299,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTabTheme"
+                        android:background="@color/mainTheme"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -349,7 +349,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTabTheme"
+                        android:background="@color/mainTheme"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -397,7 +397,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTabTheme"
+                        android:background="@color/mainTheme"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>

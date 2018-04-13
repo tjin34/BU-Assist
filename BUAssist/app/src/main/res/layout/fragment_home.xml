@@ -182,13 +182,15 @@
 
         </RelativeLayout>
 
-        <net.bucssa.buassist.Widget.RefreshView
-            android:id="@+id/rv_refresh"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rlAdvertise">
 
-            <net.bucssa.buassist.Widget.CustomListViewForRefreshView
+            <include layout="@layout/widget_lulu_headview" android:id="@+id/headerView"/>
+
+            <ListView
                 android:id="@+id/lv_news"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -197,8 +199,9 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
 
+            <include layout="@layout/list_footer_more" android:id="@+id/footerView"/>
 
-        </net.bucssa.buassist.Widget.RefreshView>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <View
             android:layout_width="match_parent"

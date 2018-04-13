@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,6 +21,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
 
 import net.bucssa.buassist.Api.TuiSongAPI;
@@ -63,11 +69,14 @@ import rx.schedulers.Schedulers;
 
 public class HomeFragment extends BaseFragment {
 
-    @BindView(R.id.rv_refresh)
-    RefreshView rv_refresh;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.ivLulu)
+    ImageView ivLulu;
 
     @BindView(R.id.lv_news)
-    CustomListViewForRefreshView lv_news;
+    ListView lv_news;
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -263,84 +272,30 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
 
-        rv_refresh.setRefreshHelper(new RefreshHelper() {
-            //初始化刷新view
-            @Override
-            public View onInitRefreshHeaderView() {
-                return LayoutInflater.from(context).inflate(R.layout.widget_lulu_headview, null);
-            }
+        Glide.with(context)
+                .asGif()
+                .load(R.raw.pull)
+                .into(ivLulu);
 
-            //初始化尺寸高度
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public boolean onInitRefreshHeight(int originRefreshHeight) {
-                rv_refresh.setRefreshNormalHeight(0);
-                rv_refresh.setRefreshingHeight(rv_refresh.getOriginRefreshHeight());
-                rv_refresh.setRefreshArrivedStateHeight(rv_refresh.getOriginRefreshHeight());
-                return false;
-            }
-
-            //刷新状态的改变
-            @Override
-            public void onRefreshStateChanged(View refreshView, int refreshState) {
-                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
-                switch (refreshState) {
-                    case RefreshView.STATE_REFRESH_NORMAL:
-                        Glide.with(context)
-                                .load(R.raw.pull)
-                                .into(ivLulu);
-                        break;
-                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESH_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESHING:
-                        Glide.with(context)
-                                .asGif()
-                                .load(R.raw.refreshing)
-                                .into(ivLulu);
-                        new Thread(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(2000);
-                                            ((Activity)context).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    refreshData();
-                                                    rv_refresh.onCompleteRefresh();
-                                                }
-                                            });
-                                        } catch (InterruptedException e) {
-                                        }
-                                    }
-                                }
-                        ).start();
-                        break;
-                }
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(context)
+                        .asGif()
+                        .load(R.raw.refreshing)
+                        .into(ivLulu);
+                refreshData();
             }
         });
 
-        lv_news.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadMore() {
-                new Thread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(1000);
-                                    ((Activity)context).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMore();
-                                        }
-                                    });
-                                } catch (InterruptedException e) {
-                                }
-                            }
-                        }
-                ).start();
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(context)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
+                loadMore();
             }
         });
 
@@ -379,15 +334,16 @@ public class HomeFragment extends BaseFragment {
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
                 myAdapter.addItems(tuiSongList, 0);
-                lv_news.LoadingComplete();
+                refreshLayout.finishRefresh(1000);
                 break;
             case Enum.STATE_MORE:
                 if (tuiSongList.size() == 0) {
-                    lv_news.NoMoreData();
+                    refreshLayout.finishLoadMore(1000);
+                    ToastUtils.showToast(context, "已加载全部推送！");
                     break;
                 }
-                myAdapter.addItems(tuiSongList, myAdapter.getCount());
-                lv_news.LoadingComplete();
+                myAdapter.addItems(tuiSongList,myAdapter.getCount());
+                refreshLayout.finishLoadMore(1000);
                 break;
         }
     }

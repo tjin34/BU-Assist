@@ -24,6 +24,7 @@ public class UserInfo {
      * bio : 我的名字叫金正源。私の名前は信一です。My name is Tony.
      * affectivestatus : 单身
      * avatar : {"big":"","middle":"","small":""}
+     * nickname : Sh1nJi
      */
 
 
@@ -40,6 +41,7 @@ public class UserInfo {
     private String username;
     private String college;
     private String major;
+    private String nickname;
 
 
     public int getUid() {
@@ -159,6 +161,14 @@ public class UserInfo {
 
     public void setMajor(String major) {
         this.major = major;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public static class AvatarBean {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include layout="@layout/header" android:id="@+id/header"/>
+
+    <LinearLayout
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="2dp"
+        android:layout_below="@id/header">
+
+        <include layout="@layout/view_search_box_text"
+            android:id="@+id/search_textView"
+            android:visibility="visible"/>
+
+        <include layout="@layout/view_search_box"
+            android:id="@+id/search_editText"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search">
+
+        <include layout="@layout/widget_lulu_headview" android:id="@+id/headerView"/>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:divider="#00000000"
+            android:dividerHeight="0dp"
+            />
+
+        <include layout="@layout/list_footer_more" android:id="@+id/footerView"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+
+    <View
+        android:id="@+id/searchShadow"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_header_shadow"
+        android:layout_below="@id/search"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_header_shadow"
+        android:layout_below="@id/header"/>
+
+</RelativeLayout>

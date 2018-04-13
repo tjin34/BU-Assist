@@ -6,10 +6,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Scroller;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -24,7 +30,7 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
     private static final int RELEASE_TO_REFRESH = 2;    //释放状态
     private static final int REFRESHING = 3;    //正在刷新状态
     private static final int RATIO = 3;
-    private LinearLayout headView;    //下拉刷新头
+    private RelativeLayout headView;    //下拉刷新头
     private int headViewHeight; //头高度
     private float startY;   //开始Y坐标
     private float offsetY;  //Y轴偏移量
@@ -34,6 +40,26 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
     private boolean isRecord;   //是否记录
     private boolean isEnd;  //是否结束
     private boolean isRefreable;    //是否刷新
+    private Scroller mScroller;
+
+    /**
+     * Footer及相关View
+     */
+    private View mFooterView;
+    private TextView mTvLoadMore;
+    private ProgressBar mProgressBar;
+
+    /**
+     * 上拉加载更多Bool值
+     */
+    private boolean isLoadingMore;
+    private boolean isLoadable;
+
+    /**
+     * 上拉加载数值
+     */
+    float lastDownY;
+
 
     private ImageView ivLulu;  //骑手图片组件
 //    private TextView tvRefreshText;
@@ -55,6 +81,7 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
 
     public interface OnLuluRefreshListener{
         void onRefresh();
+        void onLoadMore();
     }
 
     /**
@@ -82,7 +109,7 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
         setOverScrollMode(OVER_SCROLL_NEVER);
         setOnScrollListener(this);
         //加载头布局
-        headView = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.widget_lulu_headview,null,false);
+        headView = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.widget_lulu_headview,this,false);
         //测量头布局
         measureView(headView);
         //给ListView添加头布局
@@ -101,10 +128,28 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
 
 //        tvRefreshText = headView.findViewById(R.id.tvRefreshText);
 
+        mFooterView = LayoutInflater.from(context).inflate(R.layout.list_footer_more, null);
+        mFooterView.setMinimumWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        this.addFooterView(mFooterView);
+        mProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pull_to_refresh_progress);
+        mTvLoadMore = (TextView) mFooterView.findViewById(R.id.load_more);
+
+        onLoadingComplete();
+
+        mFooterView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                onLoading();
+//                onLoadMoreListener.onLoadMore();
+                mOnRefreshListener.onLoadMore();
+            }
+        });
+
         state = DONE;
         isEnd = true;
         isRefreable = false;
 
+        mScroller = new Scroller(context, new DecelerateInterpolator());
 
     }
 
@@ -212,6 +257,7 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
                         if (state == PULL_TO_REFRESH) {
                             //平滑的隐藏headerView
                             this.smoothScrollBy((int)(-headViewHeight+offsetY/RATIO)+headViewHeight, 500);
+                            mScroller.startScroll(0, (int) getY(), 0, (int)(-headViewHeight+offsetY/RATIO)+headViewHeight);
                             //根据状态改变headerView
                             changeHeaderByState(state);
                         }
@@ -252,10 +298,9 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
                         .into(ivLulu);
                 break;
             case RELEASE_TO_REFRESH://当前状态为放开刷新
-//                tvRefreshText.setText("松开我就刷新~");
                 break;
             case PULL_TO_REFRESH://当前状态为下拉刷新
-//                tvRefreshText.setText("拉我可以刷新~");
+                this.setSelection(0);
                 Glide.with(getContext())
                         .asGif()
                         .load(R.raw.pull)
@@ -263,7 +308,6 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
                 break;
             case REFRESHING://当前状态为正在刷新
 //                //文字设置为正在刷新
-//                tvRefreshText.setText("正在刷新~");
                 //开始播放pull gif动画
                 Glide.with(getContext())
                         .asGif()
@@ -296,5 +340,47 @@ public class LuluRefreshListView extends ListView implements AbsListView.OnScrol
                     MeasureSpec.UNSPECIFIED);
         }
         child.measure(childWidthSpec, childHeightSpec);
+    }
+
+    /**
+     * LoadMore Interface
+     */
+    public interface onLoadMoreListener{
+        void onLoadMore();
+    }
+
+    private onLoadMoreListener onLoadMoreListener;
+
+
+    /**
+     * 设定LoadMoreListener
+     * @param listener
+     */
+    public void setOnLoadMoreListener(onLoadMoreListener listener) {
+        this.onLoadMoreListener = listener;
+    }
+
+    //正在加载数据，将listview底部提示文字置为"加载中。。。。"
+    public void onLoading(){
+        mProgressBar.setVisibility(VISIBLE);
+        mTvLoadMore.setText("加载中...");
+        isLoadable = false;
+        isLoadingMore = true;
+    }
+
+    //加载完毕，将listView底部提示文字改为"加载更多"
+    public void onLoadingComplete(){
+        mProgressBar.setVisibility(GONE);
+        mTvLoadMore.setText("加载更多");
+        isLoadingMore = false;
+        isLoadable = true;
+    }
+
+    //没有更多数据了
+    public void onNoMore(){
+        mProgressBar.setVisibility(GONE);
+        mTvLoadMore.setText("没有更多了！");
+        isLoadingMore = false;
+        isLoadable = false;
     }
 }

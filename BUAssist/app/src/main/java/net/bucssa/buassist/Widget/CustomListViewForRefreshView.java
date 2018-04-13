@@ -72,6 +72,13 @@ public class CustomListViewForRefreshView extends ListView {
         this.addFooterView(footer);
         progressBar = (ProgressBar) footer.findViewById(R.id.pull_to_refresh_progress);
         tv_load_more = (TextView) footer.findViewById(R.id.load_more);
+        footer.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLoading();
+                onLoadMoreListener.onLoadMore();
+            }
+        });
     }
 
     @Override
@@ -91,13 +98,19 @@ public class CustomListViewForRefreshView extends ListView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        View firstVisibleItemView;
-        View lastVisibleItemView;
         super.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 /* 当用户触碰屏幕，获取当前Y值 */
                 lastDownY = event.getY();
+                View firstVisibleItemView = getChildAt(0);
+                /* 如果第一个item不是空，并且，第一个item的高度为0，则为atTop */
+                atTop = firstVisibleItemView != null && firstVisibleItemView.getTop() == 0;
+
+                                /* 获取最后第二个Item，因为最后一个为footer */
+                View lastVisibleItemView = getChildAt(getChildCount() - 2);
+                /* 如果最后第二个item高度小于或等于屏幕高度，则为list已经到底部 */
+                atLast = lastVisibleItemView != null && lastVisibleItemView.getBottom() <= getHeight();
                 //保证事件可往下传递
                 parentRequestDisallowInterceptTouchEvent(true);
                 return true;
@@ -105,16 +118,10 @@ public class CustomListViewForRefreshView extends ListView {
                 /* 确认当前操作是否为上拉还是下拉，如果Y值大于之前的Y值，并且scrollY为0，则为下拉 */
                 boolean isScrollDown = event.getY() - lastDownY > 0 && this.getScrollY() == 0;
                 /* 获取ListView上第一个item */
-                firstVisibleItemView = getChildAt(0);
-                /* 如果第一个item不是空，并且，第一个item的高度为0，则为atTop */
-                atTop = firstVisibleItemView != null && firstVisibleItemView.getTop() == 0;
-                /* 获取最后第二个Item，因为最后一个为footer */
-//                lastVisibleItemView = getChildAt(getChildCount() - 2);
-//                /* 如果最后第二个item高度小于或等于屏幕高度，则为list已经到底部 */
-//                atLast = lastVisibleItemView != null && lastVisibleItemView.getBottom() <= getHeight();
-                atLast = !canScrollVertically(1);
                 //允许父控件拦截，即不允许父控件拦截设为false
+//                if (isScrollDown && atTop) {
                 if (isScrollDown && atTop) {
+
                     parentRequestDisallowInterceptTouchEvent(false);
                     return false;
                 } else if (!isScrollDown && atLast && canLoadMore && !isLoadingMore) {

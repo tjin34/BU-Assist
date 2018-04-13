@@ -3,6 +3,7 @@ package net.bucssa.buassist.Ui.Classmates.Post;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -16,6 +17,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
@@ -55,9 +60,6 @@ public class PostDetailActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView title;
 
-    @BindView(R.id.rvRefresh)
-    RefreshView rvRefresh;
-
     @BindView(R.id.ivProfile)
     ImageView ivProfile;
 
@@ -80,7 +82,13 @@ public class PostDetailActivity extends BaseActivity {
     ImageView ivComment;
 
     @BindView(R.id.lvComment)
-    CustomListViewForRefreshView lvComment;
+    ListView lvComment;
+
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.ivLulu)
+    ImageView ivLulu;
 
     @BindView(R.id.header)
     LinearLayout headerRootView;
@@ -91,13 +99,13 @@ public class PostDetailActivity extends BaseActivity {
     
     private Post post;
     private List<Comment> comments;
-    private int totalCount;
     private CommentListAdapter myAdapter;
 
     private int state = Enum.STATE_NORMAL;
 
     private int pageIndex = 1;
     private int pageSize = 10;
+    private int totalCount = 0;
 
     @Override
     protected String getTAG() {
@@ -145,7 +153,7 @@ public class PostDetailActivity extends BaseActivity {
 
     private void initData() {
         comments = new ArrayList<>();
-        getComment(0,0);
+        getComment(pageIndex,pageSize);
     }
 
 
@@ -161,97 +169,45 @@ public class PostDetailActivity extends BaseActivity {
         });
 
 
-        rvRefresh.setRefreshHelper(new RefreshHelper() {
-            //初始化刷新view
-            @Override
-            public View onInitRefreshHeaderView() {
-                return LayoutInflater.from(mContext).inflate(R.layout.widget_lulu_headview, null);
-            }
+        Glide.with(mContext)
+                .asGif()
+                .load(R.raw.pull)
+                .into(ivLulu);
 
-            //初始化尺寸高度
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public boolean onInitRefreshHeight(int originRefreshHeight) {
-                rvRefresh.setRefreshNormalHeight(0);
-                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
-                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
-                return false;
-            }
-
-            //刷新状态的改变
-            @Override
-            public void onRefreshStateChanged(View refreshView, int refreshState) {
-                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
-                switch (refreshState) {
-                    case RefreshView.STATE_REFRESH_NORMAL:
-                        Glide.with(mContext)
-                                .asGif()
-                                .load(R.raw.pull)
-                                .into(ivLulu);
-                        break;
-                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESH_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESHING:
-                        Glide.with(mContext)
-                                .asGif()
-                                .load(R.raw.refreshing)
-                                .into(ivLulu);
-                        refresh();
-                        new Thread(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(1000);
-                                            ((Activity)mContext).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    rvRefresh.onCompleteRefresh();
-                                                }
-                                            });
-                                        } catch (InterruptedException e) {
-                                        }
-                                    }
-                                }
-                        ).start();
-                        break;
-                }
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.refreshing)
+                        .into(ivLulu);
+                refreshData();
             }
         });
 
-        lvComment.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadMore() {
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
                 loadMore();
-            }
-        });
-
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                rootView.getWindowVisibleDisplayFrame(r);
-                int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
-
-                if (heightDiff > 100) {
-                    rvRefresh.getRefreshHeaderView().setPadding(0, -(Utils.px2dp(mContext, rvRefresh.getOriginRefreshHeight())-20),0,0);
-                }
             }
         });
 
     }
 
-    private void refresh() {
+    private void refreshData() {
         pageIndex = 1;
         state = Enum.STATE_REFRESH;
-        getComment(pageIndex,pageSize);
+        initData();
     }
 
     private void loadMore() {
         pageIndex++;
         state = Enum.STATE_MORE;
-        getComment(pageIndex, pageSize);
+        initData();
     }
 
 
@@ -264,14 +220,16 @@ public class PostDetailActivity extends BaseActivity {
             case Enum.STATE_REFRESH:
                 myAdapter.clear();
                 myAdapter.addDatas(comments);
+                refreshLayout.finishRefresh(1000);
                 break;
             case Enum.STATE_MORE:
                 if (comments.size() == 0) {
-                    lvComment.NoMoreData();
-                } else {
-                    myAdapter.addDatas(comments);
-                    lvComment.LoadingComplete();
+                    refreshLayout.finishLoadMore(1000);
+                    ToastUtils.showToast(mContext, "已加载全部评论！");
+                    break;
                 }
+                myAdapter.addDatas(comments);
+                refreshLayout.finishLoadMore(1000);
                 break;
         }
     }

@@ -2,14 +2,20 @@ package net.bucssa.buassist.Ui.Classmates.Group;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
@@ -65,11 +71,15 @@ public class MyGroupActivity extends BaseActivity {
     @BindView(R.id.tv_cancel)
     TextView tv_cancel;
 
-    @BindView(R.id.rvRefresh)
-    RefreshView rvRefresh;
-
     @BindView(R.id.listView)
-    CustomListViewForRefreshView listView;
+    ListView listView;
+
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.ivLulu)
+    ImageView ivLulu;
+
 
     private List<Group> groupList = new ArrayList<>();
     private GroupsListAdapter myAdapter;
@@ -83,7 +93,7 @@ public class MyGroupActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_classmate_listview;
+        return R.layout.activity_smart_refresh;
     }
 
     @Override
@@ -134,84 +144,26 @@ public class MyGroupActivity extends BaseActivity {
             }
         });
 
-        rvRefresh.setRefreshHelper(new RefreshHelper() {
-            //初始化刷新view
-            @Override
-            public View onInitRefreshHeaderView() {
-                return LayoutInflater.from(mContext).inflate(R.layout.widget_lulu_headview, null);
-            }
+        Glide.with(mContext)
+                .asGif()
+                .load(R.raw.pull)
+                .into(ivLulu);
 
-            //初始化尺寸高度
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public boolean onInitRefreshHeight(int originRefreshHeight) {
-                rvRefresh.setRefreshNormalHeight(0);
-                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
-                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
-                return false;
-            }
-
-            //刷新状态的改变
-            @Override
-            public void onRefreshStateChanged(View refreshView, int refreshState) {
-                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
-                switch (refreshState) {
-                    case RefreshView.STATE_REFRESH_NORMAL:
-                        Glide.with(mContext)
-                                .load(R.raw.pull)
-                                .into(ivLulu);
-                        break;
-                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESH_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESHING:
-                        Glide.with(mContext)
-                                .asGif()
-                                .load(R.raw.refreshing)
-                                .into(ivLulu);
-                        new Thread(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(2000);
-                                            ((Activity)mContext).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    refreshData();
-                                                    rvRefresh.onCompleteRefresh();
-                                                }
-                                            });
-                                        } catch (InterruptedException e) {
-                                        }
-                                    }
-                                }
-                        ).start();
-                        break;
-                }
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.refreshing)
+                        .into(ivLulu);
+                refreshData();
             }
         });
 
-        listView.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadMore() {
-                new Thread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(1000);
-                                    ((Activity)mContext).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMore();
-                                        }
-                                    });
-                                } catch (InterruptedException e) {
-                                }
-                            }
-                        }
-                ).start();
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                loadMore();
             }
         });
     }
@@ -249,15 +201,20 @@ public class MyGroupActivity extends BaseActivity {
             case Enum.STATE_REFRESH:
                 myAdapter.clear();
                 myAdapter.addDatas(groupList);
-                listView.LoadingComplete();
+                refreshLayout.finishRefresh(1000);
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
                 break;
             case Enum.STATE_MORE:
                 if (groupList.size() == 0) {
-                    listView.NoMoreData();
+                    refreshLayout.finishLoadMore(1000);
+                    ToastUtils.showToast(mContext, "已加载全部小组！");
                     break;
                 }
                 myAdapter.addDatas(groupList);
-                listView.LoadingComplete();
+                refreshLayout.finishLoadMore(1000);
                 break;
 
         }

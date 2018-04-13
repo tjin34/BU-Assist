@@ -217,7 +217,7 @@ public class CreateChatActivity extends BaseActivity {
                 int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
 
                 if (heightDiff > 100) {
-                    rvRefresh.getRefreshHeaderView().setPadding(0, -(Utils.px2dp(mContext, rvRefresh.getOriginRefreshHeight())-40),0,0);
+//                    rvRefresh.getRefreshHeaderView().setPadding(0, -(Utils.px2dp(mContext, rvRefresh.getOriginRefreshHeight())-40),0,0);
                 }
             }
         });

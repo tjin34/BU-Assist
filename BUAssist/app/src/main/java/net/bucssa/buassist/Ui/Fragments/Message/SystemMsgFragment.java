@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -16,10 +17,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Api.PersonalMessageAPI;
@@ -62,11 +68,14 @@ import rx.schedulers.Schedulers;
 
 public class SystemMsgFragment extends BaseFragment {
 
-    @BindView(R.id.rvRefresh)
-    RefreshView rvRefresh;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.ivLulu)
+    ImageView ivLulu;
 
     @BindView(R.id.lv_message)
-    CustomListViewForRefreshView lv_message;
+    ListView lv_message;
 
     @BindView(R.id.initView)
     LinearLayout initView;
@@ -97,7 +106,7 @@ public class SystemMsgFragment extends BaseFragment {
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_personal_message;
+        return R.layout.fragment_system_message;
     }
 
     @Override
@@ -109,85 +118,26 @@ public class SystemMsgFragment extends BaseFragment {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-        rvRefresh.setRefreshHelper(new RefreshHelper() {
-            //初始化刷新view
-            @Override
-            public View onInitRefreshHeaderView() {
-                return LayoutInflater.from(context).inflate(R.layout.widget_lulu_headview, null);
-            }
+        Glide.with(context)
+                .asGif()
+                .load(R.raw.pull)
+                .into(ivLulu);
 
-            //初始化尺寸高度
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public boolean onInitRefreshHeight(int originRefreshHeight) {
-                rvRefresh.setRefreshNormalHeight(0);
-                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
-                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
-                return false;
-            }
-
-            //刷新状态的改变
-            @Override
-            public void onRefreshStateChanged(View refreshView, int refreshState) {
-                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
-                switch (refreshState) {
-                    case RefreshView.STATE_REFRESH_NORMAL:
-                        Glide.with(context)
-                                .asGif()
-                                .load(R.raw.pull)
-                                .into(ivLulu);
-                        break;
-                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESH_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESHING:
-                        Glide.with(context)
-                                .asGif()
-                                .load(R.raw.refreshing)
-                                .into(ivLulu);
-                        new Thread(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(2000);
-                                            ((Activity)context).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    refreshData();
-                                                    rvRefresh.onCompleteRefresh();
-                                                }
-                                            });
-                                        } catch (InterruptedException e) {
-                                        }
-                                    }
-                                }
-                        ).start();
-                        break;
-                }
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(context)
+                        .asGif()
+                        .load(R.raw.refreshing)
+                        .into(ivLulu);
+                refreshData();
             }
         });
 
-        lv_message.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadMore() {
-                new Thread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(1000);
-                                    ((Activity)context).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMore();
-                                        }
-                                    });
-                                } catch (InterruptedException e) {
-                                }
-                            }
-                        }
-                ).start();
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                loadMore();
             }
         });
 
@@ -264,15 +214,20 @@ public class SystemMsgFragment extends BaseFragment {
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
                 myAdapter.addData(0, chatList);
-                lv_message.LoadingComplete();
+                refreshLayout.finishRefresh(1000);
+                Glide.with(context)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
                 break;
             case Enum.STATE_MORE:
                 if (chatList.size() == 0) {
-                    lv_message.NoMoreData();
+                    refreshLayout.finishLoadMore(1000);
+                    ToastUtils.showToast(context, "已加载全部系统消息！");
                     break;
                 }
                 myAdapter.addData(myAdapter.getCount(),chatList);
-                lv_message.LoadingComplete();
+                refreshLayout.finishLoadMore(1000);
                 break;
         }
     }

@@ -1,17 +1,21 @@
 package net.bucssa.buassist.Ui.Classmates.Class;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
@@ -24,9 +28,6 @@ import net.bucssa.buassist.Ui.Classmates.Adapter.ClassListAdapter;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
-import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
-import net.bucssa.buassist.Widget.RefreshHelper;
-import net.bucssa.buassist.Widget.RefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,11 +65,14 @@ public class FindClassActivity extends BaseActivity {
     @BindView(R.id.tv_cancel)
     TextView tv_cancel;
 
-    @BindView(R.id.rvRefresh)
-    RefreshView rvRefresh;
-
     @BindView(R.id.listView)
-    CustomListViewForRefreshView lv_class;
+    ListView lv_class;
+
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.ivLulu)
+    ImageView ivLulu;
 
     private String searchKey = "";
 
@@ -85,7 +89,7 @@ public class FindClassActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_classmate_listview;
+        return R.layout.activity_smart_refresh;
     }
 
     @Override
@@ -137,7 +141,10 @@ public class FindClassActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchKey = charSequence.toString();
-                getClassCollection(1, 10);
+                pageIndex = 1;
+                pageSize = 10;
+                state = Enum.STATE_NORMAL;
+                initData();
             }
 
             @Override
@@ -146,86 +153,33 @@ public class FindClassActivity extends BaseActivity {
             }
         });
 
-        rvRefresh.setRefreshHelper(new RefreshHelper() {
-            //初始化刷新view
-            @Override
-            public View onInitRefreshHeaderView() {
-                return LayoutInflater.from(mContext).inflate(R.layout.widget_lulu_headview, null);
-            }
+        Glide.with(mContext)
+                .asGif()
+                .load(R.raw.pull)
+                .into(ivLulu);
 
-            //初始化尺寸高度
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public boolean onInitRefreshHeight(int originRefreshHeight) {
-                rvRefresh.setRefreshNormalHeight(0);
-                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
-                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
-                return false;
-            }
-
-            //刷新状态的改变
-            @Override
-            public void onRefreshStateChanged(View refreshView, int refreshState) {
-                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
-                switch (refreshState) {
-                    case RefreshView.STATE_REFRESH_NORMAL:
-                        Glide.with(mContext)
-                                .load(R.raw.pull)
-                                .into(ivLulu);
-                        break;
-                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESH_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESHING:
-                        Glide.with(mContext)
-                                .asGif()
-                                .load(R.raw.refreshing)
-                                .into(ivLulu);
-                        new Thread(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(2000);
-                                            ((Activity)mContext).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    refreshData();
-                                                    rvRefresh.onCompleteRefresh();
-                                                }
-                                            });
-                                        } catch (InterruptedException e) {
-                                        }
-                                    }
-                                }
-                        ).start();
-                        break;
-                }
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.refreshing)
+                        .into(ivLulu);
+                refreshData();
             }
         });
 
-        lv_class.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadMore() {
-                new Thread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(1000);
-                                    ((Activity)mContext).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMore();
-                                        }
-                                    });
-                                } catch (InterruptedException e) {
-                                }
-                            }
-                        }
-                ).start();
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
+                loadMore();
             }
         });
+
     }
 
     /**
@@ -248,7 +202,7 @@ public class FindClassActivity extends BaseActivity {
 
     private void initData() {
         classList = new ArrayList<>();
-        getClassCollection(pageIndex, pageSize);
+        getClass(pageIndex, pageSize);
     }
 
 
@@ -261,22 +215,22 @@ public class FindClassActivity extends BaseActivity {
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
                 myAdapter.addData(0, classList);
-                lv_class.LoadingComplete();
+                refreshLayout.finishRefresh(1000);
                 break;
             case Enum.STATE_MORE:
                 if (classList.size() == 0) {
-                    lv_class.NoMoreData();
+                    refreshLayout.finishLoadMoreWithNoMoreData();
+                    ToastUtils.showToast(mContext, "已加载全部课程！");
                     break;
                 }
                 myAdapter.addData(myAdapter.getCount(), classList);
-                lv_class.LoadingComplete();
+                refreshLayout.finishLoadMore(1000);
                 break;
-
         }
     }
 
 
-    private void getClassCollection(int pageIndex, int pageSize){
+    private void getClass(int pageIndex, int pageSize){
         Observable<BaseEntity<List<Class>>> observable = RetrofitClient.createService(ClassmateAPI.class)
                 .getClassList(UserSingleton.USERINFO.getUid(), pageIndex, pageSize, searchKey);
 

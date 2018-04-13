@@ -322,8 +322,4 @@ public class RefreshView extends LinearLayout {
     public int getOriginRefreshHeight() {
         return originRefreshHeight;
     }
-
-    public View getRefreshHeaderView() {
-        return refreshHeaderView;
-    }
 }

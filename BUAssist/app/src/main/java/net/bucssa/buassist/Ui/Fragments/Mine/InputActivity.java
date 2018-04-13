@@ -9,12 +9,25 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import net.bucssa.buassist.Api.UserAPI;
 import net.bucssa.buassist.Base.BaseActivity;
+import net.bucssa.buassist.Bean.BaseEntity;
+import net.bucssa.buassist.Bean.Request.EditInfoStr;
+import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.UserSingleton;
+import net.bucssa.buassist.Util.Logger;
+import net.bucssa.buassist.Util.ToastUtils;
 import net.bucssa.buassist.Widget.SuperEditText;
 
 import butterknife.BindView;
+import okhttp3.RequestBody;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by KimuraShin on 17/8/20.
@@ -75,7 +88,27 @@ public class InputActivity extends BaseActivity {
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                String key = "";
+                String value = "";
+                switch (inputType) {
+                    case 0:
+                        key = "nickname";
+                        value = et_name.getText().toString();
+                        break;
+                    case 1:
+                        key = "realname";
+                        value = et_name.getText().toString();
+                        break;
+                    case 2:
+                        key = "bio";
+                        value = et_intro.getText().toString();
+                        break;
+                }
+                EditInfoStr req = new EditInfoStr(UserSingleton.USERINFO.getUid(),
+                        key, value, UserSingleton.USERINFO.getToken());
+                Gson gson = new Gson();
+                String json = gson.toJson(req);
+                editUserInfo(json);
             }
         });
 
@@ -132,7 +165,7 @@ public class InputActivity extends BaseActivity {
             case 0:
                 tv_title.setText("用户名");
                 name_inputBox.setVisibility(View.VISIBLE);
-                et_name.setText(UserSingleton.USERINFO.getUsername());
+                et_name.setText(UserSingleton.USERINFO.getNickname());
                 break;
             case 1:
                 tv_title.setText("真名");
@@ -146,4 +179,43 @@ public class InputActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void editUserInfo(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(UserAPI.class)
+                .editInfoStr(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "修改成功！");
+                            finish();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
 }
