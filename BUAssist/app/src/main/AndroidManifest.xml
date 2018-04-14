@@ -75,6 +75,7 @@
         <activity android:name=".Ui.Classmates.Group.CreateGroupActivity"/>
         <activity android:name=".Ui.Classmates.Group.MemberActivity"/>
         <activity android:name=".Ui.Classmates.Group.SignInActivity"/>
+        <activity android:name=".Ui.Classmates.Group.EditGroupInfoActivity"/>
 
 
         <!--网页WebView-->

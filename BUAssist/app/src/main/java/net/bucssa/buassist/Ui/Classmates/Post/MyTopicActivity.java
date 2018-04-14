@@ -155,6 +155,10 @@ public class MyTopicActivity extends BaseActivity {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
                 loadMore();
             }
         });

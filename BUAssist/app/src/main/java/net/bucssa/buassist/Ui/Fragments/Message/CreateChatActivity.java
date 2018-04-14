@@ -3,6 +3,7 @@ package net.bucssa.buassist.Ui.Fragments.Message;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,16 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import net.bucssa.buassist.Api.PersonalMessageAPI;
 import net.bucssa.buassist.Api.UserAPI;
@@ -59,11 +65,14 @@ public class CreateChatActivity extends BaseActivity {
     @BindView(R.id.rootView)
     RelativeLayout rootView;
 
-    @BindView(R.id.rvRefresh)
-    RefreshView rvRefresh;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.ivLulu)
+    ImageView ivLulu;
 
     @BindView(R.id.lvFriend)
-    CustomListViewForRefreshView lvFriend;
+    ListView lvFriend;
 
     @BindView(R.id.et_message)
     EditText etMessage;
@@ -112,86 +121,31 @@ public class CreateChatActivity extends BaseActivity {
             }
         });
         tvTitle.setText("创建对话");
-        rvRefresh.setRefreshHelper(new RefreshHelper() {
-            //初始化刷新view
-            @Override
-            public View onInitRefreshHeaderView() {
-                return LayoutInflater.from(mContext).inflate(R.layout.widget_lulu_headview, null);
-            }
 
-            //初始化尺寸高度
-            @Override
-            public boolean onInitRefreshHeight(int originRefreshHeight) {
-                rvRefresh.setRefreshNormalHeight(0);
-                rvRefresh.setRefreshingHeight(rvRefresh.getOriginRefreshHeight());
-                rvRefresh.setRefreshArrivedStateHeight(rvRefresh.getOriginRefreshHeight());
-                return false;
-            }
+        Glide.with(mContext)
+                .asGif()
+                .load(R.raw.pull)
+                .into(ivLulu);
 
-            //刷新状态的改变
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefreshStateChanged(View refreshView, int refreshState) {
-                ImageView ivLulu = (ImageView) refreshView.findViewById(R.id.ivLulu);
-                switch (refreshState) {
-                    case RefreshView.STATE_REFRESH_NORMAL:
-                        Glide.with(mContext)
-                                .asGif()
-                                .load(R.raw.pull)
-                                .into(ivLulu);
-                        break;
-                    case RefreshView.STATE_REFRESH_NOT_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESH_ARRIVED:
-                        break;
-                    case RefreshView.STATE_REFRESHING:
-                        Glide.with(mContext)
-                                .asGif()
-                                .load(R.raw.refreshing)
-                                .into(ivLulu);
-                        lvFriend.onRefresh();
-                        new Thread(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(2000);
-                                            ((Activity)mContext).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    refreshData();
-                                                    rvRefresh.onCompleteRefresh();
-                                                }
-                                            });
-                                        } catch (InterruptedException e) {
-                                        }
-                                    }
-                                }
-                        ).start();
-                        break;
-                }
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.refreshing)
+                        .into(ivLulu);
+                refreshData();
             }
         });
 
-        lvFriend.setOnLoadMoreListener(new CustomListViewForRefreshView.onLoadMoreListener() {
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadMore() {
-                new Thread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(1000);
-                                    ((Activity)mContext).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMore();
-                                        }
-                                    });
-                                } catch (InterruptedException e) {
-                                }
-                            }
-                        }
-                ).start();
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
+                loadMore();
             }
         });
 
@@ -202,25 +156,6 @@ public class CreateChatActivity extends BaseActivity {
             }
         });
 
-        rvRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.hideKeyboard(mContext, v);
-            }
-        });
-
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                rootView.getWindowVisibleDisplayFrame(r);
-                int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
-
-                if (heightDiff > 100) {
-//                    rvRefresh.getRefreshHeaderView().setPadding(0, -(Utils.px2dp(mContext, rvRefresh.getOriginRefreshHeight())-40),0,0);
-                }
-            }
-        });
 
         ivSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,15 +214,16 @@ public class CreateChatActivity extends BaseActivity {
             case Enum.STATE_REFRESH:
                 myAdapter.clearData();
                 myAdapter.addItems(Friends);
-                lvFriend.LoadingComplete();
+                refreshLayout.finishRefresh(1000);
                 break;
             case Enum.STATE_MORE:
                 if (Friends.size() == 0) {
-                    lvFriend.LoadingComplete();
+                    refreshLayout.finishLoadMore(1000);
+                    ToastUtils.showToast(mContext, "已加载全部私信！");
                     break;
                 }
                 myAdapter.addItems(Friends);
-                lvFriend.LoadingComplete();
+                refreshLayout.finishLoadMore(1000);
                 break;
         }
     }

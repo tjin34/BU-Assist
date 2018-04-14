@@ -5,11 +5,14 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -28,6 +31,7 @@ import net.bucssa.buassist.Ui.Classmates.Adapter.ClassListAdapter;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +46,10 @@ import rx.schedulers.Schedulers;
  * Created by KimuraShin on 17/7/29.
  */
 
-public class FindClassActivity extends BaseActivity {
+public class FindClassActivity extends BaseActivity implements View.OnLayoutChangeListener{
+
+    @BindView(R.id.rootView)
+    RelativeLayout rootView;
 
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -62,6 +69,9 @@ public class FindClassActivity extends BaseActivity {
     @BindView(R.id.et_search)
     EditText et_search;
 
+    @BindView(R.id.tv_search)
+    TextView tv_search;
+
     @BindView(R.id.tv_cancel)
     TextView tv_cancel;
 
@@ -73,6 +83,10 @@ public class FindClassActivity extends BaseActivity {
 
     @BindView(R.id.ivLulu)
     ImageView ivLulu;
+
+    private int screenHeight = 0;
+    //软件盘弹起后所占高度阀值
+    private int keyHeight = 0;
 
     private String searchKey = "";
 
@@ -132,6 +146,13 @@ public class FindClassActivity extends BaseActivity {
             }
         });
 
+        iv_search_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                et_search.setText("");
+            }
+        });
+
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -141,6 +162,7 @@ public class FindClassActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchKey = charSequence.toString();
+                tv_search.setText(searchKey);
                 pageIndex = 1;
                 pageSize = 10;
                 state = Enum.STATE_NORMAL;
@@ -150,6 +172,17 @@ public class FindClassActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+
+        et_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    fakeSearchBox.setVisibility(View.VISIBLE);
+                    realSearchBox.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -180,6 +213,31 @@ public class FindClassActivity extends BaseActivity {
             }
         });
 
+        //获取屏幕高度
+        screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
+        //阀值设置为屏幕高度的1/3
+        keyHeight = screenHeight/3;
+
+        rootView.addOnLayoutChangeListener(this);
+
+    }
+
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right,
+                               int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        //old是改变前的左上右下坐标点值，没有old的是改变后的左上右下坐标点值
+
+//      System.out.println(oldLeft + " " + oldTop +" " + oldRight + " " + oldBottom);
+//      System.out.println(left + " " + top +" " + right + " " + bottom);
+
+
+        //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
+        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+            et_search.hasFocus();
+        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+            tv_search.hasFocus();
+            et_search.setFocusableInTouchMode(true);
+        }
     }
 
     /**

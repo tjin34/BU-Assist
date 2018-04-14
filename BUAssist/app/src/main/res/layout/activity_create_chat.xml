@@ -55,22 +55,27 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <net.bucssa.buassist.Widget.RefreshView
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/rvRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_bar"
             android:layout_marginTop="5dp">
 
-            <net.bucssa.buassist.Widget.CustomListViewForRefreshView
+            <include layout="@layout/widget_lulu_headview" android:id="@+id/headerView"/>
+
+            <ListView
                 android:id="@+id/lvFriend"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#00000000"
                 android:divider="#00000000"/>
 
+            <include layout="@layout/list_footer_more" android:id="@+id/footerView"/>
 
-        </net.bucssa.buassist.Widget.RefreshView>
+
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
     </RelativeLayout>

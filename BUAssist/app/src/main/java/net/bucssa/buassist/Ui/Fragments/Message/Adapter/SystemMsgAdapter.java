@@ -111,7 +111,7 @@ public class SystemMsgAdapter extends BaseAdapter{
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(mContext, OtherProfileActivity.class);
-                        intent.putExtra("OtherId",data.getAuthorid());
+                        intent.putExtra("OtherId",data.getFrom_id());
                         ((Activity)mContext).startActivity(intent);
                     }
                 });

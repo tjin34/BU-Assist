@@ -106,6 +106,10 @@ public class GroupsFragment extends BaseFragment{
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(context)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
                 loadMore();
             }
         });
@@ -145,10 +149,6 @@ public class GroupsFragment extends BaseFragment{
                 myAdapter.clear();
                 myAdapter.addDatas(groupList);
                 refreshLayout.finishRefresh(1000);
-                Glide.with(context)
-                        .asGif()
-                        .load(R.raw.pull)
-                        .into(ivLulu);
                 break;
             case Enum.STATE_MORE:
                 if (groupList.size() == 0) {

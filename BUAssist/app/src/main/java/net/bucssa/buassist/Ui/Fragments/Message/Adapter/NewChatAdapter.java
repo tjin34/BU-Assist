@@ -109,7 +109,7 @@ public class NewChatAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, OtherProfileActivity.class);
-                intent.putExtra("OtherId",chat.getUid());
+                intent.putExtra("OtherId",chat.getTouid());
                 ((Activity)mContext).startActivity(intent);
             }
         });

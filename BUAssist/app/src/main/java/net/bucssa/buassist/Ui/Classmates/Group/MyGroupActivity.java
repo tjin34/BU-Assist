@@ -163,6 +163,10 @@ public class MyGroupActivity extends BaseActivity {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(mContext)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
                 loadMore();
             }
         });
@@ -202,10 +206,6 @@ public class MyGroupActivity extends BaseActivity {
                 myAdapter.clear();
                 myAdapter.addDatas(groupList);
                 refreshLayout.finishRefresh(1000);
-                Glide.with(mContext)
-                        .asGif()
-                        .load(R.raw.pull)
-                        .into(ivLulu);
                 break;
             case Enum.STATE_MORE:
                 if (groupList.size() == 0) {

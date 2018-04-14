@@ -11,11 +11,14 @@ import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.google.gson.Gson;
 import com.google.zxing.qrcode.encoder.QRCode;
 
@@ -35,6 +38,8 @@ import net.bucssa.buassist.Util.DateUtil;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
 import net.bucssa.buassist.Util.zxing.android.CaptureActivity;
+import net.bucssa.buassist.Widget.RefreshHelper;
+import net.bucssa.buassist.Widget.RefreshView;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -58,6 +63,9 @@ public class SignInActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tv_title;
+
+    @BindView(R.id.refreshLayout)
+    MaterialRefreshLayout refreshLayout;
 
     @BindView(R.id.llMeetDetail)
     LinearLayout llMeetDetail;
@@ -104,7 +112,7 @@ public class SignInActivity extends BaseActivity {
         group = (Group) getIntent().getSerializableExtra("Group");
         super.onCreate(savedInstanceState);
 
-        getMeeting();
+        refreshLayout.autoRefresh();
     }
 
     @Override
@@ -153,6 +161,14 @@ public class SignInActivity extends BaseActivity {
                 }
             }
         });
+
+        refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                getMeeting();
+            }
+        });
+
     }
 
     private void initMeetView(){
@@ -273,11 +289,13 @@ public class SignInActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Logger.d(e.toString());
+                        refreshLayout.finishRefreshing();
                         ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
                     }
 
                     @Override
                     public void onNext(BaseEntity<Meeting> baseEntity) {
+                        refreshLayout.finishRefreshing();
                         if (baseEntity.isSuccess()) {
                             if (baseEntity.getDatas() != null) {
                                 meeting = baseEntity.getDatas();

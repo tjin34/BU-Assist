@@ -187,7 +187,7 @@ public class MainActivity  extends BaseActivity {
         transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.frame_content, list_fragment.get(0));
         mContent = list_fragment.get(0);
-        tv_title.setText("BUCSSA");
+        switchPage(0);
         transaction.commit();
     }
 
