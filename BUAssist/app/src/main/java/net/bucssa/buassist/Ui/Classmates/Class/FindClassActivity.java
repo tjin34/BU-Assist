@@ -1,5 +1,7 @@
 package net.bucssa.buassist.Ui.Classmates.Class;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -24,6 +27,8 @@ import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Classmate.Class;
+import net.bucssa.buassist.Bean.Classmate.Group;
+import net.bucssa.buassist.Bean.Request.EditGroupInfoReq;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
@@ -37,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,7 +52,7 @@ import rx.schedulers.Schedulers;
  * Created by KimuraShin on 17/7/29.
  */
 
-public class FindClassActivity extends BaseActivity implements View.OnLayoutChangeListener{
+public class FindClassActivity extends BaseActivity {
 
     @BindView(R.id.rootView)
     RelativeLayout rootView;
@@ -99,6 +105,8 @@ public class FindClassActivity extends BaseActivity implements View.OnLayoutChan
     private int pageSize = 10;
     private int totalCount = 0;
 
+    private int preActivity;
+    private Group group;
 
 
     @Override
@@ -113,6 +121,8 @@ public class FindClassActivity extends BaseActivity implements View.OnLayoutChan
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preActivity = getIntent().getIntExtra("preActivity", 0);
+        if (preActivity == 2) group = (Group) getIntent().getSerializableExtra("Group");
         super.onCreate(savedInstanceState);
 
         initData();
@@ -213,31 +223,6 @@ public class FindClassActivity extends BaseActivity implements View.OnLayoutChan
             }
         });
 
-        //获取屏幕高度
-        screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
-        //阀值设置为屏幕高度的1/3
-        keyHeight = screenHeight/3;
-
-        rootView.addOnLayoutChangeListener(this);
-
-    }
-
-    @Override
-    public void onLayoutChange(View v, int left, int top, int right,
-                               int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        //old是改变前的左上右下坐标点值，没有old的是改变后的左上右下坐标点值
-
-//      System.out.println(oldLeft + " " + oldTop +" " + oldRight + " " + oldBottom);
-//      System.out.println(left + " " + top +" " + right + " " + bottom);
-
-
-        //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
-        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
-            et_search.hasFocus();
-        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
-            tv_search.hasFocus();
-            et_search.setFocusableInTouchMode(true);
-        }
     }
 
     /**
@@ -268,6 +253,34 @@ public class FindClassActivity extends BaseActivity implements View.OnLayoutChan
         switch (state) {
             case Enum.STATE_NORMAL:
                 myAdapter = new ClassListAdapter(mContext, classList);
+                myAdapter.setOnClassItemClickListener(new ClassListAdapter.onClassItemClickListener() {
+                    @Override
+                    public void onClassItemClick(Class classItem) {
+                        switch (preActivity) {
+                            case 1:
+                                Intent intent = new Intent(mContext, ClassDetailActivity.class);
+                                intent.putExtra("Class", classItem);
+                                startActivity(intent);
+                                break;
+                            case 2:
+                                String finalTag;
+                                if (group.getGroupTag().equals("")) {
+                                    finalTag = classItem.getClassCode();
+                                } else if (group.getGroupTag().toLowerCase().contains(classItem.getClassCode().toLowerCase())) {
+                                    ToastUtils.showToast(mContext, "这课已经在涉及科目中了！");
+                                    return;
+                                }else {
+                                    finalTag = group.getGroupTag() + "," + classItem.getClassCode();
+                                }
+                                EditGroupInfoReq req = new EditGroupInfoReq(UserSingleton.USERINFO.getUid(),
+                                        group.getGroupId(), "groupTag", finalTag, UserSingleton.USERINFO.getToken());
+                                Gson gson = new Gson();
+                                String json = gson.toJson(req);
+                                editGroupInfo(json);
+                                break;
+                        }
+                    }
+                });
                 lv_class.setAdapter(myAdapter);
                 break;
             case Enum.STATE_REFRESH:
@@ -324,6 +337,44 @@ public class FindClassActivity extends BaseActivity implements View.OnLayoutChan
                             /* 更新总数并更新adapter和listView */
                             totalCount = baseEntity.getTotal();
                             changeByState();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+    private void editGroupInfo(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .editGroupInfo(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "修改成功！");
+                            finish();
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }

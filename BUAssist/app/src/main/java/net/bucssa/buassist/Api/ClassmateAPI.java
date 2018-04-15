@@ -86,7 +86,7 @@ public interface ClassmateAPI {
      * 获取帖子
      *
      * @param uid
-     * @param  classid
+     * @param  classId
      * @param pageIndex
      * @param pageSize
      * @param token
@@ -94,7 +94,7 @@ public interface ClassmateAPI {
      */
     @GET("classmate/post/get.php")
     Observable<BaseEntity<List<Post>>> getPost(@Query("uid") int uid,
-                                               @Query("classid") int classid,
+                                               @Query("classId") int classId,
                                                @Query("pageIndex") int pageIndex,
                                                @Query("pageSize") int pageSize,
                                                @Query("token") String token);
@@ -114,7 +114,7 @@ public interface ClassmateAPI {
      * 获取回复列表
      *
      * @param uid
-     * @param postid
+     * @param postId
      * @param pageIndex
      * @param pageSize
      * @param token
@@ -122,7 +122,7 @@ public interface ClassmateAPI {
      */
     @GET("classmate/post/getComment.php")
     Observable<BaseEntity<List<Comment>>> getComment(@Query("uid") int uid,
-                                                     @Query("postid") int postid,
+                                                     @Query("postId") int postId,
                                                      @Query("pageIndex") int pageIndex,
                                                      @Query("pageSize") int pageSize,
                                                      @Query("token") String token);
@@ -204,7 +204,7 @@ public interface ClassmateAPI {
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("/classmate/group/edit.php")
+    @POST("classmate/group/edit.php")
     Observable<BaseEntity> editGroupInfo(@Body RequestBody json);
 
     /**
@@ -264,13 +264,13 @@ public interface ClassmateAPI {
     /**
      * 获取小组成员
      *
-     * @param groupid
+     * @param groupId
      * @param pageIndex
      * @param pageSize
      * @return
      */
     @GET("classmate/group/member.php")
-    Observable<BaseEntity<List<Member>>> getMember(@Query("groupid") int groupid,
+    Observable<BaseEntity<List<Member>>> getMember(@Query("groupId") int groupId,
                                                    @Query("pageIndex") int pageIndex,
                                                    @Query("pageSize") int pageSize);
 
@@ -304,5 +304,23 @@ public interface ClassmateAPI {
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("classmate/event/checkIn.php")
     Observable<BaseEntity> meetingCheckIn(@Body RequestBody json);
+
+
+    /**
+     * 获取小组学霸风云榜前十
+     *
+     * @return
+     */
+    @GET("classmate/group/getTopRank.php")
+    Observable<BaseEntity<List<Group>>> getTopRank(@Query("uid") int uid);
+
+
+    /**
+     * 获取小组排行
+     *
+     * @return
+     */
+    @GET("classmate/group/getGroupRank.php")
+    Observable<BaseEntity> getGroupRank(@Query("groupId") int groupId);
 
 }

@@ -83,8 +83,8 @@ public class InputActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         /* 获取前一个Activity中传入了区分修改type的数值 */
         inputType = getIntent().getIntExtra("InputType", 0);
-        /* 如果inputType为3以上，则获取前一个Activity传入的Group Object */
-        if (inputType > 3) group = (Group) getIntent().getSerializableExtra("Group");
+        /* 如果inputType为2以上，则获取前一个Activity传入的Group Object */
+        if (inputType > 2) group = (Group) getIntent().getSerializableExtra("Group");
         super.onCreate(savedInstanceState);
     }
 
@@ -172,6 +172,12 @@ public class InputActivity extends BaseActivity {
                 et_name.setText(UserSingleton.USERINFO.getNickname());
                 wordLimit = 16;
                 wordLeft = wordLimit - SuperEditText.SMLengthFilter.getSequenceLength(et_name.getText());
+                tv_nameCount.setText(String.valueOf(wordLeft));
+                if (wordLeft >= 0 ) {
+                    tv_nameCount.setTextColor(getResources().getColor(R.color.tv_grey));
+                } else {
+                    tv_nameCount.setTextColor(getResources().getColor(R.color.material_red));
+                }
                 break;
             case 1:
                 tv_title.setText("修改真名");
@@ -179,6 +185,12 @@ public class InputActivity extends BaseActivity {
                 et_name.setText(UserSingleton.USERINFO.getRealname());
                 wordLimit = 16;
                 wordLeft = wordLimit - SuperEditText.SMLengthFilter.getSequenceLength(et_name.getText());
+                tv_nameCount.setText(String.valueOf(wordLeft));
+                if (wordLeft >= 0 ) {
+                    tv_nameCount.setTextColor(getResources().getColor(R.color.tv_grey));
+                } else {
+                    tv_nameCount.setTextColor(getResources().getColor(R.color.material_red));
+                }
                 break;
             case 2:
                 tv_title.setText("修改个人介绍");
@@ -186,6 +198,12 @@ public class InputActivity extends BaseActivity {
                 et_intro.setText(UserSingleton.USERINFO.getBio());
                 wordLimit = 255;
                 wordLeft = wordLimit - SuperEditText.SMLengthFilter.getSequenceLength(et_intro.getText());
+                tv_introCount.setText(String.valueOf(wordLeft));
+                if (wordLeft >= 0 ) {
+                    tv_introCount.setTextColor(getResources().getColor(R.color.tv_grey));
+                } else {
+                    tv_introCount.setTextColor(getResources().getColor(R.color.material_red));
+                }
                 break;
             case 3:
                 tv_title.setText("修改小组名");
@@ -193,6 +211,12 @@ public class InputActivity extends BaseActivity {
                 et_name.setText(group.getGroupName());
                 wordLimit = 25;
                 wordLeft = wordLimit - SuperEditText.SMLengthFilter.getSequenceLength(et_name.getText());
+                tv_nameCount.setText(String.valueOf(wordLeft));
+                if (wordLeft >= 0 ) {
+                    tv_nameCount.setTextColor(getResources().getColor(R.color.tv_grey));
+                } else {
+                    tv_nameCount.setTextColor(getResources().getColor(R.color.material_red));
+                }
                 break;
             case 4:
                 tv_title.setText("修改小组介绍");
@@ -200,16 +224,16 @@ public class InputActivity extends BaseActivity {
                 et_intro.setText(group.getGroupIntro());
                 wordLimit = 255;
                 wordLeft = wordLimit - SuperEditText.SMLengthFilter.getSequenceLength(et_intro.getText());
+                tv_introCount.setText(String.valueOf(wordLeft));
+                if (wordLeft >= 0 ) {
+                    tv_introCount.setTextColor(getResources().getColor(R.color.tv_grey));
+                } else {
+                    tv_introCount.setTextColor(getResources().getColor(R.color.material_red));
+                }
                 break;
-
         }
 
-        tv_nameCount.setText(String.valueOf(wordLeft));
-        if (wordLeft >= 0 ) {
-            tv_nameCount.setTextColor(getResources().getColor(R.color.tv_grey));
-        } else {
-            tv_nameCount.setTextColor(getResources().getColor(R.color.material_red));
-        }
+
     }
 
 

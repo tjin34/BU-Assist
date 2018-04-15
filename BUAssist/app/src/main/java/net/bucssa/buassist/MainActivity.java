@@ -324,7 +324,11 @@ public class MainActivity  extends BaseActivity {
                 break;
             case 1:
                 tv_title.setVisibility(View.GONE);
-                iv_add.setVisibility(View.VISIBLE);
+                if (mFragment_message.viewPager != null) {
+                    iv_add.setVisibility(mFragment_message.viewPager.getCurrentItem() == 0 ? View.VISIBLE : View.GONE);
+                } else {
+                    iv_add.setVisibility(View.VISIBLE);
+                }
                 iv_lulu.setVisibility(View.GONE);
                 fl_bucssa.setVisibility(View.GONE);
                 rlSwitchBar.setVisibility(View.VISIBLE);

@@ -172,7 +172,7 @@ public class GroupDetailActivity extends BaseActivity {
         }
 
         /* 小组学霸值排行 */
-        tv_ranking.setText("1");
+        getRank();
 
         /* 小组ID，因为ID为int，所以进行String转化再setText */
         tv_groupId.setText(String.valueOf(group.getGroupId()));
@@ -460,6 +460,43 @@ public class GroupDetailActivity extends BaseActivity {
                         if (baseEntity.isSuccess()) {
                             if (baseEntity.getDatas() != null)
                                 chat = baseEntity.getDatas().get(0);
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+    private void getRank(){
+        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getGroupRank(group.getGroupId());
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            if (baseEntity.getDatas() != null)
+                                tv_ranking.setText(String.valueOf(baseEntity.getDatas()));
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }

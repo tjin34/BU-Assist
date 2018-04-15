@@ -6,12 +6,6 @@
 
     <include layout="@layout/header" android:id="@+id/header"/>
 
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0.1dp"-->
-        <!--android:background="@color/mainTabTheme"-->
-        <!--android:layout_marginTop="10dp"/>-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="消息与提醒"
-                    android:textColor="@color/tv_black"
+                    android:textColor="@color/grey_300"
                     android:textSize="14sp"
                     android:gravity="center"/>
 
@@ -107,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="使用教程"
-                    android:textColor="@color/tv_black"
+                    android:textColor="@color/grey_300"
                     android:textSize="14sp"
                     android:gravity="center"/>
 
@@ -144,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="建议或BUG"
-                    android:textColor="@color/tv_black"
+                    android:textColor="@color/grey_300"
                     android:textSize="14sp"
                     android:gravity="center"/>
 
@@ -184,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="关于BUCCSA"
-                    android:textColor="@color/tv_black"
+                    android:textColor="@color/grey_300"
                     android:textSize="14sp"
                     android:gravity="center"/>
 

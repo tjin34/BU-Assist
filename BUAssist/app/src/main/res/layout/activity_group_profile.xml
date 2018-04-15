@@ -59,7 +59,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:background="@color/mainTheme"
+                        android:background="@color/red"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -104,14 +104,73 @@
                         android:gravity="center"
                         android:text="小组名字"
                         android:textColor="@color/tv_grey"
-                        android:textSize="13sp" />
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/mainTheme" />
+                        android:background="@color/red" />
                 </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_groupTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/selector_bg_textview_borderless"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:id="@+id/classes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="涉及科目"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"/>
+
+
+                    <ImageView
+                        android:id="@+id/ivAddClass"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/selector_add_class"
+                        android:padding="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"/>
+
+                    <net.bucssa.buassist.Widget.FlowLayout
+                        android:id="@+id/flTags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/classes"
+                        android:layout_toLeftOf="@id/ivAddClass"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/red" />
+
+
+                </RelativeLayout>
+
             </LinearLayout>
 
 
@@ -160,7 +219,7 @@
                             android:layout_height="wrap_content"
                             android:text="我的名字叫用户名"
                             android:textColor="@color/tv_grey"
-                            android:textSize="13sp"
+                            android:textSize="14sp"
                             android:layout_toLeftOf="@id/enter5"
                             android:layout_toRightOf="@id/selfIntro"
                             android:layout_centerVertical="true"
@@ -169,68 +228,9 @@
                             android:ellipsize="end"
                             android:layout_marginLeft="10dp"/>
 
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.1dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@color/mainTheme" />
-
                     </RelativeLayout>
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:id="@+id/ll_groupTag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="45dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/selector_bg_textview_borderless"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp">
-
-                        <TextView
-                            android:id="@+id/classes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="涉及科目"
-                            android:textColor="@color/tv_black"
-                            android:textSize="14sp"/>
-
-
-                        <ImageView
-                            android:id="@+id/ivAddClass"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:src="@drawable/selector_add_class"
-                            android:padding="3dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"/>
-
-                        <net.bucssa.buassist.Widget.FlowLayout
-                            android:id="@+id/flTags"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/classes"
-                            android:layout_toLeftOf="@id/ivAddClass"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"/>
-
-
-
-                    </RelativeLayout>
-                </LinearLayout>
 
             </LinearLayout>
 

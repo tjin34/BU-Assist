@@ -79,6 +79,7 @@
         <activity android:name=".Ui.Classmates.Group.MemberActivity"/>
         <activity android:name=".Ui.Classmates.Group.SignInActivity"/>
         <activity android:name=".Ui.Classmates.Group.EditGroupInfoActivity"/>
+        <activity android:name=".Ui.Classmates.Group.TopRankActivity"/>
 
 
         <!--网页WebView-->

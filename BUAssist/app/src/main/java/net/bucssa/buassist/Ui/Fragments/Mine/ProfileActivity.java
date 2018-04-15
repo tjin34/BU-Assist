@@ -282,7 +282,7 @@ public class ProfileActivity extends BaseActivity {
         ll_major.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(mContext, PickMajorActivity.class), 1);
+                startActivityForResult(new Intent(mContext, PickMajorActivity.class), EDIT_PROFILE);
             }
         });
 

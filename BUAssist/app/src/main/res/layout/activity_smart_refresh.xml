@@ -32,7 +32,8 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search">
+        android:layout_below="@id/search"
+        android:layout_marginTop="3dp">
 
         <include layout="@layout/widget_lulu_headview" android:id="@+id/headerView"/>
 

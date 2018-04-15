@@ -137,6 +137,10 @@ public class SystemMsgFragment extends BaseFragment {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Glide.with(context)
+                        .asGif()
+                        .load(R.raw.pull)
+                        .into(ivLulu);
                 loadMore();
             }
         });
@@ -215,10 +219,6 @@ public class SystemMsgFragment extends BaseFragment {
                 myAdapter.clearData();
                 myAdapter.addData(0, chatList);
                 refreshLayout.finishRefresh(1000);
-                Glide.with(context)
-                        .asGif()
-                        .load(R.raw.pull)
-                        .into(ivLulu);
                 break;
             case Enum.STATE_MORE:
                 if (chatList.size() == 0) {

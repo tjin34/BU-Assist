@@ -334,8 +334,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_marginTop="-5dp">
+                        android:layout_marginRight="30dp">
 
                         <net.bucssa.buassist.Widget.RoundImageView
                             android:id="@+id/iv_avatar0"
@@ -407,7 +406,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:layout_below="@id/members">
 
                 <LinearLayout

@@ -9,14 +9,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Base.BaseActivity;
+import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Classmate.Group;
+import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
+import net.bucssa.buassist.Ui.Classmates.Class.FindClassActivity;
 import net.bucssa.buassist.Ui.Fragments.Mine.InputActivity;
+import net.bucssa.buassist.UserSingleton;
+import net.bucssa.buassist.Util.Logger;
+import net.bucssa.buassist.Util.ToastUtils;
 import net.bucssa.buassist.Util.Utils;
 import net.bucssa.buassist.Widget.FlowLayout;
 
 import butterknife.BindView;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by shinji on 2018/4/13.
@@ -90,10 +101,11 @@ public class EditGroupInfoActivity extends BaseActivity {
         tv_groupIntro.setText(group.getGroupIntro());
 
         /* 小组TAG */
+        flTags.removeAllViews();
         String[] tags = group.getGroupTag().split(",");
         for (int i = 0; i < tags.length; i++) {
             TextView tvTag = (TextView) LayoutInflater.from(mContext).inflate(R.layout.item_class_tags, null, false);
-            ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, Utils.dp2px(mContext, 35));
+            ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, Utils.dp2px(mContext, 30));
             params.setMargins(10, 5, 0, 5);
             tvTag.setLayoutParams(params);
             String tagDisplay = "#" + tags[i];
@@ -122,7 +134,7 @@ public class EditGroupInfoActivity extends BaseActivity {
             }
         });
 
-        ll_groupName.setOnClickListener(new View.OnClickListener() {
+        ll_groupIntro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, InputActivity.class);
@@ -131,7 +143,59 @@ public class EditGroupInfoActivity extends BaseActivity {
                 startActivityForResult(intent, EDIT_GROUP_PROFILE);
             }
         });
+
+        ivAddClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, FindClassActivity.class);
+                intent.putExtra("preActivity", 2);
+                intent.putExtra("Group", group);
+                startActivityForResult(intent, EDIT_GROUP_PROFILE);
+            }
+        });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getGroupInfo();
+    }
 
+    private void getGroupInfo(){
+        Observable<BaseEntity<Group>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getGroupById(UserSingleton.USERINFO.getUid(),group.getGroupId(), UserSingleton.USERINFO.getToken());
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity<Group>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<Group> baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            if (baseEntity.getDatas() != null)
+                                group = baseEntity.getDatas();
+                            setValue();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
 }

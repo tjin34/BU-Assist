@@ -56,6 +56,12 @@ public class MyTopicActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
+    @BindView(R.id.search)
+    LinearLayout ll_search;
+
+    @BindView(R.id.searchShadow)
+    View searchShadow;
+
     @BindView(R.id.search_textView)
     LinearLayout fakeSearchBox;
 
@@ -118,23 +124,8 @@ public class MyTopicActivity extends BaseActivity {
             }
         });
 
-        tv_search.setText(R.string.search_topic);
-        et_search.setHint(R.string.search_topic);
-        fakeSearchBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fakeSearchBox.setVisibility(View.GONE);
-                realSearchBox.setVisibility(View.VISIBLE);
-            }
-        });
-
-        tv_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fakeSearchBox.setVisibility(View.VISIBLE);
-                realSearchBox.setVisibility(View.GONE);
-            }
-        });
+        ll_search.setVisibility(View.GONE);
+        searchShadow.setVisibility(View.GONE);
 
         Glide.with(mContext)
                 .asGif()

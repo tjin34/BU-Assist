@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/header" android:id="@+id/header"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:layout_marginTop="3dp"
+        android:background="@color/white">
+
+        <include layout="@layout/widget_lulu_headview" android:id="@+id/headerView"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey_100">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/paiwei"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="排位"
+                        android:textSize="12sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/xuebazhi"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:text="学霸值"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"/>
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="小组名/介绍"
+                        android:textSize="12sp"
+                        android:gravity="left"
+                        android:layout_toRightOf="@id/paiwei"
+                        android:layout_toLeftOf="@id/xuebazhi"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/llRankOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_bg_textview_rect">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="70dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="第"
+                            android:textSize="25sp"
+                            android:textColor="@color/first_place"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textSize="50sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/first_place"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="名"
+                            android:textSize="25sp"
+                            android:textColor="@color/first_place"/>
+
+                    </LinearLayout>
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp">
+
+                        <TextView
+                            android:id="@+id/tvCredit1"
+                            android:layout_width="27dp"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:textColor="@color/tv_grey"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/tvGroup1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="小组1"
+                            android:textSize="14sp"
+                            android:textColor="@color/tv_black"
+                            android:textStyle="bold"
+                            android:layout_toLeftOf="@id/tvCredit1"/>
+
+                        <TextView
+                            android:id="@+id/tvIntro1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Intro1"
+                            android:layout_below="@id/tvGroup1"
+                            android:layout_toLeftOf="@id/tvCredit1"
+                            android:textColor="@color/tv_grey"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:layout_marginTop="5dp"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@color/tv_grey"/>
+
+                <LinearLayout
+                    android:id="@+id/llRankSecond"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_bg_textview_rect">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="70dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="第"
+                            android:textSize="22sp"
+                            android:textColor="@color/second_place"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2"
+                            android:textSize="40sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/second_place"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="名"
+                            android:textSize="22sp"
+                            android:textColor="@color/second_place"/>
+
+                    </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp">
+
+                        <TextView
+                            android:id="@+id/tvCredit2"
+                            android:layout_width="27dp"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:textColor="@color/tv_grey"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/tvGroup2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="小组2"
+                            android:textSize="14sp"
+                            android:textColor="@color/tv_black"
+                            android:textStyle="bold"
+                            android:layout_toLeftOf="@id/tvCredit2"/>
+
+                        <TextView
+                            android:id="@+id/tvIntro2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Intro2"
+                            android:layout_below="@id/tvGroup2"
+                            android:layout_toLeftOf="@id/tvCredit2"
+                            android:textColor="@color/tv_grey"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:layout_marginTop="5dp"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@color/tv_grey"/>
+
+                <LinearLayout
+                    android:id="@+id/llRankThird"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_bg_textview_rect">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="70dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="第"
+                            android:textSize="20sp"
+                            android:textColor="@color/third_place"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/third_place"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="名"
+                            android:textSize="20sp"
+                            android:textColor="@color/third_place"/>
+
+                    </LinearLayout>
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp">
+
+                        <TextView
+                            android:id="@+id/tvCredit3"
+                            android:layout_width="27dp"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:textColor="@color/tv_grey"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/tvGroup3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="小组3"
+                            android:textSize="14sp"
+                            android:textColor="@color/tv_black"
+                            android:textStyle="bold"
+                            android:layout_toLeftOf="@id/tvCredit3"/>
+
+                        <TextView
+                            android:id="@+id/tvIntro3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Intro3"
+                            android:layout_below="@id/tvGroup3"
+                            android:layout_toLeftOf="@id/tvCredit3"
+                            android:textColor="@color/tv_grey"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:layout_marginTop="5dp"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white">
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="*排位为实时排位"
+                    android:gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="*每月将结算前三名，获取相应称号和奖励"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <include layout="@layout/list_footer_more" android:id="@+id/footerView"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_header_shadow"
+        android:layout_below="@id/header"/>
+
+</RelativeLayout>

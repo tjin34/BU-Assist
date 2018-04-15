@@ -22,7 +22,7 @@ import butterknife.BindView;
 public class MessageFragment extends BaseFragment {
 
     @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    public ViewPager viewPager;
 
 
     private PersonalMsgFragment personalMsgFragment;

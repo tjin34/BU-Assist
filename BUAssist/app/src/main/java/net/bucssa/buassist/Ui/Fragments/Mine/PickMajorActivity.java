@@ -80,26 +80,10 @@ public class PickMajorActivity extends BaseActivity {
     @BindView(R.id.listView)
     ListView lv_major;
 
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout refreshLayout;
-
-    @BindView(R.id.ivLulu)
-    ImageView ivLulu;
-
-    private int screenHeight = 0;
-    //软件盘弹起后所占高度阀值
-    private int keyHeight = 0;
-
     private String searchKey = "";
 
     private List<String> majorList = new ArrayList<>();
     private ArrayAdapter<String> myAdapter;
-
-    private int state = Enum.STATE_NORMAL;
-
-    private int pageIndex = 1;
-    private int pageSize = 10;
-    private int totalCount = 0;
 
 
 
@@ -117,8 +101,7 @@ public class PickMajorActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initData();
-
+        getMajor();
     }
 
     @Override
@@ -165,10 +148,7 @@ public class PickMajorActivity extends BaseActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchKey = charSequence.toString();
                 tv_search.setText(searchKey);
-                pageIndex = 1;
-                pageSize = 10;
-                state = Enum.STATE_NORMAL;
-                initData();
+                getMajor();
             }
 
             @Override
@@ -188,33 +168,6 @@ public class PickMajorActivity extends BaseActivity {
             }
         });
 
-        Glide.with(mContext)
-                .asGif()
-                .load(R.raw.pull)
-                .into(ivLulu);
-
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                Glide.with(mContext)
-                        .asGif()
-                        .load(R.raw.refreshing)
-                        .into(ivLulu);
-                refreshData();
-            }
-        });
-
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                Glide.with(mContext)
-                        .asGif()
-                        .load(R.raw.pull)
-                        .into(ivLulu);
-                loadMore();
-            }
-        });
-
         lv_major.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -226,84 +179,22 @@ public class PickMajorActivity extends BaseActivity {
             }
         });
     }
-
-
-    /**
-     * 下拉刷新
-     */
-    public void refreshData() {
-        pageIndex = 1;
-        state = Enum.STATE_REFRESH;
-        initData();
-    }
-
-    /**
-     * 上拉刷新
-     */
-    private void loadMore() {
-        pageIndex++;
-        state = Enum.STATE_MORE;
-        initData();
-    }
-
-    private void initData() {
-        majorList = new ArrayList<>();
-        getMajor();
-    }
-
-
-    private void changeByState() {
-        switch (state) {
-            case Enum.STATE_NORMAL:
-                myAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, majorList);
-                lv_major.setAdapter(myAdapter);
-                break;
-            case Enum.STATE_REFRESH:
-                myAdapter.clear();
-                myAdapter.addAll(majorList);
-                refreshLayout.finishRefresh(1000);
-                break;
-            case Enum.STATE_MORE:
-                if (majorList.size() == 0) {
-                    refreshLayout.finishLoadMoreWithNoMoreData();
-                    ToastUtils.showToast(mContext, "已加载全部课程！");
-                    break;
-                }
-                myAdapter.addAll(majorList);
-                refreshLayout.finishLoadMore(1000);
-                break;
-        }
-    }
-
     private void getMajor() {
+        majorList = new ArrayList<>();
         List<String> rawMajor = Arrays.asList(getResources().getStringArray(R.array.major));
         List<String> filterMajor = new ArrayList<>();
-        int start = pageIndex * pageSize;
-        int end = ( pageIndex + 1 ) * pageSize;
         if (searchKey.equals("")) {
-            for (int i = start; i < end; i++ )
-            majorList = rawMajor;
-            changeByState();
+            majorList.addAll(rawMajor);
         } else {
             for (int i = 0; i < rawMajor.size(); i++) {
-                if (rawMajor.get(i).contains(searchKey)) {
+                if (rawMajor.get(i).toLowerCase().contains(searchKey.toLowerCase())) {
                     filterMajor.add(rawMajor.get(i));
                 }
             }
-            if (filterMajor.size() == 0 || filterMajor.size() < start) {
-                return;
-            } else if (filterMajor.size() < end) {
-                int newEnd = filterMajor.size() - start;
-                for (int i = start; i < newEnd; i++) {
-                    majorList.add(filterMajor.get(i));
-                }
-            } else {
-                for (int i = start; i < end; i++) {
-                    majorList.add(filterMajor.get(i));
-                }
-            }
-            changeByState();
+            majorList.addAll(filterMajor);
         }
+        myAdapter = new ArrayAdapter<String>(mContext, R.layout.item_major_list, majorList);
+        lv_major.setAdapter(myAdapter);
     }
 
     /**

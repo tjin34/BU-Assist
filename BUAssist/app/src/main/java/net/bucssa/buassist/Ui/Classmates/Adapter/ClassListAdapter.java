@@ -83,9 +83,7 @@ public class ClassListAdapter extends BaseAdapter {
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ClassDetailActivity.class);
-                intent.putExtra("Class", classItem);
-                ((Activity) mContext).startActivity(intent);
+                onClassItemClickListener.onClassItemClick(classItem);
             }
         });
 
@@ -96,6 +94,16 @@ public class ClassListAdapter extends BaseAdapter {
         RelativeLayout rootView;
         TextView className;
         TextView classCode;
+    }
+
+    public interface onClassItemClickListener{
+        void onClassItemClick(Class classItem);
+    }
+
+    private onClassItemClickListener onClassItemClickListener;
+
+    public void setOnClassItemClickListener(ClassListAdapter.onClassItemClickListener onClassItemClickListener) {
+        this.onClassItemClickListener = onClassItemClickListener;
     }
 }
 

@@ -78,6 +78,11 @@
     <color name="mainTheme">#d12027</color>
     <color name="tapbarPressed">#662626</color>
 
+    <color name="first_place">#FFDC00</color>
+    <color name="second_place">#B9B8B4</color>
+    <color name="third_place">#D16900</color>
+
+
 
     <!--Zxing相关-->
     <color name="contents_text">#ff000000</color>
