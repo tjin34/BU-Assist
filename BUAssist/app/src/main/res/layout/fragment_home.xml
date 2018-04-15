@@ -6,144 +6,15 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/transparent"
-        android:layout_alignParentBottom="true">
-
-        <LinearLayout
-            android:id="@+id/buttons"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp">
-
-            <LinearLayout
-                android:id="@+id/ll_manual"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@drawable/selector_bg_textview_rect"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/ivManual"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/selector_manual"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/manual"
-                    android:textSize="12sp"
-                    android:textColor="@color/mainTheme"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
-
-            </LinearLayout>
-
-            <!--<View-->
-                <!--android:layout_width="0.1dp"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:background="@color/tv_grey"-->
-                <!--android:layout_gravity="center_vertical"/>-->
-
-            <LinearLayout
-                android:id="@+id/llRoommate"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/selector_bg_textview_rect">
-
-                <ImageView
-                    android:id="@+id/ivRoommate"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/selector_roommate"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/roommate"
-                    android:textSize="12sp"
-                    android:textColor="@color/mainTheme"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
-
-            </LinearLayout>
-
-            <!--<View-->
-                <!--android:layout_width="0.1dp"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:background="@color/tv_grey"-->
-                <!--android:layout_gravity="center_vertical"/>-->
-
-
-            <LinearLayout
-                android:id="@+id/ll_classmate"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/selector_bg_textview_rect">
-
-                <ImageView
-                    android:id="@+id/ivClassmate"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/selector_classmate"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/classmate"
-                    android:textSize="12sp"
-                    android:textColor="@color/mainTheme"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="近期活动"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:background="@drawable/bg_area_wrap_layout_red"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:layout_toLeftOf="@id/buttons"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"/>
-
-    </RelativeLayout>
-
-
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomBar"
         android:layout_below="@id/header"
         android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/rlAdvertise"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:orientation="vertical">
 
             <android.support.v4.view.ViewPager
@@ -186,7 +57,8 @@
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/rlAdvertise">
+            android:layout_below="@id/rlAdvertise"
+            android:background="@color/white">
 
             <include layout="@layout/widget_lulu_headview" android:id="@+id/headerView"/>
 
@@ -209,11 +81,6 @@
             android:background="@drawable/bg_header_shadow"
             android:layout_below="@id/rlAdvertise"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:background="@color/tv_grey"
-            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 

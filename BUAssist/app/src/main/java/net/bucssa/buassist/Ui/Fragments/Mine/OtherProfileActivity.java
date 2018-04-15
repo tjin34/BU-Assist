@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -63,17 +64,30 @@ public class OtherProfileActivity extends BaseActivity {
     @BindView(R.id.tvCollege)
     TextView tvCollege;
 
+    @BindView(R.id.llMajor)
+    LinearLayout llMajor;
+
     @BindView(R.id.tvMajor)
     TextView tvMajor;
 
     @BindView(R.id.tvDateOrBirth)
     TextView tvDateOfBirth;
 
+    @BindView(R.id.llDob)
+    LinearLayout llDateOfBirth;
+
     @BindView(R.id.tvClassYear)
     TextView tvClassYear;
 
+    @BindView(R.id.llRelationship)
+    LinearLayout llRelationship;
+
     @BindView(R.id.tvRelationship)
     TextView tvRelationship;
+
+    @BindView(R.id.llEmail)
+    LinearLayout llEmail;
+
 
     @BindView(R.id.tvEmail)
     TextView tvEmail;
@@ -117,15 +131,26 @@ public class OtherProfileActivity extends BaseActivity {
                 .into(ivProfile);
 
         tvNickname.setText(otherInfo.getNickname());
+        /* 性别标识 */
         ivSexDisplay.setSelected(otherInfo.getGender()==1);
-        tvClassYear.setText("");
-        ivSexDisplay.setSelected(otherInfo.getGender() == 2);
+        ivSexDisplay.setVisibility(otherInfo.getGender() == 0 ? View.GONE : View.VISIBLE);
+        /* 个人介绍 */
         tvIntro.setText(otherInfo.getBio());
+        /* 学院 */
         tvCollege.setText(otherInfo.getCollege());
+        /* 专业 */
         tvMajor.setText(otherInfo.getMajor());
+        llMajor.setVisibility(otherInfo.getMajor().equals("") ? View.GONE : View.VISIBLE);
+        /* 生日 */
         tvDateOfBirth.setText(otherInfo.getDateOfBirth());
+        llDateOfBirth.setVisibility(otherInfo.getDateOfBirth().equals("") ? View.GONE : View.VISIBLE);
+        /* 感情状况 */
         tvRelationship.setText(otherInfo.getAffectivestatus());
+        llRelationship.setVisibility(otherInfo.getAffectivestatus().equals("") ? View.GONE : View.VISIBLE);
+        /* 邮件 */
         tvEmail.setText("");
+        llEmail.setVisibility(tvEmail.getText().equals("") ? View.GONE : View.VISIBLE);
+
         tvAddFriend.setText(otherInfo.isIsFriend()?"删除好友":"加为好友");
         tvAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override

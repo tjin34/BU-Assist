@@ -167,7 +167,7 @@ public interface ClassmateAPI {
 
 
     /**
-     * 获取回复列表
+     * 获取小组列表
      *
      * @param uid
      * @param classCode
@@ -182,6 +182,30 @@ public interface ClassmateAPI {
                                                  @Query("pageIndex") int pageIndex,
                                                  @Query("pageSize") int pageSize,
                                                  @Query("token") String token);
+
+
+    /**
+     * 根据小组ID获取小组
+     *
+     * @param uid
+     * @param groupId
+     * @param token
+     * @return
+     */
+    @GET("classmate/group/getGroupById.php")
+    Observable<BaseEntity<Group>> getGroupById(@Query("uid") int uid,
+                                               @Query("groupId") int groupId,
+                                               @Query("token") String token);
+
+    /**
+     * 修改小组信息
+     *
+     * @param json
+     * @return
+     */
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("/classmate/group/edit.php")
+    Observable<BaseEntity> editGroupInfo(@Body RequestBody json);
 
     /**
      * 申请入群

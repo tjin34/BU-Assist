@@ -269,6 +269,7 @@ public class GroupDetailActivity extends BaseActivity {
         //初始化控件
         TextView tvCancel = (TextView) view.findViewById(R.id.tvCancel);
         TextView tvSignIn = (TextView) view.findViewById(R.id.tvSignIn);
+        TextView tvEdit = (TextView) view.findViewById(R.id.tvEdit);
         TextView tvHistory = (TextView) view.findViewById(R.id.tvHistory);
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,6 +281,15 @@ public class GroupDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, SignInActivity.class);
+                intent.putExtra("Group", group);
+                startActivity(intent);
+                moreDialog.dismiss();
+            }
+        });
+        tvEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EditGroupInfoActivity.class);
                 intent.putExtra("Group", group);
                 startActivity(intent);
                 moreDialog.dismiss();
@@ -299,6 +309,51 @@ public class GroupDetailActivity extends BaseActivity {
         // 将属性设置给窗体
         dialogWindow.setAttributes(lp);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getGroupInfo();
+    }
+
+    private void getGroupInfo(){
+        Observable<BaseEntity<Group>> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .getGroupById(UserSingleton.USERINFO.getUid(),group.getGroupId(), UserSingleton.USERINFO.getToken());
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity<Group>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<Group> baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            if (baseEntity.getDatas() != null)
+                                group = baseEntity.getDatas();
+                            initView();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
 
     private void requestJoin(String json){
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);

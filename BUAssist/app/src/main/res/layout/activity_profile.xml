@@ -278,7 +278,7 @@
                         android:gravity="center"/>
 
                     <ImageView
-                        android:id="@+id/enter7"
+                        android:id="@+id/enter8"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@mipmap/ic_arrow_right"
@@ -294,7 +294,7 @@
                         android:textColor="@color/tv_grey"
                         android:textSize="13sp"
                         android:gravity="center"
-                        android:layout_toLeftOf="@id/enter7"/>
+                        android:layout_toLeftOf="@id/enter8"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -307,7 +307,7 @@
 
 
             <LinearLayout
-                android:id="@+id/ll_college"
+                android:id="@+id/ll_school"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:orientation="horizontal"
@@ -337,7 +337,7 @@
                         android:layout_margin="10dp"/>
 
                     <TextView
-                        android:id="@+id/tv_college"
+                        android:id="@+id/tv_school"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="CAS"
@@ -345,6 +345,54 @@
                         android:textSize="13sp"
                         android:gravity="center"
                         android:layout_toLeftOf="@id/enter6"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/mainTheme"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_major"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_bg_textview_borderless">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="专业"
+                        android:textColor="@color/tv_black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/enter7"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_arrow_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_major"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="CAS"
+                        android:textColor="@color/tv_grey"
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/enter7"/>
 
                     <View
                         android:layout_width="match_parent"

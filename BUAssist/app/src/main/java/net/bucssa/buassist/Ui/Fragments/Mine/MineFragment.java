@@ -1,42 +1,26 @@
 package net.bucssa.buassist.Ui.Fragments.Mine;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
-import com.yalantis.ucrop.UCrop;
 
 import net.bucssa.buassist.Base.BaseFragment;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Login.LoginActivity;
 import net.bucssa.buassist.Ui.Settings.SettingActivity;
 import net.bucssa.buassist.UserSingleton;
-import net.bucssa.buassist.Util.ImageUtils;
 import net.bucssa.buassist.Util.ToastUtils;
-
-import java.io.File;
-import java.util.Date;
 
 import butterknife.BindView;
 
@@ -47,8 +31,8 @@ import butterknife.BindView;
 public class MineFragment extends BaseFragment {
 
 
-    @BindView(R.id.ll_editProfile)
-    LinearLayout ll_editProfile;
+    @BindView(R.id.rl_editProfile)
+    RelativeLayout rl_editProfile;
 
     @BindView(R.id.rl_logout)
     RelativeLayout rl_logout;
@@ -131,14 +115,14 @@ public class MineFragment extends BaseFragment {
             }
         });
 
-        ll_editProfile.setOnClickListener(new View.OnClickListener() {
+        rl_editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (UserSingleton.getInstance().isLogin(context)) {
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
                     startActivity(intent);
                 } else {
-                    ToastUtils.showToast(context, "请先登录后再查看个人信息哦~");
+                    ToastUtils.showToast(context, "请先登录后再查看/修改个人信息哦~");
                 }
             }
         });
@@ -172,16 +156,19 @@ public class MineFragment extends BaseFragment {
     }
 
     private void setProfileValues() {
+
         Glide.with(context)
                 .asBitmap()
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
                 .load(UserSingleton.bigAvatar)
                 .into(iv_profile);
+
         tv_username.setText(UserSingleton.USERINFO.getUsername());
         tv_college.setText(UserSingleton.USERINFO.getCollege());
         tv_dateOfBirth.setText(UserSingleton.USERINFO.getDateOfBirth());
         tv_loveStatus.setText(UserSingleton.USERINFO.getAffectivestatus());
-        tv_selfIntro.setText(UserSingleton.USERINFO.getBio());
+        if (!UserSingleton.USERINFO.getBio().equals("")) tv_selfIntro.setText(UserSingleton.USERINFO.getBio());
+
         switch (UserSingleton.USERINFO.getGender()) {
             case 0:
                 iv_sexDisplay.setVisibility(View.GONE);

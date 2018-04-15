@@ -1,16 +1,17 @@
 package net.bucssa.buassist.Ui.Settings;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import net.bucssa.buassist.Api.UserAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
+import net.bucssa.buassist.Bean.Request.EditInfoInt;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.UserSingleton;
@@ -18,33 +19,38 @@ import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
 
 import butterknife.BindView;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
 /**
- * Created by KimuraShin on 17/8/20.
+ * Created by Shinji on 2018/4/14.
  */
 
-public class AccSettingActivity extends BaseActivity {
-
-    @BindView(R.id.tv_title)
-    TextView tv_title;
+public class SetPublicActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
-    ImageView iv_back;
+    ImageView ivBack;
 
-    @BindView(R.id.ll_changePwd)
-    LinearLayout ll_changePwd;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
 
-    @BindView(R.id.ll_setPublic)
-    LinearLayout ll_setPublic;
+    @BindView(R.id.ll_public)
+    LinearLayout llPublic;
 
-    @BindView(R.id.tvPublic)
-    TextView tvPublic;
+    @BindView(R.id.ivPublic)
+    ImageView ivPublic;
 
-    private boolean isPublic;
+    @BindView(R.id.ll_private)
+    LinearLayout llPrivate;
+
+    @BindView(R.id.ivPrivate)
+    ImageView ivPrivate;
+
+    public boolean isPublic;
 
     @Override
     protected String getTAG() {
@@ -53,64 +59,68 @@ public class AccSettingActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_account_setting;
-    }
-
-    public static void launch(Activity activity) {
-        Intent intent = new Intent(activity, AccSettingActivity.class);
-        activity.startActivity(intent);
+        return R.layout.activity_set_public;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isPublic = getIntent().getBooleanExtra("isPublic", false);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     protected void initResAndListener() {
-        iv_back.setVisibility(View.VISIBLE);
-        iv_back.setOnClickListener(new View.OnClickListener() {
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        tv_title.setText("账号设置");
+        tvTitle.setText("修改公开个人信息");
 
-        ll_changePwd.setOnClickListener(new View.OnClickListener() {
+        llPublic.setEnabled(!isPublic);
+        ivPublic.setVisibility(isPublic ? View.VISIBLE : View.GONE);
+
+        llPrivate.setEnabled(isPublic);
+        ivPrivate.setVisibility(isPublic ? View.GONE : View.VISIBLE);
+
+        llPublic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, EditPasswordActivity.class));
+                ivPublic.setVisibility(View.VISIBLE);
+                ivPrivate.setVisibility(View.INVISIBLE);
+                llPublic.setEnabled(false);
+                llPrivate.setEnabled(true);
+                uploadEdit(1);
             }
         });
 
-        ll_setPublic.setOnClickListener(new View.OnClickListener() {
+        llPrivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, SetPublicActivity.class);
-                intent.putExtra("isPublic", isPublic);
-                startActivityForResult(intent, 1);
+                ivPrivate.setVisibility(View.VISIBLE);
+                ivPublic.setVisibility(View.INVISIBLE);
+                llPrivate.setEnabled(false);
+                llPublic.setEnabled(true);
+                uploadEdit(0);
             }
         });
-
-        getPublic();
     }
 
-    private void setValue() {
-        tvPublic.setText(isPublic ? "公开" : "不公开");
+    private void uploadEdit(int value) {
+        EditInfoInt req = new EditInfoInt(UserSingleton.USERINFO.getUid(),
+                "show", value, UserSingleton.USERINFO.getToken());
+        Gson gson = new Gson();
+        String json = gson.toJson(req);
+        editPublic(json);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        getPublic();
-    }
-
-    private void getPublic(){
+    private void editPublic(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
         Observable<BaseEntity> observable = RetrofitClient.createService(UserAPI.class)
-                .getPublic(UserSingleton.USERINFO.getUid(), UserSingleton.USERINFO.getToken());
+                .editInfoInt(body);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -135,8 +145,8 @@ public class AccSettingActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseEntity baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            isPublic = (boolean) baseEntity.getDatas();
-                            setValue();
+                            ToastUtils.showToast(mContext, "创建成功！");
+                            finish();
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }
@@ -144,4 +154,8 @@ public class AccSettingActivity extends BaseActivity {
                     }
                 });
     }
+
+
+
+
 }

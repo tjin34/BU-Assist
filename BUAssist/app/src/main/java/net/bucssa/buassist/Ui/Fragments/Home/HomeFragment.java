@@ -87,12 +87,6 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.RadioGroup)
     RadioGroup radioGroup;
 
-    @BindView(R.id.ll_classmate)
-    LinearLayout ll_classmate;
-
-    @BindView(R.id.ll_manual)
-    LinearLayout ll_manual;
-
 
     private List<TuiSong> tuiSongList = new ArrayList<>();
     private NewsListAdapter myAdapter;
@@ -245,22 +239,6 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onPageScrollStateChanged(int arg0) {
 
-            }
-        });
-
-        ll_classmate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(context, ClassmateActivity.class));
-            }
-        });
-
-        ll_manual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", "https://tianrenli92.github.io/BUCSSA-new-student-manual/index.html");
-                startActivity(intent);
             }
         });
 

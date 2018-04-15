@@ -271,5 +271,190 @@
     <string name="viewfinderview_status_text2">即可自动扫描</string>
 
 
+    <!--学院列表-->
+    <array name="schools">
+        <item>College of Arts and Sciences (CAS)</item>
+        <item>College of Communication (COM)</item>
+        <item>College of Engineering (ENG)</item>
+        <item>College of Fine Arts (CFA)</item>
+        <item>College of General Studies (CGS)</item>
+        <item>College of Health Rehabilitation Sciences: Sargent College (SAR)</item>
+        <item>Questrom School of Business (QSB)</item>
+        <item>School of Education (SED)</item>
+        <item>School of Hospitality Administration (SHA)</item>
+        <item>Frederick S. Pardee School of Global Studies</item>
+    </array>
+
+    <!--专业列表-->
+    <string-array name="major">
+        <item>Undeclared</item>
+        <item>Accelerated Program in Liberal Arts and Dentistry</item>
+        <item>Accelerated Program in Liberal Arts and Medicine</item>
+        <item>Acting/Theatre Arts (Performance Core)</item>
+        <item>Aerospace Engineering Concentration</item>
+        <item>American and New England Studies</item>
+        <item>Ancient Greek</item>
+        <item>Ancient Greek and Latin</item>
+        <item>Anthropology</item>
+        <item>Anthropology and Religion</item>
+        <item>Archaeology</item>
+        <item>Architectural Studies</item>
+        <item>Art Education</item>
+        <item>Art Education/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Asian Studies</item>
+        <item>Astronomy</item>
+        <item>Astronomy and Physics</item>
+        <item>Behavior and Health</item>
+        <item>Bilingual Education (ESL)</item>
+        <item>Biochemistry and Molecular Biology</item>
+        <item>Biology</item>
+        <item>Biology with Specialization in Behavioral Biology</item>
+        <item>Biology with Specialization in Cell Biology, Molecular Biology and Genetics</item>
+        <item>Biology with Specialization in Ecology and Conservation Biology</item>
+        <item>Biology with Specialization in Neurobiology</item>
+        <item>Biomedical Engineering</item>
+        <item>Business Administration and Management–Concentration: Accounting</item>
+        <item>Business Administration and Management–Concentration: Entrepreneurship</item>
+        <item>Business Administration and Management–Concentration: Finance</item>
+        <item>Business Administration and Management–Concentration: General Management</item>
+        <item>Business Administration and Management–Concentration: Health and Life Sciences Sector</item>
+        <item>Business Administration and Management–Concentration: International Management</item>
+        <item>Business Administration and Management–Concentration: Law</item>
+        <item>Business Administration and Management–Concentration: Management Information Systems</item>
+        <item>Business Administration and Management–Concentration: Marketing</item>
+        <item>Business Administration and Management–Concentration: Operations and Technology Management</item>
+        <item>Business Administration and Management–Concentration: Organizational Behavior</item>
+        <item>Business Administration and Management–Concentration: Real Estate</item>
+        <item>Business Administration and Management–Concentration: Strategy and Innovation</item>
+        <item>Chemistry</item>
+        <item>Chemistry: Biochemistry</item>
+        <item>Chemistry: Concentration in Teaching</item>
+        <item>Chinese Language and Literature</item>
+        <item>Cinema and Media Studies</item>
+        <item>Classical Civilization</item>
+        <item>Classics and Philosophy</item>
+        <item>Classics and Religion</item>
+        <item>Communication with Specialization in Advertising</item>
+        <item>Communication with Specialization in Public Relations</item>
+        <item>Communication with Specialization in Communication Studies</item>
+        <item>Comparative Literature</item>
+        <item>Composition and Theory</item>
+        <item>Composition and Theory/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Computer Engineering</item>
+        <item>Computer Science</item>
+        <item>Deaf Studies</item>
+        <item>Design</item>
+        <item>Design, Production and Management Core/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Dietetics</item>
+        <item>Early Childhood Education</item>
+        <item>Earth and Environmental Sciences</item>
+        <item>Economics</item>
+        <item>Economics and Mathematics</item>
+        <item>Electrical Engineering</item>
+        <item>Elementary Education</item>
+        <item>Energy Technologies Concentration</item>
+        <item>English</item>
+        <item>English Education</item>
+        <item>English Education/Arts and Sciences (SED/CAS Double Degree Program)</item>
+        <item>Environmental Analysis and Policy</item>
+        <item>Environmental Earth Sciences Concentration</item>
+        <item>European Studies</item>
+        <item>Film and Television with Specialization in Film</item>
+        <item>Film and Television with Specialization in Television</item>
+        <item>French and Linguistics</item>
+        <item>French Studies</item>
+        <item>General Studies</item>
+        <item>Geophysics and Planetary Sciences</item>
+        <item>German Language and Literature</item>
+        <item>Graphic Design</item>
+        <item>Graphic Design/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Health Science</item>
+        <item>History</item>
+        <item>History of Art and Architecture</item>
+        <item>Hospitality Administration (Event Management)</item>
+        <item>Hospitality Administration (Marketing)</item>
+        <item>Hospitality Administration (Real Estate Development)</item>
+        <item>Hospitality Administration (Undeclared)</item>
+        <item>Human Physiology</item>
+        <item>International Relations</item>
+        <item>Italian and Linguistics</item>
+        <item>Italian Studies</item>
+        <item>Japanese and Linguistics</item>
+        <item>Japanese Language and Literature</item>
+        <item>Journalism with Specialization: Broadcast Journalism</item>
+        <item>Journalism with Specialization: News Editorial</item>
+        <item>Journalism with Specialization: Online Journalism</item>
+        <item>Journalism with Specialization: Photojournalism</item>
+        <item>Latin</item>
+        <item>Latin American Studies</item>
+        <item>Lighting Design</item>
+        <item>Linguistics</item>
+        <item>Linguistics and Philosophy</item>
+        <item>Linguistics and Speech, Language, and Hearing Sciences</item>
+        <item>Manufacturing Engineering Concentration</item>
+        <item>Marine Science</item>
+        <item>Mathematics (includes Statistics)</item>
+        <item>Mathematics and Computer Science</item>
+        <item>Mathematics and Education</item>
+        <item>Mathematics and Philosophy</item>
+        <item>Mathematics Education</item>
+        <item>Mathematics Education/Arts and Sciences (SED/CAS Double Degree Program)</item>
+        <item>Mechanical Engineering</item>
+        <item>Middle East and North Africa Studies</item>
+        <item>Modern Foreign Language Education</item>
+        <item>Modern Foreign Language Education/Arts and Sciences (SED/CAS Double Degree Program)</item>
+        <item>Music (Nonperformance)</item>
+        <item>Music (Performance)</item>
+        <item>Music Composition and Theory</item>
+        <item>Music Education</item>
+        <item>Music Education/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Musicology</item>
+        <item>Musicology/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Nanotechnology Concentration</item>
+        <item>Neuroscience</item>
+        <item>Nutrition and Health</item>
+        <item>Nutritional Science</item>
+        <item>Painting</item>
+        <item>Painting/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Performance Core (Acting/Theatre Arts)/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Performance/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Philosophy</item>
+        <item>Philosophy and Neuroscience</item>
+        <item>Philosophy and Physics</item>
+        <item>Philosophy and Political Science</item>
+        <item>Philosophy and Psychology</item>
+        <item>Philosophy and Religion</item>
+        <item>Physical Therapy (six-year program)</item>
+        <item>Physics</item>
+        <item>Political Science</item>
+        <item>Pre-Dentistry</item>
+        <item>Pre-Law</item>
+        <item>Pre-Medicine</item>
+        <item>Pre-Veterinary Medicine</item>
+        <item>Printmaking</item>
+        <item>Printmaking/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Psychology</item>
+        <item>Religion</item>
+        <item>Russian Language and Literature</item>
+        <item>Scene Design</item>
+        <item>Science Education</item>
+        <item>Science Education/Arts and Sciences (SED/CAS Double Degree Program)</item>
+        <item>Sculpture</item>
+        <item>Sculpture/Arts and Sciences (CFA/CAS Double Degree Program)</item>
+        <item>Social Studies Education</item>
+        <item>Social Studies Education/Arts and Sciences (SED/CAS Double Degree Program)</item>
+        <item>Sociology</item>
+        <item>Sound Design</item>
+        <item>Spanish</item>
+        <item>Spanish and Linguistics</item>
+        <item>Special Education</item>
+        <item>Speech, Language and Hearing Sciences</item>
+        <item>Speech-Language Pathology</item>
+        <item>Stage Management</item>
+        <item>Theatre Arts</item>
+        <item>Theatre Production (Costume)</item>
+        <item>Theatre Production (Technical)</item>
+    </string-array>
+
 
 </resources>

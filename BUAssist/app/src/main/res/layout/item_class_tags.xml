@@ -10,5 +10,6 @@
     android:background="@drawable/bg_area_wrap_layout_pink"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:gravity="center"
-    android:layout_marginLeft="10dp"/>
+    android:gravity="center">
+
+</TextView>

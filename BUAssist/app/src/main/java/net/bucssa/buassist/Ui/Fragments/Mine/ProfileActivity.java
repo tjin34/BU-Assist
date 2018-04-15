@@ -34,8 +34,10 @@ import com.yalantis.ucrop.UCrop;
 import net.bucssa.buassist.Api.UserAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
+import net.bucssa.buassist.Bean.Login.UserInfo;
 import net.bucssa.buassist.Bean.Request.EditDoBReq;
 import net.bucssa.buassist.Bean.Request.EditInfoInt;
+import net.bucssa.buassist.Bean.Request.EditInfoStr;
 import net.bucssa.buassist.Bean.Request.UploadAvatarReq;
 import net.bucssa.buassist.Bean.Request.UserInfoReq;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
@@ -51,6 +53,7 @@ import net.bucssa.buassist.Util.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -104,6 +107,24 @@ public class ProfileActivity extends BaseActivity {
     @BindView(R.id.tv_birth)
     TextView tv_birth;
 
+    @BindView(R.id.ll_classYear)
+    LinearLayout ll_classYear;
+
+    @BindView(R.id.tv_classYear)
+    TextView tv_classYear;
+
+    @BindView(R.id.ll_school)
+    LinearLayout ll_school;
+
+    @BindView(R.id.tv_school)
+    TextView tv_school;
+
+    @BindView(R.id.ll_major)
+    LinearLayout ll_major;
+
+    @BindView(R.id.tv_major)
+    TextView tv_major;
+
     @BindView(R.id.ll_relationship)
     LinearLayout ll_relationship;
 
@@ -116,42 +137,33 @@ public class ProfileActivity extends BaseActivity {
     @BindView(R.id.tv_self_intro)
     TextView tv_self_intro;
 
-    @BindView(R.id.enter1)
-    ImageView enter1;
-
-    @BindView(R.id.enter2)
-    ImageView enter2;
-
-    @BindView(R.id.enter3)
-    ImageView enter3;
-
-    @BindView(R.id.enter4)
-    ImageView enter4;
-
-    @BindView(R.id.enter5)
-    ImageView enter5;
-
 
     private List<String> optionSex = new ArrayList<>();
     private OptionsPickerView sexPickerView;
 
     private TimePickerView datePickerView;
 
+    private TimePickerView schoolYearPicker;
+
+    private List<String> schools = new ArrayList<>();
+    private OptionsPickerView schoolPickerView;
+
     private List<String> optionMarriage = new ArrayList<>();
     private OptionsPickerView marriagePickerView;
 
-    private String userName;
     private int sex;
     private int year;
     private int month;
     private int day;
-    private String relationshipStatus;
     private String birthday;
-    private String self_intro;
-    private int editAndSave = 0;
-    private Calendar calendar;
 
     private ProgressDialog progressDialog;
+
+    private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage.png";
+    private static final int REQUEST_SELECT_PICTURE = 0x01;
+
+    private static final int EDIT_PROFILE = 0x02;
+
 
     @Override
     protected int getLayoutId() {
@@ -169,8 +181,36 @@ public class ProfileActivity extends BaseActivity {
         setValues();
         initSexPickerView();
         initDatePickerView();
+        initSchoolYearPicker();
+        initSchoolPickerView();
         initMarriagePickerView();
     }
+
+
+    private void setValues() {
+        Picasso.with(mContext).load(UserSingleton.bigAvatar).error(R.drawable.profile_photo).into(iv_avatar);
+        tv_username.setText(UserSingleton.USERINFO.getNickname());
+        tv_realname.setText(UserSingleton.USERINFO.getRealname());
+        switch (UserSingleton.USERINFO.getGender()) {
+            case 1:
+                tv_sex.setText("男性");
+                break;
+            case 2:
+                tv_sex.setText("女性");
+                break;
+            case 3:
+                tv_sex.setText("未知");
+                break;
+        }
+        tv_birth.setText(UserSingleton.USERINFO.getDateOfBirth());
+        tv_self_intro.setText(UserSingleton.USERINFO.getBio());
+        tv_relationship.setText(UserSingleton.USERINFO.getAffectivestatus());
+        tv_classYear.setText(String.valueOf(UserSingleton.USERINFO.getSchoolYear()));
+        tv_school.setText(UserSingleton.USERINFO.getCollege());
+        tv_major.setText(UserSingleton.USERINFO.getMajor());
+
+    }
+
 
     @Override
     protected void initResAndListener() {
@@ -198,7 +238,7 @@ public class ProfileActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, InputActivity.class);
                 intent.putExtra("InputType", 0);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_PROFILE);
             }
         });
 
@@ -207,7 +247,7 @@ public class ProfileActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, InputActivity.class);
                 intent.putExtra("InputType", 1);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_PROFILE);
             }
         });
 
@@ -225,6 +265,27 @@ public class ProfileActivity extends BaseActivity {
             }
         });
 
+        ll_classYear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                schoolYearPicker.show();
+            }
+        });
+
+        ll_school.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                schoolPickerView.show();
+            }
+        });
+
+        ll_major.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(mContext, PickMajorActivity.class), 1);
+            }
+        });
+
         ll_relationship.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,30 +298,9 @@ public class ProfileActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, InputActivity.class);
                 intent.putExtra("InputType", 2);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_PROFILE);
             }
         });
-    }
-
-    private void setValues() {
-        Picasso.with(mContext).load(UserSingleton.bigAvatar).error(R.drawable.profile_photo).into(iv_avatar);
-        tv_username.setText(UserSingleton.USERINFO.getNickname());
-        tv_realname.setText(UserSingleton.USERINFO.getRealname());
-        switch (UserSingleton.USERINFO.getGender()) {
-            case 1:
-                tv_sex.setText("男性");
-                break;
-            case 2:
-                tv_sex.setText("女性");
-                break;
-            case 3:
-                tv_sex.setText("未知");
-                break;
-        }
-        tv_birth.setText(UserSingleton.USERINFO.getDateOfBirth());
-        tv_self_intro.setText(UserSingleton.USERINFO.getBio());
-        tv_relationship.setText(UserSingleton.USERINFO.getAffectivestatus());
-
     }
 
     private void initSexPickerView() {
@@ -268,19 +308,10 @@ public class ProfileActivity extends BaseActivity {
         optionSex.add("女性");
         optionSex.add("未知");
 
-        sexPickerView = new  OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+        sexPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
-            public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
-                //返回的分别是三个级别的选中位置
-                String tx = optionSex.get(options1);
-                tv_sex.setText(tx);
-                if (tx.equals("男性")){
-                    sex = 1;
-                } else if (tx.equals("女性")) {
-                    sex = 2;
-                } else {
-                    sex = 3;
-                }
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                uploadIntChange("gender", options1);
             }
         })
                 .setContentTextSize(20)
@@ -292,15 +323,15 @@ public class ProfileActivity extends BaseActivity {
     private void initDatePickerView() {
         Calendar selectedDate = Calendar.getInstance();
         Calendar startDate = Calendar.getInstance();
-        startDate.set(1970,1,1);
+        startDate.set(1970, 1, 1);
         Calendar endDate = Calendar.getInstance();
-        endDate.set(2020,1,1);
+        endDate.set(2020, 1, 1);
         boolean[] type = {true, true, true, false, false, false};
 
         datePickerView = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
-            public void onTimeSelect(Date date,View v) {//选中事件回调
-                tv_birth.setText(getTime(date));
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+                uploadDob(date);
             }
         })
                 .setType(type)//默认全部显示
@@ -308,24 +339,61 @@ public class ProfileActivity extends BaseActivity {
                 .setOutSideCancelable(false)//点击屏幕，点在控件外部范围时，是否取消显示
                 .isCyclic(false)//是否循环滚动
                 .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
-                .setRangDate(startDate,endDate)//起始终止年月日设定
-                .setLabel("","","","","","")
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setLabel("", "", "", "", "", "")
                 .build();
     }
 
-    private String getTime(Date date) {//可根据需要自行截取数据显示
-        year = date.getYear()+1900;
-        month = date.getMonth()+1;
+    private void uploadDob(Date date) {//可根据需要自行截取数据显示
+        year = date.getYear() + 1900;
+        month = date.getMonth() + 1;
         day = date.getDate();
-        birthday = day + " " + DateUtil.getEngMonth(month-1) + " " + year;
 
         EditDoBReq req = new EditDoBReq(UserSingleton.USERINFO.getUid(),
                 year, month, day, UserSingleton.USERINFO.getToken());
         Gson gson = new Gson();
         String json = gson.toJson(req);
         editDob(json);
+    }
 
-        return birthday;
+    private void initSchoolYearPicker() {
+        Calendar selectedDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2000, 1, 1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2025, 1, 1);
+        boolean[] type = {true, false, false, false, false, false};
+
+        schoolYearPicker = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+                uploadIntChange("schoolYear", 1900+date.getYear());
+            }
+        })
+                .setType(type)//默认全部显示
+                .setContentSize(18)//滚轮文字大小
+                .setOutSideCancelable(false)//点击屏幕，点在控件外部范围时，是否取消显示
+                .isCyclic(false)//是否循环滚动
+                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setLabel("", "", "", "", "", "")
+                .build();
+    }
+
+    private void initSchoolPickerView() {
+        schools = Arrays.asList(getResources().getStringArray(R.array.schools));
+
+        schoolPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                uploadStringChange("field1", schools.get(options1));
+            }
+        })
+                .setContentTextSize(14)
+                .build();
+
+        schoolPickerView.setPicker(schools);
     }
 
     private void initMarriagePickerView() {
@@ -334,13 +402,11 @@ public class ProfileActivity extends BaseActivity {
         optionMarriage.add("已婚");
         optionMarriage.add("未知");
 
-        marriagePickerView = new  OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+        marriagePickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
-            public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                String tx = optionMarriage.get(options1);
-                tv_relationship.setText(tx);
-                relationshipStatus = tx;
+                uploadStringChange("affectivestatus", optionMarriage.get(options1));
             }
         })
                 .setContentTextSize(20)
@@ -349,16 +415,19 @@ public class ProfileActivity extends BaseActivity {
         marriagePickerView.setPicker(optionMarriage);
     }
 
-    private void uploadChanges(String key, int value) {
-        EditInfoInt req = new EditInfoInt(UserSingleton.USERINFO.getUid(), key, value, UserSingleton.USERINFO.getToken());
+    private void uploadStringChange(String key, String value) {
+        EditInfoStr req = new EditInfoStr(UserSingleton.USERINFO.getUid(), key, value, UserSingleton.USERINFO.getToken());
         Gson gson = new Gson();
         String json = gson.toJson(req);
         editUserInfo(json);
     }
 
-    private static final int REQUEST_SELECT_PICTURE = 0x01;
-    private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage.png";
-
+    private void uploadIntChange(String key, int value) {
+        EditInfoInt req = new EditInfoInt(UserSingleton.USERINFO.getUid(), key, value, UserSingleton.USERINFO.getToken());
+        Gson gson = new Gson();
+        String json = gson.toJson(req);
+        editUserInfo(json);
+    }
 
 
     private void pickFromGallery() {
@@ -422,7 +491,7 @@ public class ProfileActivity extends BaseActivity {
 
     private void startCropActivity(@NonNull Uri uri) {
         Date time = new Date();
-        String destinationFileName = String.valueOf(time.getTime())+".png";
+        String destinationFileName = String.valueOf(time.getTime()) + ".png";
 
         UCrop.Options options = new UCrop.Options();
         options.setCompressionFormat(Bitmap.CompressFormat.PNG);
@@ -437,8 +506,6 @@ public class ProfileActivity extends BaseActivity {
         uCrop.withOptions(options);
         uCrop.start((Activity) mContext, UCrop.REQUEST_CROP);
     }
-
-
 
 
     protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
@@ -506,17 +573,59 @@ public class ProfileActivity extends BaseActivity {
                 case UCrop.REQUEST_CROP:
                     handleCropResult(data);
                     break;
+                case EDIT_PROFILE:
+                    getUserInfo();
+                    break;
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
             handleCropError(data);
         }
     }
 
+    private void getUserInfo() {
+        Observable<BaseEntity<UserInfo>> observable = RetrofitClient.createService(UserAPI.class)
+                .getMyInfos(UserSingleton.USERINFO.getUid(), UserSingleton.USERINFO.getToken());
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity<UserInfo>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<UserInfo> baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            UserSingleton.USERINFO = baseEntity.getDatas();
+                            UserSingleton.getHttpAvatar();
+                            setValues();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
     /**
      * 修改个人信息
+     *
      * @param json
      */
-    private void editUserInfo(String json){
+    private void editUserInfo(String json) {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
         Observable<BaseEntity> observable = RetrofitClient.createService(UserAPI.class)
                 .editInfoInt(body);
@@ -545,7 +654,7 @@ public class ProfileActivity extends BaseActivity {
                     public void onNext(BaseEntity baseEntity) {
                         if (baseEntity.isSuccess()) {
                             ToastUtils.showToast(mContext, "修改成功！");
-                            finish();
+                            getUserInfo();
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }
@@ -554,7 +663,7 @@ public class ProfileActivity extends BaseActivity {
                 });
     }
 
-    private void editDob(String json){
+    private void editDob(String json) {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
         Observable<BaseEntity> observable = RetrofitClient.createService(UserAPI.class)
                 .editDoB(body);
@@ -583,7 +692,7 @@ public class ProfileActivity extends BaseActivity {
                     public void onNext(BaseEntity baseEntity) {
                         if (baseEntity.isSuccess()) {
                             ToastUtils.showToast(mContext, "修改成功！");
-                            finish();
+                            getUserInfo();
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }
@@ -592,7 +701,7 @@ public class ProfileActivity extends BaseActivity {
                 });
     }
 
-    private void uploadAvatar(String json){
+    private void uploadAvatar(String json) {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
         Observable<BaseEntity> observable = RetrofitClient.createService(UserAPI.class)
                 .uploadAvatar(body);

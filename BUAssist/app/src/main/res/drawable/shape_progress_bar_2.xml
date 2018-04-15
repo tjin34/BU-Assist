@@ -7,13 +7,13 @@
 
     <!-- 填充 -->
 
-    <!--             <solid android:color="#ffff9072" /> -->
+    <solid android:color="@color/white" />
 
     <!-- 渐变 -->
-    <gradient
-        android:startColor="#EECDA3"
-        android:endColor="#ef629f"
-        android:angle="0" />
+    <!--<gradient-->
+        <!--android:startColor="#EECDA3"-->
+        <!--android:endColor="#ef629f"-->
+        <!--android:angle="0" />-->
 
     <!-- 描边 -->
 

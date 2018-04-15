@@ -118,11 +118,6 @@ public class ChatRoomActivity extends BaseActivity{
         type = chat.getPmtype();
         super.onCreate(savedInstanceState);
 
-//        headerRootView.setFitsSystemWindows(false);
-////        statusBar.getLayoutParams().height = getStatusBarHeight();
-//        headerRootView.setPadding(0, getStatusBarHeight(), 0, 0);
-
-
         ((Activity) mContext).getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 

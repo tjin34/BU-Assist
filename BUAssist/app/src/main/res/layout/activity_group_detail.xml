@@ -25,7 +25,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@color/third_pink"
+                    android:src="@color/red"
                     android:scaleType="centerCrop"/>
 
                 <RelativeLayout
@@ -82,6 +82,7 @@
                         android:layout_height="wrap_content"
                         android:text="小组名字"
                         android:textColor="@color/white"
+                        android:textStyle="bold"
                         android:textSize="18sp"/>
 
                     <LinearLayout
@@ -145,7 +146,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:layout_below="@id/topBar">
+                android:layout_below="@id/topBar"
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -157,7 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="小组资料"
-                        android:textColor="@color/dark_red"
+                        android:textColor="@color/red"
                         android:textSize="15sp"/>
 
                 </LinearLayout>
@@ -201,8 +203,8 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/dark_red"/>
+                        android:layout_height="0.1dp"
+                        android:background="@color/red"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -228,8 +230,8 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/dark_red"/>
+                        android:layout_height="0.1dp"
+                        android:background="@color/red"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -254,18 +256,11 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/dark_red"/>
+                        android:layout_height="0.1dp"
+                        android:background="@color/red"/>
 
                 </LinearLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/bg_header_shadow"
-                android:layout_below="@id/topBar"/>
-
 
             <LinearLayout
                 android:id="@+id/buttons"
@@ -398,8 +393,8 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/dark_red"
+                            android:layout_height="0.1dp"
+                            android:background="@color/red"
                             android:layout_alignParentBottom="true"/>
 
                     </RelativeLayout>
@@ -412,7 +407,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_below="@id/members">
 
                 <LinearLayout
@@ -453,21 +448,6 @@
                     android:layout_height="50dp"/>
 
             </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/bg_header_shadow"
-                android:layout_below="@id/members"
-                android:layout_marginTop="5dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/bg_header_shadow"
-                android:layout_marginTop="15dp"
-                android:layout_below="@id/buttons"/>
 
         </RelativeLayout>
     </ScrollView>

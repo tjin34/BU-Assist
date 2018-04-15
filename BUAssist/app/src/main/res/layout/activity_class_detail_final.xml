@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="120dp">
 
         <View
             android:layout_width="match_parent"
@@ -34,16 +34,17 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/selector_back_white"
-            android:padding="13dp"/>
+            android:padding="8dp"
+            android:layout_marginLeft="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="75dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="40dp"
             android:background="@drawable/bg_class_detail_bar"
             android:orientation="horizontal">
 
@@ -132,7 +133,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Faculty: "
+                        android:text="教授： "
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
@@ -158,7 +159,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Schedule: "
+                        android:text="课程时间: "
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
@@ -185,7 +186,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Location: "
+                        android:text="课程教室: "
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
@@ -232,7 +233,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
 
@@ -241,13 +242,14 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_secondary_pink"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginLeft="10dp">
 
             <LinearLayout
+                android:id="@+id/tab_bar"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:orientation="horizontal">
@@ -349,9 +351,10 @@
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"></android.support.v4.view.ViewPager>
+                android:layout_below="@id/tab_bar"
+                android:layout_marginTop="10dp"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </LinearLayout>

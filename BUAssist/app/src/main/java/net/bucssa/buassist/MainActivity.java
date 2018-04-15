@@ -16,10 +16,12 @@ import android.widget.TextView;
 import com.github.moduth.blockcanary.BlockCanary;
 
 import net.bucssa.buassist.Base.BaseActivity;
+import net.bucssa.buassist.Ui.Classmates.ClassmateActivity;
 import net.bucssa.buassist.Ui.Fragments.Home.HomeFragment;
 import net.bucssa.buassist.Ui.Fragments.Message.CreateChatActivity;
 import net.bucssa.buassist.Ui.Fragments.Message.MessageFragment;
 import net.bucssa.buassist.Ui.Fragments.Mine.MineFragment;
+import net.bucssa.buassist.Ui.Webview.WebViewActivity;
 import net.bucssa.buassist.Util.AppBlockCanaryContext;
 
 import java.util.ArrayList;
@@ -47,6 +49,15 @@ public class MainActivity  extends BaseActivity {
 
     @BindView(R.id.tvSystem)
     TextView tvSystem;
+
+    @BindView(R.id.ll_classmate)
+    LinearLayout ll_classmate;
+
+    @BindView(R.id.ll_manual)
+    LinearLayout ll_manual;
+
+    @BindView(R.id.bottomBar)
+    LinearLayout ll_bottomBar;
 
     /**
      * 底部导航栏的按键
@@ -263,6 +274,22 @@ public class MainActivity  extends BaseActivity {
                 startActivityForResult(new Intent(mContext, CreateChatActivity.class), CREATE_CHAT_REQUEST);
             }
         });
+
+        ll_classmate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, ClassmateActivity.class));
+            }
+        });
+
+        ll_manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, WebViewActivity.class);
+                intent.putExtra("url", "https://tianrenli92.github.io/BUCSSA-new-student-manual/index.html");
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -293,14 +320,15 @@ public class MainActivity  extends BaseActivity {
                 iv_lulu.setVisibility(View.VISIBLE);
                 fl_bucssa.setVisibility(View.VISIBLE);
                 rlSwitchBar.setVisibility(View.GONE);
+                ll_bottomBar.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                tv_title.setText("消息");
                 tv_title.setVisibility(View.GONE);
                 iv_add.setVisibility(View.VISIBLE);
                 iv_lulu.setVisibility(View.GONE);
                 fl_bucssa.setVisibility(View.GONE);
                 rlSwitchBar.setVisibility(View.VISIBLE);
+                ll_bottomBar.setVisibility(View.GONE);
                 break;
             case 2:
                 tv_title.setText("我的");
@@ -309,6 +337,7 @@ public class MainActivity  extends BaseActivity {
                 iv_lulu.setVisibility(View.GONE);
                 fl_bucssa.setVisibility(View.GONE);
                 rlSwitchBar.setVisibility(View.GONE);
+                ll_bottomBar.setVisibility(View.GONE);
                 break;
         }
     }

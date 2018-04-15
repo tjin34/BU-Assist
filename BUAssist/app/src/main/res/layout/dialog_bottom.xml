@@ -25,18 +25,18 @@
                 <TextView
                     android:id="@+id/tvSignIn"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:text="小组签到"
                     android:background="@drawable/selector_bottom_dialog_top"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="@color/tv_black"/>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey_100"/>
+                    android:layout_height="0.1dp"
+                    android:background="@color/red"/>
 
             </LinearLayout>
 
@@ -51,39 +51,51 @@
                 <TextView
                     android:id="@+id/tvEdit"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:text="修改资料"
                     android:background="@drawable/selector_bottom_dialog_middle"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="@color/tv_black"/>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey_100"/>
+                    android:layout_height="0.1dp"
+                    android:background="@color/red"/>
 
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/llHistory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@drawable/selector_bottom_dialog_bottom">
 
                 <TextView
                     android:id="@+id/tvHistory"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
                     android:text="小组活动"
-                    android:background="@drawable/selector_bottom_dialog_bottom"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/tv_black"/>
+                    android:textSize="14sp"
+                    android:textColor="@color/tv_black"
+                    android:layout_centerInParent="true"/>
 
-            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Coming Soon"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:background="@drawable/bg_red_border"
+                    android:padding="3dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/tvHistory"/>
+
+            </RelativeLayout>
         </LinearLayout>
 
 
@@ -92,11 +104,11 @@
             android:layout_marginTop="8dp"
             android:id="@+id/tvCancel"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="@drawable/selector_bottom_dialog_button"
             android:gravity="center"
             android:padding="10dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/mainTheme"
             android:text="@string/cancel"/>
 

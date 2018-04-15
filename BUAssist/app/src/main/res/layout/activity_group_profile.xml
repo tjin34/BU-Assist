@@ -97,7 +97,7 @@
                         android:src="@mipmap/ic_arrow_right" />
 
                     <TextView
-                        android:id="@+id/tv_username"
+                        android:id="@+id/tv_groupName"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_toLeftOf="@id/enter1"
@@ -219,17 +219,13 @@
                             android:layout_marginRight="10dp"/>
 
                         <net.bucssa.buassist.Widget.FlowLayout
+                            android:id="@+id/flTags"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@id/classes"
                             android:layout_toLeftOf="@id/ivAddClass"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp">
-
-
-
-
-                        </net.bucssa.buassist.Widget.FlowLayout>
+                            android:layout_marginLeft="10dp"/>
 
 
 

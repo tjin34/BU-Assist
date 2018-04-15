@@ -61,6 +61,9 @@
         <activity android:name=".Ui.Fragments.Mine.InputActivity"/>
         <activity android:name=".Ui.Settings.SettingActivity"/>
         <activity android:name=".Ui.Settings.AccSettingActivity"/>
+        <activity android:name=".Ui.Settings.EditPasswordActivity"/>
+        <activity android:name=".Ui.Settings.SetPublicActivity"/>
+        <activity android:name=".Ui.Fragments.Mine.PickMajorActivity"/>
 
         <!--大腿课友页面-->
         <activity android:name=".Ui.Classmates.ClassmateActivity"/>

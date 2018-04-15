@@ -173,6 +173,18 @@ public interface UserAPI {
     Observable<BaseEntity> editUserInfos(@Body RequestBody json);
 
 
+    /**
+     * 获取个人信息是否公开
+     *
+     * @param uid
+     * @param token
+     * @return
+     */
+    @GET("user/userinfo/getPublic.php")
+    Observable<BaseEntity> getPublic(@Query("uid") int uid,
+                                     @Query("token") String token);
+
+
     /* --------------- */
     /* Friend 相关接口 */
     /* --------------- */

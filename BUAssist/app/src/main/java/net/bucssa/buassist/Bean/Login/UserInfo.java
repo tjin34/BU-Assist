@@ -17,6 +17,7 @@ public class UserInfo {
      * username : Sh1nJi
      * college : College of Arts and Sciences (CAS)
      * major : Computer Science
+     * schoolYear : 2017
      * gender : 2
      * dateOfBirth : 1996-1-1
      * sessionid : af011d8d04a21db4a5e0d2f5a14fe77c
@@ -42,6 +43,7 @@ public class UserInfo {
     private String college;
     private String major;
     private String nickname;
+    private int schoolYear;
 
 
     public int getUid() {
@@ -169,6 +171,14 @@ public class UserInfo {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public int getSchoolYear() {
+        return schoolYear;
+    }
+
+    public void setSchoolYear(int schoolYear) {
+        this.schoolYear = schoolYear;
     }
 
     public static class AvatarBean {
