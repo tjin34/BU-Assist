@@ -14,7 +14,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="45dp">
 
         <TextView
             android:id="@+id/tv_title"
@@ -58,8 +58,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/selector_back"
             android:padding="8dp"
             android:layout_centerVertical="true"
@@ -68,8 +68,8 @@
 
         <ImageView
             android:id="@+id/iv_add"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/selector_new_msg_button"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -79,8 +79,8 @@
 
         <ImageView
             android:id="@+id/iv_close"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/selector_close"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -90,8 +90,8 @@
 
         <ImageView
             android:id="@+id/iv_submit"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/selector_submit"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

@@ -74,6 +74,7 @@ public class MineFragment extends BaseFragment {
     TextView tv_email;
 
     private final int LOGIN = 111;
+    private final int EDIT_PROFILE = 0x01;
 
     @Override
     public int getContentViewId() {
@@ -120,7 +121,7 @@ public class MineFragment extends BaseFragment {
             public void onClick(View v) {
                 if (UserSingleton.getInstance().isLogin(context)) {
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, EDIT_PROFILE);
                 } else {
                     ToastUtils.showToast(context, "请先登录后再查看/修改个人信息哦~");
                 }
@@ -163,7 +164,7 @@ public class MineFragment extends BaseFragment {
                 .load(UserSingleton.bigAvatar)
                 .into(iv_profile);
 
-        tv_username.setText(UserSingleton.USERINFO.getUsername());
+        tv_username.setText(UserSingleton.USERINFO.getNickname());
         tv_college.setText(UserSingleton.USERINFO.getCollege());
         tv_dateOfBirth.setText(UserSingleton.USERINFO.getDateOfBirth());
         tv_loveStatus.setText(UserSingleton.USERINFO.getAffectivestatus());
@@ -173,10 +174,15 @@ public class MineFragment extends BaseFragment {
             case 0:
                 iv_sexDisplay.setVisibility(View.GONE);
             case 1:
+                iv_sexDisplay.setEnabled(true);
                 iv_sexDisplay.setSelected(true);
                 break;
             case 2:
+                iv_sexDisplay.setEnabled(true);
                 iv_sexDisplay.setSelected(false);
+                break;
+            case 3:
+                iv_sexDisplay.setEnabled(false);
                 break;
         }
     }
@@ -190,6 +196,9 @@ public class MineFragment extends BaseFragment {
                 case LOGIN:
                     rl_logout.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(UserSingleton.bigAvatar).error(R.drawable.profile_photo).into(iv_profile);
+                    break;
+                case EDIT_PROFILE:
+                    setProfileValues();
                     break;
             }
         }

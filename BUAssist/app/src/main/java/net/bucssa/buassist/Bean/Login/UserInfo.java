@@ -97,6 +97,7 @@ public class UserInfo {
 
 
     public String dateOfBirth(String str) {
+        if (str.equals("0-0-0")) return "为设定";
         String dateOfBirth = "";
         String[] date = str.split("-");
         dateOfBirth = date[2] + " ";
@@ -179,6 +180,19 @@ public class UserInfo {
 
     public void setSchoolYear(int schoolYear) {
         this.schoolYear = schoolYear;
+    }
+
+    public int getProfileCompletion() {
+        int score = 0;
+        if (!this.realname.equals("")) score++;
+        if (this.gender != 0) score++;
+        if (!this.dateOfBirth.equals("0-0-0")) score++;
+        if (!this.bio.equals("")) score++;
+        if (!this.affectivestatus.equals("")) score++;
+        if (!this.college.equals("")) score++;
+        if (!this.major.equals("")) score++;
+        if (this.schoolYear != 0) score++;
+        return score;
     }
 
     public static class AvatarBean {

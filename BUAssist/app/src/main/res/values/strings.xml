@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BUAssist</string>
+    <string name="app_name">必优助</string>
 
     <string name="BUCSSA">BUCSSA</string>
 
@@ -80,11 +80,15 @@
 
     <!--登录与Authentication相关-->
     <string name="enter_username">请输入用户名</string>
+    <string name="enter_email">请输入你的邮箱</string>
     <string name="enter_password">请输入密码</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
+    <string name="go_register">没有账号？那来注册吧</string>
     <string name="forgot_pwd">忘记密码？</string>
+    <string name="go_login">已经有账号？那返回登录吧</string>
     <string name="attempt_login">正在登录</string>
+    <string name="attempt_register">正在注册</string>
     <string name="third_party_login">使用第三方账号登录</string>
     <string name="guest_login">游客登录</string>
 

@@ -1,6 +1,8 @@
 package net.bucssa.buassist;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.moduth.blockcanary.BlockCanary;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Ui.Classmates.ClassmateActivity;
@@ -140,6 +145,33 @@ public class MainActivity  extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
+        PgyUpdateManager.register(this, new UpdateManagerListener() {
+            @Override
+            public void onNoUpdateAvailable() {
+            }
+
+            @Override
+            public void onUpdateAvailable(String s) {
+                // 将新版本信息封装到AppBean中
+                final AppBean appBean = getAppBeanFromString(s);
+                new AlertDialog.Builder(mContext)
+                        .setTitle("更新")
+                        .setMessage("发现新的版本，是否下载更新")
+                        .setNegativeButton("确定",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(
+                                    DialogInterface dialog,
+                                    int which) {
+                                startDownloadTask(
+                                        (Activity) mContext,
+                                        appBean.getDownloadURL());
+                            }
+                        }).show();
+            }
+
+        });
+
         initFragment();
         initBottomBar();
         initView();
@@ -158,6 +190,7 @@ public class MainActivity  extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        PgyUpdateManager.unregister();
         fragmentManager = null;
         transaction = null;
     }

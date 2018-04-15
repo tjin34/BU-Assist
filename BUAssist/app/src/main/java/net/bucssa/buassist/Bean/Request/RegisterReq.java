@@ -16,6 +16,12 @@ public class RegisterReq {
     private String password;
     private String email;
 
+    public RegisterReq(String username, String password, String email) {
+        setEmail(email);
+        setUsername(username);
+        setPassword(password);
+    }
+
     public String getUsername() {
         return username;
     }

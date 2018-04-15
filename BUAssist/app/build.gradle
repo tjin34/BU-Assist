@@ -26,6 +26,7 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         google()
+        maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }
     }
 }
 
@@ -79,4 +80,5 @@ dependencies {
     compile files('libs/android-integration-3.3.0-javadoc.jar')
     compile files('libs/core-3.3.2-javadoc.jar')
     compile files('libs/core-3.3.0.jar')
+    compile 'com.pgyersdk:sdk:2.8.1'
 }

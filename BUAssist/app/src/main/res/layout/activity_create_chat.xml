@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey_300">
+                android:background="@color/red">
 
                 <ImageView
                     android:id="@+id/iv_send"

@@ -2,7 +2,9 @@ package net.bucssa.buassist.Base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +19,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
+
+import net.bucssa.buassist.MainActivity;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Base64;
@@ -80,7 +88,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         mContext = this;
         setContentView(getLayoutId());
 
@@ -100,6 +107,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         //友盟统计
         registerMobclickAgent();
+
+                /* 蒲公英CrashLog */
+        PgyCrashManager.register(this);
 
         getNecessaryData();
 
@@ -148,6 +158,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        PgyCrashManager.unregister();
 
 //        MobclickAgent.onPageEnd(getTAG());
 //        MobclickAgent.onPause(mContext);

@@ -311,7 +311,7 @@ public class ProfileActivity extends BaseActivity {
         sexPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                uploadIntChange("gender", options1);
+                uploadIntChange("gender", options1+1);
             }
         })
                 .setContentTextSize(20)
