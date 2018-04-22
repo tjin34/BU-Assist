@@ -148,6 +148,9 @@ public class ClassmateActivity extends BaseActivity {
             case ADD_CLASS:
                 getClassCollection(0,0);
                 break;
+            default:
+                getClassCollection(0,0);
+                break;
         }
     }
 
@@ -189,7 +192,7 @@ public class ClassmateActivity extends BaseActivity {
                                     public void onClassItemClick(Class classItem) {
                                         Intent intent = new Intent(mContext, ClassDetailActivity.class);
                                         intent.putExtra("Class", classItem);
-                                        startActivity(intent);
+                                        startActivityForResult(intent, 0x02);
                                     }
                                 });
                                 lv_class.setAdapter(myAdapter);

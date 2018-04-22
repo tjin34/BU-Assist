@@ -16,10 +16,10 @@
 
         <ImageView
             android:id="@+id/ivClose"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/selector_close_window"
-            android:padding="10dp"
+            android:padding="8dp"
             android:layout_gravity="top|right"/>
 
         <LinearLayout
@@ -41,7 +41,7 @@
                         android:layout_height="66dp"
                         android:src="@drawable/border_bg_layer_1"
                         android:layout_marginTop="10dp"
-                        android:layout_marginLeft="30dp"/>
+                        android:layout_marginLeft="15dp"/>
 
                     <net.bucssa.buassist.Widget.RoundImageView
                         android:id="@+id/ivAvatar"
@@ -49,7 +49,7 @@
                         android:layout_height="60dp"
                         android:src="@drawable/profile_photo"
                         android:layout_marginTop="13dp"
-                        android:layout_marginLeft="33dp"/>
+                        android:layout_marginLeft="18dp"/>
 
                 </RelativeLayout>
 
@@ -58,14 +58,14 @@
                     android:layout_height="76dp"
                     android:orientation="vertical"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="15dp">
+                    android:layout_marginLeft="10dp">
 
                     <TextView
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="我郝帅"
-                        android:textSize="20sp"
+                        android:textSize="14sp"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:layout_marginTop="20dp"/>
@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="From 吃鸡大队"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textColor="@color/white"
                         android:layout_marginTop="5dp"/>
 
@@ -91,7 +91,7 @@
                 app:arrowWidth="20dp"
                 app:angle="8dp"
                 app:arrowHeight="15dp"
-                app:arrowPosition="35dp"
+                app:arrowPosition="20dp"
                 app:arrowLocation="top"
                 app:bubbleColor="@color/white"
                 android:layout_marginLeft="20dp"

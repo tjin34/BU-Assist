@@ -257,7 +257,7 @@ public class SystemMsgFragment extends BaseFragment {
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSystemDialog.cancel();
+                mSystemDialog.dismiss();
             }
         });
 
@@ -265,14 +265,15 @@ public class SystemMsgFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 handleResult(data,1,etComment.getText().toString());
+                mSystemDialog.dismiss();
             }
         });
 
         tvDisagree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSystemDialog.cancel();
                 if (data.getCategory() == 2) handleResult(data, 0, "");
+                mSystemDialog.dismiss();
             }
         });
 

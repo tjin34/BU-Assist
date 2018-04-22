@@ -2,6 +2,7 @@ package net.bucssa.buassist.Ui.News;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,9 +57,12 @@ public class WebPageActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        url = getIntent().getStringExtra("url");
-        tid = getIntent().getIntExtra("tid", 0);
+        url = getIntent().getStringExtra("url");
+//        tid = getIntent().getIntExtra("tid", 0);
         super.onCreate(savedInstanceState);
+
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.loadUrl(url);
 
         getThreadContent();
     }

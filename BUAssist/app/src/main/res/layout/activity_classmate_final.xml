@@ -5,124 +5,134 @@
 
     <include layout="@layout/header" android:id="@+id/header"/>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_below="@id/header"
-        android:layout_marginTop="-50dp">
+        android:layout_below="@id/header">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_centerInParent="true">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="20dp">
 
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_news_bar"/>
-
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/my_class"
-                        android:textColor="@color/tv_black"
-                        android:textSize="20sp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"/>
+                        android:orientation="horizontal"
+                        android:layout_centerInParent="true">
 
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_news_bar"/>
-                </LinearLayout>
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_news_bar"/>
 
-                <ImageView
-                    android:id="@+id/iv_addClass"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/selector_add_class"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/title"
-                    android:layout_marginLeft="30dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/my_class"
+                            android:textColor="@color/tv_black"
+                            android:textSize="20sp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_news_bar"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_addClass"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/selector_add_class"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/title"
+                        android:layout_marginLeft="30dp"/>
 
 
-            </RelativeLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <net.bucssa.buassist.Widget.NoScrollListView
+                android:id="@+id/lv_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#00000000"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_notification"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/selector_bg_classmate_button2"
+                android:text="@string/noclass_text"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_myGroup"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/my_group"
+                android:textColor="@color/white"
+                android:background="@drawable/selector_bg_classmate_button"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_myTopic"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/my_topic"
+                android:textColor="@color/white"
+                android:background="@drawable/selector_bg_classmate_button"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_topRank"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="小组风云榜"
+                android:textColor="@color/white"
+                android:background="@drawable/selector_bg_classmate_button"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="50dp"/>
 
 
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/lv_class"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="#00000000"
-            android:visibility="gone"/>
-        
-        <TextView
-            android:id="@+id/tv_notification"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/selector_bg_classmate_button2"
-            android:text="@string/noclass_text"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
 
-        <TextView
-            android:id="@+id/tv_myGroup"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="@string/my_group"
-            android:textColor="@color/white"
-            android:background="@drawable/selector_bg_classmate_button"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
-
-        <TextView
-            android:id="@+id/tv_myTopic"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="@string/my_topic"
-            android:textColor="@color/white"
-            android:background="@drawable/selector_bg_classmate_button"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
-
-        <TextView
-            android:id="@+id/tv_topRank"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="小组风云榜"
-            android:textColor="@color/white"
-            android:background="@drawable/selector_bg_classmate_button"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+    </ScrollView>
 
 
-    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

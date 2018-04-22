@@ -95,7 +95,7 @@ public class NewsListAdapter extends BaseAdapter{
             public void onClick(View v) {
 //                ToastUtils.showToast(mContext, tuiSong.getAuthor());
                 Intent intent = new Intent(mContext, WebPageActivity.class);
-                intent.putExtra("tid", tuiSong.getTid());
+                intent.putExtra("url", tuiSong.getUrl());
                 ((Activity) mContext).startActivity(intent);
             }
         });

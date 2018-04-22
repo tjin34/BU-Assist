@@ -101,9 +101,8 @@ public class FriendListAdapter extends BaseAdapter {
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, OtherProfileActivity.class);
-                intent.putExtra("OtherId",friend.getFriendid());
-                ((Activity)mContext).startActivity(intent);
+                viewHolder.ivCheck.setSelected(!viewHolder.ivCheck.isSelected());
+                onFriendSelectedListener.onFriendSelected(friend);
             }
         });
         Glide.with(mContext)

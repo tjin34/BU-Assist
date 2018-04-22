@@ -186,7 +186,7 @@ public class GroupDetailActivity extends BaseActivity {
         /* 获取小组5名成员 */
         getMember();
 
-        getChat();
+        if (group.isIsInGroup()) getChat();
 
         initMoreDialog();
 

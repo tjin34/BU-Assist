@@ -24,6 +24,7 @@ import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Classmates.Adapter.GroupsListAdapter;
+import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
 import net.bucssa.buassist.Widget.CustomListViewForRefreshView;
@@ -170,7 +171,7 @@ public class GroupsFragment extends BaseFragment{
 
     private void getGroup(int pageIndex, int pageSize){
         Observable<BaseEntity<List<Group>>> observable = RetrofitClient.createService(ClassmateAPI.class)
-                .getGroup(0,classCode, pageIndex, pageSize,"");
+                .getGroup(UserSingleton.USERINFO.getUid(),classCode, pageIndex, pageSize,"");
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

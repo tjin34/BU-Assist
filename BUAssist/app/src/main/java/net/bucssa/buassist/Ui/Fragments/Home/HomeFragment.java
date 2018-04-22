@@ -120,7 +120,7 @@ public class HomeFragment extends BaseFragment {
             "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=858706739,1622508857&fm=27&gp=0.jpg",
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523297551&di=f9bde8aa6311dd014ee4d685b224423d&imgtype=jpg&er=1&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fe1fe9925bc315c60ebc2eb768ab1cb13485477d0.jpg"};
 
-    private static final String[] advTitle = {"新垣结衣-1","新垣结衣-2","新垣结衣-3","新垣结衣-4","新垣结衣-5"};
+    private static final String[] advTitle = {"这是广告投放区","征收广告商","目前接受一切广告","金主爸爸快来进驻","当然也会有我们自己的广告"};
 
 
 @Override

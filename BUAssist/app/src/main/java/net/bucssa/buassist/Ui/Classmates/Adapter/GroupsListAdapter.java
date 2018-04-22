@@ -88,7 +88,7 @@ public class GroupsListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, GroupDetailActivity.class);
                 intent.putExtra("group", data);
-                ((Activity) mContext).startActivity(intent);
+                ((Activity) mContext).startActivityForResult(intent, 0x01);
             }
         });
         return convertView;
