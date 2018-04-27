@@ -40,7 +40,29 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/llInvite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/tvInvite"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:text="邀请好友"
+                    android:background="@drawable/selector_bottom_dialog_middle"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/tv_black"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@color/red"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llEditProfile"

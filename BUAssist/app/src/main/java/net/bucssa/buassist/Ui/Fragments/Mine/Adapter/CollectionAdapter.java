@@ -80,6 +80,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
                 ((Activity) mContext).startActivity(intent);
             }
         });
+        holder.iv_like.setSelected(true);
         holder.iv_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -29,6 +29,7 @@ import net.bucssa.buassist.Bean.Request.JoinGroupReq;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Fragments.Message.ChatRoomActivity;
+import net.bucssa.buassist.Ui.Fragments.Mine.MyFriendActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.CreditUtils;
 import net.bucssa.buassist.Util.Logger;
@@ -151,8 +152,6 @@ public class GroupDetailActivity extends BaseActivity {
         /* 小组名字 */
         tv_groupName.setText(group.getGroupName());
 
-        tv_more.setVisibility(View.VISIBLE);
-
         /* 用CreditUtils生成Level object */
         level = CreditUtils.calculateLevel(group.getCredit());
         if (level.getCurrentLV() == 5) {    /* 如果小组已达到满级 */
@@ -253,7 +252,7 @@ public class GroupDetailActivity extends BaseActivity {
         });
 
         /* 更多操作点击操作 */
-        tv_more.setVisibility(View.VISIBLE);
+        tv_more.setVisibility(group.isIsInGroup() ? View.VISIBLE : View.GONE);
         tv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -269,11 +268,22 @@ public class GroupDetailActivity extends BaseActivity {
         //初始化控件
         TextView tvCancel = (TextView) view.findViewById(R.id.tvCancel);
         TextView tvSignIn = (TextView) view.findViewById(R.id.tvSignIn);
+        TextView tvInvite = (TextView) view.findViewById(R.id.tvInvite);
         TextView tvEdit = (TextView) view.findViewById(R.id.tvEdit);
         TextView tvHistory = (TextView) view.findViewById(R.id.tvHistory);
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                moreDialog.dismiss();
+            }
+        });
+        tvInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MyFriendActivity.class);
+                intent.putExtra("MODE", 2);
+                intent.putExtra("GroupId", group.getGroupId());
+                startActivity(intent);
                 moreDialog.dismiss();
             }
         });
@@ -286,6 +296,7 @@ public class GroupDetailActivity extends BaseActivity {
                 moreDialog.dismiss();
             }
         });
+        tvEdit.setVisibility( group.getCreatorId() == UserSingleton.USERINFO.getUid()?View.VISIBLE : View.GONE);
         tvEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

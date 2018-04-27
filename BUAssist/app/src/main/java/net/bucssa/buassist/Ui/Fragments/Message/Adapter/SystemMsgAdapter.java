@@ -123,6 +123,7 @@ public class SystemMsgAdapter extends BaseAdapter{
                 viewHolderRequest.rootView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        v.setSelected(false);
                         onSystemRequestClickListener.OnSystemRequestClick(data);
                     }
                 });

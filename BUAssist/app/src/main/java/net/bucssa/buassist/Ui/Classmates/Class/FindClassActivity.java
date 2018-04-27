@@ -102,7 +102,7 @@ public class FindClassActivity extends BaseActivity {
     private int state = Enum.STATE_NORMAL;
 
     private int pageIndex = 1;
-    private int pageSize = 10;
+    private int pageSize = 20;
     private int totalCount = 0;
 
     private int preActivity;

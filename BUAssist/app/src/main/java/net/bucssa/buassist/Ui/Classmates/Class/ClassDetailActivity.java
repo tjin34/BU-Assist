@@ -65,6 +65,9 @@ public class ClassDetailActivity extends BaseActivity {
     @BindView(R.id.tv_classSection)
     TextView tv_classSection;
 
+    @BindView(R.id.tv_location)
+    TextView tv_location;
+
     @BindView(R.id.tv_add_collection)
     TextView tv_add_collection;
 
@@ -144,9 +147,13 @@ public class ClassDetailActivity extends BaseActivity {
             }
         });
 
-        tv_classCode.setText(classItem.getClassCode());
-        tv_className.setText(classItem.getClassName());
-        tv_professor.setText(classItem.getProfessorName());
+        tv_classCode.setText(classItem.getClassCode() != null ? classItem.getClassCode() : "");
+        tv_className.setText(classItem.getClassName() != null ? classItem.getClassName() : "");
+        tv_professor.setText(classItem.getProfessorName() != null ? classItem.getProfessorName() : "");
+        tv_classSection.setText(classItem.getClassSection() != null ? classItem.getClassSection() : "");
+        tv_schedule.setText(classItem.getClassSchedule() != null ? classItem.getClassSchedule() : "");
+        tv_location.setText(classItem.getClassLocation() != null ? classItem.getClassLocation() : "");
+
 
         /* 确认当前用户是否收藏了这课程 */
         if (classItem.isCollected()) {

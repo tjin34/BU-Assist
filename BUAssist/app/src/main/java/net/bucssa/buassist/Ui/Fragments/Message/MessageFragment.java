@@ -25,8 +25,8 @@ public class MessageFragment extends BaseFragment {
     public ViewPager viewPager;
 
 
-    private PersonalMsgFragment personalMsgFragment;
-    private SystemMsgFragment systemMsgFragment;
+    public PersonalMsgFragment personalMsgFragment;
+    public SystemMsgFragment systemMsgFragment;
     private FragmentAdapter myAdapter;
     private List<Fragment> fragments;
 

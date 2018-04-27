@@ -846,7 +846,7 @@ public class DateUtil {
         int month = day * 30;
         long diffValue = currentTime.getTime() - date.getTime();
         if(diffValue < 0){
-            return "Wrong Input";
+            return "刚刚";
         }
         long monthDiff = diffValue / day / 30;
         long weekDiff = diffValue / (7*day);

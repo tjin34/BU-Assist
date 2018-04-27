@@ -94,7 +94,7 @@ public class SystemMsgFragment extends BaseFragment {
     private int state = Enum.STATE_NORMAL;
 
     int pageIndex = 1;//当前页
-    int pageSize = 10;//每一页数量
+    int pageSize = 20;//每一页数量
     int totalCount = 0;//总数
 
     private Dialog mSystemDialog;

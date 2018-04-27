@@ -124,7 +124,7 @@ public class MainActivity  extends BaseActivity {
     private FragmentTransaction transaction;
     private Fragment mContent = new Fragment();
 
-    private final int CREATE_CHAT_REQUEST = 1;
+    private final int CREATE_CHAT_REQUEST = 101;
 
     private android.support.v7.app.AlertDialog mAlertDialog;
     protected static final int REQUEST_STORAGE_WRITE_ACCESS_PERMISSION = 102;
@@ -386,6 +386,16 @@ public class MainActivity  extends BaseActivity {
                 fl_bucssa.setVisibility(View.GONE);
                 rlSwitchBar.setVisibility(View.GONE);
                 ll_bottomBar.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CREATE_CHAT_REQUEST:
+                mFragment_message.personalMsgFragment.refreshData();
                 break;
         }
     }

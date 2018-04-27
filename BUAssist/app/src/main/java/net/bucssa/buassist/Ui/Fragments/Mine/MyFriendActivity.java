@@ -28,10 +28,12 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import net.bucssa.buassist.Api.ClassmateAPI;
 import net.bucssa.buassist.Api.UserAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
 import net.bucssa.buassist.Bean.Friend.Friend;
+import net.bucssa.buassist.Bean.Request.GroupInviteReq;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
@@ -67,6 +69,9 @@ public class MyFriendActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
 
+    @BindView(R.id.iv_submit)
+    ImageView iv_submit;
+
     @BindView(R.id.search)
     LinearLayout search;
 
@@ -82,12 +87,14 @@ public class MyFriendActivity extends BaseActivity {
     @BindView(R.id.ivLulu)
     ImageView ivLulu;
 
+    private int mMode;
+    private int mGroupId;
     private List<Friend> Friends = new ArrayList<>();
     private FriendListAdapter myAdapter;
     private int state = Enum.STATE_NORMAL;
 
     int pageIndex = 1;//当前页
-    int pageSize = 10;//每一页数量
+    int pageSize = 20;//每一页数量
     int totalCount = 0;//总数
 
     private List<String> toUidList = new ArrayList<>();
@@ -108,6 +115,8 @@ public class MyFriendActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mMode = getIntent().getIntExtra("MODE", 0);
+        if (mMode == 2) mGroupId = getIntent().getIntExtra("GroupId", 0);
         super.onCreate(savedInstanceState);
 
         initData();
@@ -123,7 +132,30 @@ public class MyFriendActivity extends BaseActivity {
                 finish();
             }
         });
-        tvTitle.setText("我的好友");
+        tvTitle.setText(mMode == 2 ? "邀请好友" : "我的好友");
+
+        iv_submit.setVisibility(mMode == 2 ? View.VISIBLE : View.GONE);
+        iv_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (mMode) {
+                    case 2:
+                        if (toUidList.size() == 0) {
+                            ToastUtils.showToast(mContext, "请选择一个好友进行邀请");
+                            break;
+                        }
+                        GroupInviteReq groupInviteReq = new GroupInviteReq(
+                                UserSingleton.USERINFO.getUid(),toUidToString(toUidList),
+                                mGroupId,UserSingleton.USERINFO.getToken());
+                        Gson gson = new Gson();
+                        String json = gson.toJson(groupInviteReq);
+                        inviteJoin(json);
+                        break;
+                    default:
+                            break;
+                }
+            }
+        });
 
         search.setVisibility(View.GONE);
         searchShadow.setVisibility(View.GONE);
@@ -182,15 +214,21 @@ public class MyFriendActivity extends BaseActivity {
     private void changeByState() {
         switch (state) {
             case Enum.STATE_NORMAL:
-                myAdapter = new FriendListAdapter(mContext, Friends, 0);
+                myAdapter = new FriendListAdapter(mContext, Friends, mMode);
                 myAdapter.setOnFriendSelectedListener(new FriendListAdapter.onFriendSelectedListener() {
                     @Override
                     public void onFriendSelected(Friend friend) {
-//                        if (toUidList.contains(String.valueOf(friend.getFriendid()))) {
-//                            toUidList.remove(String.valueOf(friend.getFriendid()));
-//                        } else {
-//                            toUidList.add(String.valueOf(friend.getFriendid()));
-//                        }
+                        switch (mMode) {
+                            case 0:
+                                break;
+                            case 2:
+                                if (toUidList.contains(String.valueOf(friend.getFriendid()))) {
+                                    toUidList.remove(String.valueOf(friend.getFriendid()));
+                                } else {
+                                    toUidList.add(String.valueOf(friend.getFriendid()));
+                                }
+                                break;
+                        }
                     }
                 });
                 lvFriend.setAdapter(myAdapter);
@@ -255,6 +293,44 @@ public class MyFriendActivity extends BaseActivity {
                                 Friends = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+    private void inviteJoin(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(ClassmateAPI.class)
+                .groupInvite(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "邀请成功");
+                            finish();
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }

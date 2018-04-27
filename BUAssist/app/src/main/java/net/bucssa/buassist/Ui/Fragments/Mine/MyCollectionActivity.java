@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -22,6 +23,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import net.bucssa.buassist.Api.TuiSongAPI;
 import net.bucssa.buassist.Base.BaseActivity;
 import net.bucssa.buassist.Bean.BaseEntity;
+import net.bucssa.buassist.Bean.Request.DelCollectionReq;
 import net.bucssa.buassist.Bean.Thread.Collection;
 import net.bucssa.buassist.Enum.Enum;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -157,6 +160,27 @@ public class MyCollectionActivity extends BaseActivity {
         switch (state) {
             case Enum.STATE_NORMAL:
                 myAdapter = new CollectionAdapter(mContext, collections);
+                myAdapter.setOnRecyclerItemClickListener(new CollectionAdapter.OnRecyclerItemClickListener() {
+                    @Override
+                    public void onClick(String url) {
+
+                    }
+
+                    @Override
+                    public void onAddCollection(Collection Collection) {
+
+                    }
+
+                    @Override
+                    public void onDelCollection(Collection Collection) {
+                        DelCollectionReq req=new DelCollectionReq(UserSingleton.USERINFO.getUid(),
+                                Collection.getTid(),UserSingleton.USERINFO.getToken());
+                        Gson gson=new Gson();
+                        String json = gson.toJson(req);
+                        delCollection(json);
+                        refreshData();
+                    }
+                });
                 recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 recyclerView.setAdapter(myAdapter);
                 break;
@@ -210,6 +234,43 @@ public class MyCollectionActivity extends BaseActivity {
                                 collections = baseEntity.getDatas();
                             totalCount = baseEntity.getTotal();
                             changeByState();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+    private void delCollection(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(TuiSongAPI.class)
+                .delCollection(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "删除收藏成功！");
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }

@@ -210,7 +210,7 @@ public class PersonalMsgFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (resultCode) {
+        switch (requestCode) {
             case 101:
                 refreshData();
                 break;

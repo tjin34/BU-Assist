@@ -1,5 +1,7 @@
 package net.bucssa.buassist.Bean.Request;
 
+import net.bucssa.buassist.UserSingleton;
+
 /**
  * Created by Shinji on 2017/12/21.
  */
@@ -15,9 +17,16 @@ public class GroupInviteReq {
      */
 
     private int uid;
-    private int memberuid;
+    private String memberuid;
     private int groupid;
     private String token;
+
+    public GroupInviteReq(int uid, String memberuid,int groupid, String token) {
+        setUid(uid);
+        setMemberuid(memberuid);
+        setGroupid(groupid);
+        setToken(token);
+    }
 
     public int getUid() {
         return uid;
@@ -27,11 +36,11 @@ public class GroupInviteReq {
         this.uid = uid;
     }
 
-    public int getMemberuid() {
+    public String getMemberuid() {
         return memberuid;
     }
 
-    public void setMemberuid(int memberuid) {
+    public void setMemberuid(String memberuid) {
         this.memberuid = memberuid;
     }
 

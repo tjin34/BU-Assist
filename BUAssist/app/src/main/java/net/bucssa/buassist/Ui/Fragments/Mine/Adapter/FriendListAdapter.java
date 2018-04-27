@@ -97,7 +97,7 @@ public class FriendListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tvName.setText(friend.getUsername());
-        viewHolder.ivCheck.setVisibility(mMode == 1 ? View.VISIBLE : View.INVISIBLE);
+        viewHolder.ivCheck.setVisibility(mMode > 0 ? View.VISIBLE : View.INVISIBLE);
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

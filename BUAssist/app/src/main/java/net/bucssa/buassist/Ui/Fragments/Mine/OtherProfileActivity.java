@@ -1,8 +1,14 @@
 package net.bucssa.buassist.Ui.Fragments.Mine;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,12 +26,14 @@ import net.bucssa.buassist.Bean.Login.OtherInfo;
 import net.bucssa.buassist.Bean.Message.Chat;
 import net.bucssa.buassist.Bean.Request.AddFriendReq;
 import net.bucssa.buassist.Bean.Request.DelFriendReq;
+import net.bucssa.buassist.Bean.Request.SendReq;
 import net.bucssa.buassist.HttpUtils.RetrofitClient;
 import net.bucssa.buassist.R;
 import net.bucssa.buassist.Ui.Fragments.Message.ChatRoomActivity;
 import net.bucssa.buassist.UserSingleton;
 import net.bucssa.buassist.Util.Logger;
 import net.bucssa.buassist.Util.ToastUtils;
+import net.bucssa.buassist.Util.Utils;
 
 import java.util.List;
 
@@ -101,6 +109,7 @@ public class OtherProfileActivity extends BaseActivity {
     private int otherUid;
     private OtherInfo otherInfo;
     private Chat chat;
+    private Dialog mCreateChatDialog;
 
     @Override
     protected String getTAG() {
@@ -139,19 +148,19 @@ public class OtherProfileActivity extends BaseActivity {
         /* 学院 */
         tvCollege.setText(otherInfo.getCollege());
         /* 专业 */
-        tvMajor.setText(otherInfo.getMajor());
-        llMajor.setVisibility(otherInfo.getMajor().equals("") ? View.GONE : View.VISIBLE);
+        tvMajor.setText(otherInfo.getMajor()!= null ? otherInfo.getMajor() : "");
+        llMajor.setVisibility(tvMajor.getText().toString().equals("") ? View.GONE : View.VISIBLE);
         /* 生日 */
-        tvDateOfBirth.setText(otherInfo.getDateOfBirth());
-        llDateOfBirth.setVisibility(otherInfo.getDateOfBirth().equals("") ? View.GONE : View.VISIBLE);
+        tvDateOfBirth.setText(otherInfo.getDateOfBirth() != null ? otherInfo.getDateOfBirth() : "");
+        llDateOfBirth.setVisibility(tvDateOfBirth.getText().toString().equals("") ? View.GONE : View.VISIBLE);
         /* 感情状况 */
-        tvRelationship.setText(otherInfo.getAffectivestatus());
-        llRelationship.setVisibility(otherInfo.getAffectivestatus().equals("") ? View.GONE : View.VISIBLE);
+        tvRelationship.setText(otherInfo.getAffectivestatus() != null ? otherInfo.getAffectivestatus() : "");
+        llRelationship.setVisibility(tvRelationship.getText().toString().equals("") ? View.GONE : View.VISIBLE);
         /* 邮件 */
         tvEmail.setText("");
         llEmail.setVisibility(tvEmail.getText().equals("") ? View.GONE : View.VISIBLE);
 
-        tvAddFriend.setText(otherInfo.isIsFriend()?"删除好友":"加为好友");
+        tvAddFriend.setText(otherInfo.isIsFriend() ? "删除好友" : "加为好友");
         tvAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,10 +178,12 @@ public class OtherProfileActivity extends BaseActivity {
             }
         });
 
+        tvSendMsg.setText(otherInfo.getPlid() == 0 ? "打个招呼" : "发送消息");
         tvSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (otherInfo.getPlid() == 0) initCreateChatDialog();
+                else getChatByPlid();
             }
         });
     }
@@ -194,6 +205,51 @@ public class OtherProfileActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void initCreateChatDialog() {
+        mCreateChatDialog = new Dialog(mContext, R.style.loginDialog);
+        mCreateChatDialog.setContentView(R.layout.dialog_create_chat);
+        TextView tvAgree = (TextView) mCreateChatDialog.findViewById(R.id.tvAgree);
+        TextView tvDisagree = (TextView) mCreateChatDialog.findViewById(R.id.tvDisagree);
+        final EditText etComment = (EditText) mCreateChatDialog.findViewById(R.id.etComment);
+
+        tvAgree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.hideKeyboard(mContext, v);
+                SendReq req=new SendReq(UserSingleton.USERINFO.getUid(),
+                        UserSingleton.USERINFO.getUsername(), String.valueOf(otherInfo.getUid()),
+                        etComment.getText().toString(), etComment.getText().toString() ,UserSingleton.USERINFO.getToken());
+                Gson gson=new Gson();
+                String json = gson.toJson(req);
+                createChat(json);
+                mCreateChatDialog.dismiss();
+            }
+        });
+
+        tvDisagree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCreateChatDialog.dismiss();
+            }
+        });
+
+        Window window = mCreateChatDialog.getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        // 获取和mLoginingDlg关联的当前窗口的属性，从而设置它在屏幕中显示的位置
+
+        // 获取屏幕的高宽
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        int cxScreen = dm.widthPixels;
+
+        params.width = cxScreen;
+
+        mCreateChatDialog.setCanceledOnTouchOutside(true); // 设置点击Dialog外部任意区域关闭Dialog
+
+        mCreateChatDialog.show();
     }
 
     private void getOtherInfo() {
@@ -306,7 +362,7 @@ public class OtherProfileActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseEntity baseEntity) {
                         if (baseEntity.isSuccess()) {
-                            ToastUtils.showToast(mContext, "已删除该好友！");
+                            ToastUtils.showToast(mContext, "已发起好友请求！");
                             getOtherInfo();
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
@@ -346,6 +402,43 @@ public class OtherProfileActivity extends BaseActivity {
                         if (baseEntity.isSuccess()) {
                             ToastUtils.showToast(mContext, "已删除该好友！");
                             getOtherInfo();
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getError());
+                        }
+                        Logger.d();
+                    }
+                });
+    }
+
+    private void createChat(String json){
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Observable<BaseEntity> observable = RetrofitClient.createService(PersonalMessageAPI.class)
+                .createChat(body);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseEntity>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Logger.d();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.toString());
+                        ToastUtils.showToast(mContext, getString(R.string.snack_message_net_error));
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isSuccess()) {
+                            ToastUtils.showToast(mContext, "发送成功！");
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getError());
                         }
